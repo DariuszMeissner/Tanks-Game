@@ -16,15 +16,23 @@ export default class BulletController {
   }
 
   isBulletOutOfScreen(bullet) {
-    return bullet.y <= -bullet.height;
+    return bullet.y <= -bullet.height
+      || bullet.y >= 320 + bullet.height
+      || bullet.x <= bullet.height
+      || bullet.x >= 640 + bullet.width;
+  }
+
+  removeBulletOutOfScreen(bullet) {
+    const index = this.bullets.indexOf(bullet);
+    this.bullets.splice(index, 1);
   }
 
   draw(ctx) {
     this.bullets.forEach(bullet => {
       if (this.isBulletOutOfScreen(bullet)) {
-        const index = this.bullets.indexOf(bullet);
-        this.bullets.splice(index, 1);
+        this.removeBulletOutOfScreen()
       }
+
       bullet.draw(ctx)
     })
   }
