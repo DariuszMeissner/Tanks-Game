@@ -6,8 +6,8 @@ export default class Bullet {
     this.speed = speed;
     this.direction = direction;
 
-    this.width = 5;
-    this.height = 5;
+    this.width = 8;
+    this.height = 8;
     this.color = 'white';
   }
 
