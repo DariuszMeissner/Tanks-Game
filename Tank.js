@@ -1,34 +1,39 @@
 export default class Tank {
-  constructor(x, y, width, height, bulletController) {
+  constructor(x, y, width, height, bulletController, mapController) {
     this.x = x;
     this.y = y;
+    this.previousX = null;
+    this.previousY = null;
     this.width = width;
     this.height = height;
     this.widthOriginal = width;
     this.heightOriginal = height;
     this.speed = 2;
-    this.angle = 0
-    this.forward = false;
-    this.left = false;
-    this.right = false;
-    this.reverse = false;
+    this.forwardPressed = false;
+    this.leftPressed = false;
+    this.rightPressed = false;
+    this.reversePressed = false;
     this.shootPressed = false;
     this.bulletController = bulletController;
     this.bulletSpeed = 3;
     this.bulletDelay = 10;
     this.bulletDamage = 1;
     this.direction = 'forward';
+    this.mapController = mapController;
+
 
     document.addEventListener('keydown', this.keydown)
     document.addEventListener('keyup', this.keyup)
   }
 
   draw(ctx) {
+    this.getPreviousXAndY();
     this.move();
+
     // tank body
     ctx.beginPath();
     ctx.rect(
-      this.x / 2,
+      this.x,
       this.y,
       this.width,
       this.height
@@ -42,24 +47,38 @@ export default class Tank {
 
   shoot() {
     if (this.shootPressed) {
-      const bulletX = this.x / 2 + (this.width / 5 * 2);
+      const bulletX = this.x + (this.width / 5 * 2);
       const bulletY = this.y + this.height / 2;
       this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction)
     }
   }
 
+  getPreviousXAndY() {
+    this.previousX = this.x;
+    this.previousY = this.y;
+  }
+
   move() {
-    if (this.forward) {
-      this.y -= this.speed
+    const positionOutTop = this.y <= 0 - this.height;
+    const positionOutBottom = this.y >= this.mapController.canvasWidth;
+    const positionOutLeft = this.x <= 0 - this.width;
+    const positionOutRight = this.x >= this.mapController.canvasWidth;
+    const moveToBottom = this.mapController.canvasHeight + this.height
+    const moveToTop = 0 - this.height
+    const moveToLeft = 0 - this.width
+    const moveToRight = this.mapController.canvasWidth
+
+    if (this.forwardPressed) {
+      positionOutTop ? this.y = moveToBottom : this.y -= this.speed
     };
-    if (this.reverse) {
-      this.y += this.speed
+    if (this.reversePressed) {
+      positionOutBottom ? this.y = moveToTop : this.y += this.speed
     };
-    if (this.left) {
-      this.x -= this.speed
+    if (this.leftPressed) {
+      positionOutLeft ? this.x = moveToRight : this.x -= this.speed
     };
-    if (this.right) {
-      this.x += this.speed
+    if (this.rightPressed) {
+      positionOutRight ? this.x = moveToLeft : this.x += this.speed
     };
 
     switch (this.direction) {
@@ -80,58 +99,58 @@ export default class Tank {
         this.height = this.widthOriginal;
         break;
     }
-
   }
 
   keydown = (e) => {
     switch (e.code) {
       case "ArrowLeft":
         this.direction = 'left'
-        this.forward = false;
-        this.left = true;
-        this.right = false;
-        this.reverse = false;
+        this.leftPressed = true;
+        this.rightPressed = false;
+        this.forwardPressed = false;
+        this.reversePressed = false;
         break;
       case "ArrowRight":
         this.direction = 'right'
-        this.forward = false;
-        this.left = false;
-        this.right = true;
-        this.reverse = false;
+        this.leftPressed = false;
+        this.rightPressed = true;
+        this.forwardPressed = false;
+        this.reversePressed = false;
         break;
       case "ArrowUp":
         this.direction = 'forward'
-        this.forward = true;
-        this.left = false;
-        this.right = false;
-        this.reverse = false;
+        this.leftPressed = false;
+        this.rightPressed = false;
+        this.forwardPressed = true;
+        this.reversePressed = false;
         break;
       case "ArrowDown":
         this.direction = 'reverse'
-        this.forward = false;
-        this.left = false;
-        this.right = false;
-        this.reverse = true;
+        this.leftPressed = false;
+        this.rightPressed = false;
+        this.forwardPressed = false;
+        this.reversePressed = true;
         break;
       case "Space":
         this.shootPressed = true;
         break;
     }
+
   }
 
   keyup = (e) => {
     switch (e.code) {
       case "ArrowLeft":
-        this.left = false;
+        this.leftPressed = false;
         break;
       case "ArrowRight":
-        this.right = false;
+        this.rightPressed = false;
         break;
       case "ArrowUp":
-        this.forward = false;
+        this.forwardPressed = false;
         break;
       case "ArrowDown":
-        this.reverse = false;
+        this.reversePressed = false;
         break;
       case "Space":
         this.shootPressed = false;
