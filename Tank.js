@@ -21,7 +21,6 @@ export default class Tank {
     this.direction = 'forward';
     this.mapController = mapController;
 
-
     document.addEventListener('keydown', this.keydown)
     document.addEventListener('keyup', this.keyup)
   }
