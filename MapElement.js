@@ -5,6 +5,7 @@ export default class MapElement {
     this.height = tileSize;
     this.width = tileSize;
     this.color = color;
+    this.compenseSpeed = 2;
   }
 
   draw(ctx) {
@@ -12,64 +13,97 @@ export default class MapElement {
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 
-  detectCollision(element1, element2) {
+  detectCollisionFrontOfTank(element1, element2, direction) {
     if (!element2) return false;
 
-    return (
-      element1.x < element2.x + element2.width &&
-      element1.x + element1.width > element2.x &&
-      element1.y < element2.y + element2.height &&
-      element1.y + element1.height > element2.y
-    );
+    switch (direction) {
+      case "forward":
+        return (
+          element1.y < element2.y + element2.height &&
+          element1.y + element1.height > element2.y - this.compenseSpeed &&
+          element1.x < element2.x + element2.width &&
+          element1.x + element1.width > element2.x
+        );
+      case "reverse":
+        return (
+          element1.y < element2.y + element2.height + this.compenseSpeed &&
+          element1.y > element2.y &&
+          element1.x < element2.x + element2.width &&
+          element1.x + element1.width > element2.x
+        );
+      case "left":
+        return (
+          element1.x + element1.width > element2.x - this.compenseSpeed &&
+          element1.x < element2.x + element2.width &&
+          element1.y < element2.y + element2.height &&
+          element1.y + element1.height > element2.y
+        );
+      case "right":
+        return (
+          element1.x + element1.width > element2.x &&
+          element1.x < element2.x + element2.width + this.compenseSpeed &&
+          element1.y < element2.y + element2.height &&
+          element1.y + element1.height > element2.y
+        );
+      default:
+        return false;
+    }
   }
 
   detectCollisionWithPlayer(mapElement, player) {
-    if (this.detectCollision(mapElement, player)) {
-      player.x = player.previousX;
-      player.y = player.previousY;
+    if (this.detectCollisionFrontOfTank(mapElement, player, player.direction)) {
+      player.blockDirection();
     }
   }
 
   detectCollisionPlayerWithBot(player, enemies) {
     for (const bot of enemies) {
-      if (this.detectCollision(player, bot)) {
-        player.x = player.previousX;
-        player.y = player.previousY;
+      if (this.detectCollisionFrontOfTank(bot, player, player.direction)) {
+        player.blockDirection();
+      }
+    }
+  }
 
-        bot.x = bot.previousX;
-        bot.y = bot.previousY;
+  detectCollisionBotWithPlayer(player, enemies) {
+    for (const bot of enemies) {
+      if (this.detectCollisionFrontOfTank(player, bot, bot.direction)) {
+        bot.blockDirection();
         bot.changeDirection();
       }
     }
   }
 
   detectCollisionWithBullet(mapElement, bullet) {
-    return this.detectCollision(mapElement, bullet);
+    if (!bullet) return false;
+
+    return (
+      mapElement.x < bullet.x + bullet.width &&
+      mapElement.x + mapElement.width > bullet.x &&
+      mapElement.y < bullet.y + bullet.height &&
+      mapElement.y + mapElement.height > bullet.y
+    );
   }
 
   detectCollisionWithBot(mapElement, enemies) {
     for (let i = 0; i < enemies.length; i++) {
-      const enemy1 = enemies[i];
+      const enemy = enemies[i];
 
-      if (this.detectCollision(mapElement, enemy1)) {
-        enemy1.x = enemy1.previousX;
-        enemy1.y = enemy1.previousY;
-        enemy1.changeDirection();
+      if (this.detectCollisionFrontOfTank(mapElement, enemy, enemy.direction)) {
+        enemy.blockDirection();
+        enemy.changeDirection();
       }
 
-      this, this.handleBotCollisions(enemies, i, enemy1);
+      // this.handleBotsCollisions(enemies, i, enemy);
     }
   }
 
-  handleBotCollisions(enemies, startIndex, enemy1) {
+  handleBotsCollisions(enemies, startIndex, enemy1) {
     for (let j = startIndex + 1; j < enemies.length; j++) {
       const enemy2 = enemies[j];
 
-      if (this.detectCollision(enemy1, enemy2)) {
-        enemy1.x = enemy1.previousX;
-        enemy1.y = enemy1.previousY;
-        enemy2.x = enemy2.previousX;
-        enemy2.y = enemy2.previousY;
+      if (this.detectCollisionFrontOfTank(enemy1, enemy2, enemy2.direction)) {
+        enemy1.blockDirection();
+        enemy2.blockDirection();
 
         enemy1.changeDirection();
         enemy2.changeDirection();
