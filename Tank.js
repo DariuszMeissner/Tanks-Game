@@ -1,3 +1,11 @@
+export const MOVEMENT = {
+  forward: "forward",
+  reverse: "reverse",
+  left: "left",
+  right: "right",
+  space: "Space",
+};
+
 export default class Tank {
   constructor(x, y, width, height, bulletController, mapController) {
     this.x = x;
@@ -9,151 +17,154 @@ export default class Tank {
     this.widthOriginal = width;
     this.heightOriginal = height;
     this.speed = 2;
-    this.forwardPressed = false;
-    this.leftPressed = false;
-    this.rightPressed = false;
-    this.reversePressed = false;
-    this.shootPressed = false;
     this.bulletController = bulletController;
-    this.bulletSpeed = 3;
+    this.bulletSpeed = 3.3;
     this.bulletDelay = 10;
     this.bulletDamage = 1;
-    this.direction = 'forward';
+    this.direction = MOVEMENT.forward;
+    this.stoppedDirection = false;
+    this.prevCollision = false;
     this.mapController = mapController;
+    this.collision = false;
+    this.keyStates = {
+      ArrowLeft: false,
+      ArrowRight: false,
+      ArrowUp: false,
+      ArrowDown: false,
+      Space: false,
+    };
+    this.image = new Image();
+    this.image.src = "assets/tank_player.png";
 
-    document.addEventListener('keydown', this.keydown)
-    document.addEventListener('keyup', this.keyup)
+    document.addEventListener("keydown", this.keydown.bind(this));
+    document.addEventListener("keyup", this.keyup.bind(this));
   }
 
   draw(ctx) {
-    this.getPreviousXAndY();
     this.move();
 
-    // tank body
-    ctx.beginPath();
-    ctx.rect(
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
-    ctx.fillStyle = "#FF0000";
-    ctx.fill();
-    ctx.closePath();
+    ctx.save();
+    ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+
+    // Rotate the canvas
+    let angle;
+    switch (this.direction) {
+      case MOVEMENT.forward:
+        angle = 0;
+        break;
+      case MOVEMENT.reverse:
+        angle = Math.PI;
+        break;
+      case MOVEMENT.left:
+        angle = -Math.PI / 2;
+        break;
+      case MOVEMENT.right:
+        angle = Math.PI / 2;
+        break;
+    }
+
+    ctx.rotate(angle);
+
+    // ctx.fillStyle = "#FF0000";
+    // ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+    ctx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height);
+
+    ctx.restore();
 
     this.shoot();
   }
 
   shoot() {
-    if (this.shootPressed) {
-      const bulletX = this.x + (this.width / 5 * 2);
+    if (this.keyStates.Space) {
+      const bulletX = this.x + (this.width / 5) * 2;
       const bulletY = this.y + this.height / 2;
-      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction)
+      this.bulletController.shoot(
+        bulletX,
+        bulletY,
+        this.bulletSpeed,
+        this.bulletDamage,
+        this.bulletDelay,
+        this.direction
+      );
     }
   }
 
-  getPreviousXAndY() {
-    this.previousX = this.x;
-    this.previousY = this.y;
-  }
-
   move() {
+    if (this.stoppedDirection != this.direction) {
+      this.unblockDirection();
+    }
+
+    this.getPreviousCollision();
+
     const positionOutTop = this.y <= 0 - this.height;
     const positionOutBottom = this.y >= this.mapController.canvasWidth;
     const positionOutLeft = this.x <= 0 - this.width;
     const positionOutRight = this.x >= this.mapController.canvasWidth;
-    const moveToBottom = this.mapController.canvasHeight + this.height
-    const moveToTop = 0 - this.height
-    const moveToLeft = 0 - this.width
-    const moveToRight = this.mapController.canvasWidth
+    const moveToBottom = this.mapController.canvasHeight + this.height;
+    const moveToTop = 0 - this.height;
+    const moveToLeft = 0 - this.width;
+    const moveToRight = this.mapController.canvasWidth;
 
-    if (this.forwardPressed) {
-      positionOutTop ? this.y = moveToBottom : this.y -= this.speed
-    };
-    if (this.reversePressed) {
-      positionOutBottom ? this.y = moveToTop : this.y += this.speed
-    };
-    if (this.leftPressed) {
-      positionOutLeft ? this.x = moveToRight : this.x -= this.speed
-    };
-    if (this.rightPressed) {
-      positionOutRight ? this.x = moveToLeft : this.x += this.speed
-    };
-
-    switch (this.direction) {
-      case 'forward':
-        this.width = this.widthOriginal;
-        this.height = this.heightOriginal;
-        break;
-      case 'reverse':
-        this.width = this.widthOriginal;
-        this.height = this.heightOriginal;
-        break;
-      case 'left':
-        this.width = this.heightOriginal;
-        this.height = this.widthOriginal;
-        break;
-      case 'right':
-        this.width = this.heightOriginal;
-        this.height = this.widthOriginal;
-        break;
+    if (this.keyStates.ArrowUp && this.stoppedDirection != MOVEMENT.forward) {
+      positionOutTop ? (this.y = moveToBottom) : (this.y -= this.speed);
+    } else if (this.keyStates.ArrowDown && this.stoppedDirection != MOVEMENT.reverse) {
+      positionOutBottom ? (this.y = moveToTop) : (this.y += this.speed);
+    } else if (this.keyStates.ArrowLeft && this.stoppedDirection != MOVEMENT.left) {
+      positionOutLeft ? (this.x = moveToRight) : (this.x -= this.speed);
+    } else if (this.keyStates.ArrowRight && this.stoppedDirection != MOVEMENT.right) {
+      positionOutRight ? (this.x = moveToLeft) : (this.x += this.speed);
     }
   }
 
   keydown = (e) => {
-    switch (e.code) {
-      case "ArrowLeft":
-        this.direction = 'left'
-        this.leftPressed = true;
-        this.rightPressed = false;
-        this.forwardPressed = false;
-        this.reversePressed = false;
-        break;
-      case "ArrowRight":
-        this.direction = 'right'
-        this.leftPressed = false;
-        this.rightPressed = true;
-        this.forwardPressed = false;
-        this.reversePressed = false;
-        break;
-      case "ArrowUp":
-        this.direction = 'forward'
-        this.leftPressed = false;
-        this.rightPressed = false;
-        this.forwardPressed = true;
-        this.reversePressed = false;
-        break;
-      case "ArrowDown":
-        this.direction = 'reverse'
-        this.leftPressed = false;
-        this.rightPressed = false;
-        this.forwardPressed = false;
-        this.reversePressed = true;
-        break;
-      case "Space":
-        this.shootPressed = true;
-        break;
+    const newKeystates = Object.values(this.keyStates).slice(0, 4);
+
+    if (newKeystates.some((state) => state)) {
+      e.code === MOVEMENT.space && this.updateKeyState(e.code);
+      return;
     }
 
-  }
+    if (this.keyStates.hasOwnProperty(e.code)) {
+      this.updateKeyState(e.code);
+    }
+  };
 
   keyup = (e) => {
-    switch (e.code) {
-      case "ArrowLeft":
-        this.leftPressed = false;
-        break;
-      case "ArrowRight":
-        this.rightPressed = false;
-        break;
-      case "ArrowUp":
-        this.forwardPressed = false;
-        break;
-      case "ArrowDown":
-        this.reversePressed = false;
-        break;
-      case "Space":
-        this.shootPressed = false;
-        break;
+    if (this.keyStates.hasOwnProperty(e.code)) {
+      this.keyStates[e.code] = false;
     }
+  };
+
+  updateKeyState(eventKey) {
+    if (this.keyStates.hasOwnProperty(eventKey)) {
+      this.keyStates[eventKey] = true;
+      this.updateDirection();
+    }
+  }
+
+  updateDirection() {
+    if (this.keyStates.ArrowLeft) {
+      this.direction = MOVEMENT.left;
+    } else if (this.keyStates.ArrowRight) {
+      this.direction = MOVEMENT.right;
+    } else if (this.keyStates.ArrowUp) {
+      this.direction = MOVEMENT.forward;
+    } else if (this.keyStates.ArrowDown) {
+      this.direction = MOVEMENT.reverse;
+    }
+  }
+
+  getPreviousCollision() {
+    this.prevCollision = this.collision;
+  }
+
+  blockDirection() {
+    this.stoppedDirection = this.direction;
+    this.speed = 0;
+  }
+
+  unblockDirection() {
+    this.stoppedDirection = false;
+    this.speed = 2;
   }
 }
