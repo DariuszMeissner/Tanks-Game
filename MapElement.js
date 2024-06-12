@@ -1,3 +1,6 @@
+const RESET_SPEED = 2;
+const DELAY_START = 2000;
+
 export default class MapElement {
   constructor(x, y, tileSize, color) {
     this.x = x;
@@ -13,37 +16,37 @@ export default class MapElement {
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 
-  detectCollisionFrontOfTank(element1, element2, direction) {
-    if (!element2) return false;
+  detectCollisionFrontOfTank(object, tank, tankDirection) {
+    if (!object || !tank) return false;
 
-    switch (direction) {
+    switch (tankDirection) {
       case "forward":
         return (
-          element1.y < element2.y + element2.height &&
-          element1.y + element1.height > element2.y - this.compenseSpeed &&
-          element1.x < element2.x + element2.width &&
-          element1.x + element1.width > element2.x
+          object.y < tank.y + tank.height &&
+          object.y + object.height > tank.y - this.compenseSpeed &&
+          object.x < tank.x + tank.width &&
+          object.x + object.width > tank.x
         );
       case "reverse":
         return (
-          element1.y < element2.y + element2.height + this.compenseSpeed &&
-          element1.y > element2.y &&
-          element1.x < element2.x + element2.width &&
-          element1.x + element1.width > element2.x
+          object.y < tank.y + tank.height + this.compenseSpeed &&
+          object.y > tank.y &&
+          object.x < tank.x + tank.width &&
+          object.x + object.width > tank.x
         );
       case "left":
         return (
-          element1.x + element1.width > element2.x - this.compenseSpeed &&
-          element1.x < element2.x + element2.width &&
-          element1.y < element2.y + element2.height &&
-          element1.y + element1.height > element2.y
+          object.x + object.width > tank.x - this.compenseSpeed &&
+          object.x < tank.x + tank.width &&
+          object.y < tank.y + tank.height &&
+          object.y + object.height > tank.y
         );
       case "right":
         return (
-          element1.x + element1.width > element2.x &&
-          element1.x < element2.x + element2.width + this.compenseSpeed &&
-          element1.y < element2.y + element2.height &&
-          element1.y + element1.height > element2.y
+          object.x + object.width > tank.x &&
+          object.x < tank.x + tank.width + this.compenseSpeed &&
+          object.y < tank.y + tank.height &&
+          object.y + object.height > tank.y
         );
       default:
         return false;
@@ -84,30 +87,80 @@ export default class MapElement {
     );
   }
 
+  resetSpeedAfterTimeout(enemy) {
+    if (!enemy) return;
+
+    // Clear any existing timeout
+    if (enemy.timeoutId) {
+      clearTimeout(enemy.timeoutId);
+    }
+
+    enemy.isDelayed = true;
+
+    enemy.timeoutId = setTimeout(() => {
+      enemy.speed = RESET_SPEED;
+      enemy.isDelayed = false;
+      clearTimeout(enemy.timeoutId);
+      enemy.timeoutId = null;
+    }, DELAY_START);
+  }
+
   detectCollisionWithBot(mapElement, enemies) {
     for (let i = 0; i < enemies.length; i++) {
       const enemy = enemies[i];
 
       if (this.detectCollisionFrontOfTank(mapElement, enemy, enemy.direction)) {
-        enemy.blockDirection();
-        enemy.changeDirection();
-      }
+        if (!enemy.isDelayed) {
+          enemy.speed = 0;
+          enemy.changeDirection();
 
-      // this.handleBotsCollisions(enemies, i, enemy);
+          if (!this.detectCollisionFrontOfTank(mapElement, enemy, enemy.direction)) {
+            this.resetSpeedAfterTimeout(enemy);
+            return;
+          } else {
+            // Ensure speed is reset if collision still occurs
+            enemy.speed = RESET_SPEED;
+          }
+        }
+      }
     }
   }
 
-  handleBotsCollisions(enemies, startIndex, enemy1) {
-    for (let j = startIndex + 1; j < enemies.length; j++) {
-      const enemy2 = enemies[j];
+  detectCollisionsBetweenBots(enemies) {
+    enemies.forEach((enemy1, i) => {
+      enemies.slice(i + 1).forEach((enemy2) => {
+        // handle collision enemy1
+        if (this.detectCollisionFrontOfTank(enemy2, enemy1, enemy1.direction)) {
+          if (!enemy1.isDelayed) {
+            enemy1.speed = 0;
+            enemy1.changeDirection();
 
-      if (this.detectCollisionFrontOfTank(enemy1, enemy2, enemy2.direction)) {
-        enemy1.blockDirection();
-        enemy2.blockDirection();
+            if (!this.detectCollisionFrontOfTank(enemy2, enemy1, enemy1.direction)) {
+              this.resetSpeedAfterTimeout(enemy1);
+              return;
+            } else {
+              // Ensure speed is reset if collision still occurs
+              enemy1.speed = RESET_SPEED;
+            }
+          }
+        }
 
-        enemy1.changeDirection();
-        enemy2.changeDirection();
-      }
-    }
+        // handle collision enemy2
+        if (this.detectCollisionFrontOfTank(enemy1, enemy2, enemy2.direction)) {
+          if (!enemy2.isDelayed) {
+            enemy2.speed = 0;
+            enemy2.changeDirection();
+
+            if (!this.detectCollisionFrontOfTank(enemy1, enemy2, enemy2.direction)) {
+              this.resetSpeedAfterTimeout(enemy2);
+              return;
+            } else {
+              // Ensure speed is reset if collision still occurs
+              enemy2.speed = RESET_SPEED;
+            }
+          }
+        }
+      });
+    });
   }
 }
