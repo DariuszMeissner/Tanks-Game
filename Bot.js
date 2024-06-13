@@ -1,26 +1,54 @@
+import { MOVEMENT } from "./Constant.js";
+
 export default class Enemy {
-  constructor(x, y, width, height, color, mapController) {
+  constructor(x, y, width, height, mapController) {
     this.x = x;
     this.y = y;
-    this.speed = 1.5;
+    this.speed = 2;
     this.width = width;
     this.height = height;
-    this.color = color;
     this.previousX = null;
     this.previousY = null;
     this.direction = null;
-    this.directions = ["up", "down", "left", "right"];
-    this.collisionWithBot = null;
+    this.directions = ["forward", "reverse", "left", "right"];
     this.bullets = [];
     this.bulletSpeed = 2;
+    this.bulletDamage = 1;
     this.mapController = mapController;
+    this.timeoutId = null;
+    this.isDelayed = false;
+    this.image = new Image();
+    this.image.src = "assets/tank_enemy_basic.png";
   }
 
   draw(ctx) {
-    this.getPositionXAndY();
     this.move();
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+
+    ctx.save();
+    ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+
+    // Rotate the canvas
+    let angle;
+    switch (this.direction) {
+      case MOVEMENT.forward:
+        angle = 0;
+        break;
+      case MOVEMENT.reverse:
+        angle = Math.PI;
+        break;
+      case MOVEMENT.left:
+        angle = -Math.PI / 2;
+        break;
+      case MOVEMENT.right:
+        angle = Math.PI / 2;
+        break;
+    }
+
+    ctx.rotate(angle);
+
+    ctx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height);
+
+    ctx.restore();
   }
 
   move() {
@@ -38,20 +66,16 @@ export default class Enemy {
     const moveToRight = this.mapController.canvasWidth;
 
     switch (this.direction) {
-      case "up":
-        // this.y -= this.speed;
+      case MOVEMENT.forward:
         positionOutTop ? (this.y = moveToBottom) : (this.y -= this.speed);
         break;
-      case "down":
-        // this.y += this.speed;
+      case MOVEMENT.reverse:
         positionOutBottom ? (this.y = moveToTop) : (this.y += this.speed);
         break;
-      case "left":
-        // this.x -= this.speed;
+      case MOVEMENT.left:
         positionOutLeft ? (this.x = moveToRight) : (this.x -= this.speed);
         break;
-      case "right":
-        // this.x += this.speed;
+      case MOVEMENT.right:
         positionOutRight ? (this.x = moveToLeft) : (this.x += this.speed);
         break;
     }
@@ -60,10 +84,5 @@ export default class Enemy {
   changeDirection() {
     const newDirections = this.directions.filter((direction) => direction !== this.direction);
     this.direction = newDirections[Math.floor(Math.random() * newDirections.length)];
-  }
-
-  getPositionXAndY() {
-    this.previousX = this.x;
-    this.previousY = this.y;
   }
 }
