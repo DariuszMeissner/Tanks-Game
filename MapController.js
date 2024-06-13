@@ -8,11 +8,20 @@ export default class MapController {
     this.canvasHeight = map.length * tileSize;
     this.canvasWidth = map[0].length * tileSize;
     this.collisionWallWithBullet = false;
+
+    // Create an off-screen canvas
+    this.offScreenCanvas = document.createElement("canvas");
+    this.offScreenCanvas.width = this.canvasWidth;
+    this.offScreenCanvas.height = this.canvasHeight;
+    this.offScreenCtx = this.offScreenCanvas.getContext("2d");
   }
 
   draw(canvas, ctx, player, bullet, enemies) {
     this.#setCanvasSize(canvas);
-    this.#drawMap(ctx, player, bullet, enemies);
+    this.#drawMap(this.offScreenCtx, player, bullet, enemies);
+
+    // Copy the off-screen canvas to the main canvas
+    ctx.drawImage(this.offScreenCanvas, 0, 0);
   }
 
   #setCanvasSize(canvas) {
