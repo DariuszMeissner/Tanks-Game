@@ -1,10 +1,4 @@
-export const MOVEMENT = {
-  forward: "forward",
-  reverse: "reverse",
-  left: "left",
-  right: "right",
-  space: "Space",
-};
+import { MOVEMENT } from "./Constant.js";
 
 export default class Tank {
   constructor(x, y, width, height, bulletController, mapController) {
