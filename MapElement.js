@@ -1,5 +1,4 @@
-const RESET_SPEED = 2;
-const DELAY_START = 2000;
+import { DELAY_START, RESET_SPEED } from "./Constant.js";
 
 export default class MapElement {
   constructor(x, y, tileSize, color) {
@@ -67,15 +66,6 @@ export default class MapElement {
     }
   }
 
-  detectCollisionBotWithPlayer(player, enemies) {
-    for (const bot of enemies) {
-      if (this.detectCollisionFrontOfTank(player, bot, bot.direction)) {
-        bot.blockDirection();
-        bot.changeDirection();
-      }
-    }
-  }
-
   detectCollisionWithBullet(mapElement, bullet) {
     if (!bullet) return false;
 
@@ -90,7 +80,6 @@ export default class MapElement {
   resetSpeedAfterTimeout(enemy) {
     if (!enemy) return;
 
-    // Clear any existing timeout
     if (enemy.timeoutId) {
       clearTimeout(enemy.timeoutId);
     }
@@ -105,24 +94,35 @@ export default class MapElement {
     }, DELAY_START);
   }
 
+  handleCollision(objectOfCollision, tank) {
+    if (this.detectCollisionFrontOfTank(objectOfCollision, tank, tank.direction)) {
+      if (!tank.isDelayed) {
+        tank.speed = 0;
+        tank.changeDirection();
+
+        if (!this.detectCollisionFrontOfTank(objectOfCollision, tank, tank.direction)) {
+          this.resetSpeedAfterTimeout(tank);
+          return;
+        } else {
+          // Ensure speed is reset if collision still occurs
+          tank.speed = RESET_SPEED;
+        }
+      }
+    }
+  }
+
+  detectCollisionBotWithPlayer(player, enemies) {
+    for (const bot of enemies) {
+      if (this.detectCollisionFrontOfTank(player, bot, bot.direction)) {
+        this.handleCollision(player, bot);
+      }
+    }
+  }
+
   detectCollisionWithBot(mapElement, enemies) {
     for (let i = 0; i < enemies.length; i++) {
       const enemy = enemies[i];
-
-      if (this.detectCollisionFrontOfTank(mapElement, enemy, enemy.direction)) {
-        if (!enemy.isDelayed) {
-          enemy.speed = 0;
-          enemy.changeDirection();
-
-          if (!this.detectCollisionFrontOfTank(mapElement, enemy, enemy.direction)) {
-            this.resetSpeedAfterTimeout(enemy);
-            return;
-          } else {
-            // Ensure speed is reset if collision still occurs
-            enemy.speed = RESET_SPEED;
-          }
-        }
-      }
+      this.handleCollision(mapElement, enemy);
     }
   }
 
@@ -130,36 +130,9 @@ export default class MapElement {
     enemies.forEach((enemy1, i) => {
       enemies.slice(i + 1).forEach((enemy2) => {
         // handle collision enemy1
-        if (this.detectCollisionFrontOfTank(enemy2, enemy1, enemy1.direction)) {
-          if (!enemy1.isDelayed) {
-            enemy1.speed = 0;
-            enemy1.changeDirection();
-
-            if (!this.detectCollisionFrontOfTank(enemy2, enemy1, enemy1.direction)) {
-              this.resetSpeedAfterTimeout(enemy1);
-              return;
-            } else {
-              // Ensure speed is reset if collision still occurs
-              enemy1.speed = RESET_SPEED;
-            }
-          }
-        }
-
+        this.handleCollision(enemy2, enemy1);
         // handle collision enemy2
-        if (this.detectCollisionFrontOfTank(enemy1, enemy2, enemy2.direction)) {
-          if (!enemy2.isDelayed) {
-            enemy2.speed = 0;
-            enemy2.changeDirection();
-
-            if (!this.detectCollisionFrontOfTank(enemy1, enemy2, enemy2.direction)) {
-              this.resetSpeedAfterTimeout(enemy2);
-              return;
-            } else {
-              // Ensure speed is reset if collision still occurs
-              enemy2.speed = RESET_SPEED;
-            }
-          }
-        }
+        this.handleCollision(enemy1, enemy2);
       });
     });
   }
