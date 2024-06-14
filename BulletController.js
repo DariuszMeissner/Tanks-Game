@@ -8,15 +8,15 @@ export default class BulletController {
     this.enemyController = enemyController;
   }
 
-  draw(ctx) {
+  draw(ctx, player) {
     this.bullets.forEach((bullet) => {
       if (this.isBulletOutOfScreen(bullet)) {
         this.removeBulletOutOfScreen(bullet);
       }
 
       bullet.draw(ctx);
-      this.detectCollisionBot();
-      this.detectCollisionWithWall();
+      this.detectCollisionBot(player);
+      this.detectCollisionWithWall(player);
     });
   }
 
@@ -26,14 +26,16 @@ export default class BulletController {
     }
   }
 
-  detectCollisionWithWall() {
+  detectCollisionWithWall(player) {
     if (this.mapController.collisionWallWithBullet) {
       this.bullets = [];
       this.mapController.collisionWallWithBullet = false;
+
+      player.unblockDirection();
     }
   }
 
-  detectCollisionBot() {
+  detectCollisionBot(player) {
     this.bullets.forEach((bullet) => {
       this.enemyController.enemies.forEach((bot, index) => {
         const isColision =
@@ -45,6 +47,7 @@ export default class BulletController {
         if (isColision) {
           this.enemyController.enemies.splice(index, 1);
           this.bullets = [];
+          player.unblockDirection();
         }
       });
     });
