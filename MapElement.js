@@ -52,31 +52,6 @@ export default class MapElement {
     }
   }
 
-  detectCollisionWithPlayer(mapElement, player) {
-    if (this.detectCollisionFrontOfTank(mapElement, player, player.direction)) {
-      player.blockDirection();
-    }
-  }
-
-  detectCollisionPlayerWithBot(player, enemies) {
-    for (const bot of enemies) {
-      if (this.detectCollisionFrontOfTank(bot, player, player.direction)) {
-        player.blockDirection();
-      }
-    }
-  }
-
-  detectCollisionWithBullet(mapElement, bullet) {
-    if (!bullet) return false;
-
-    return (
-      mapElement.x < bullet.x + bullet.width &&
-      mapElement.x + mapElement.width > bullet.x &&
-      mapElement.y < bullet.y + bullet.height &&
-      mapElement.y + mapElement.height > bullet.y
-    );
-  }
-
   resetSpeedAfterTimeout(enemy) {
     if (!enemy) return;
 
@@ -103,10 +78,41 @@ export default class MapElement {
         if (!this.detectCollisionFrontOfTank(objectOfCollision, tank, tank.direction)) {
           this.resetSpeedAfterTimeout(tank);
           return;
-        } else {
-          // Ensure speed is reset if collision still occurs
-          tank.speed = RESET_SPEED;
         }
+      }
+    }
+  }
+
+  detectCollisionWithBullet(mapElement, bullet) {
+    if (!bullet) return false;
+
+    return (
+      mapElement.x < bullet.x + bullet.width &&
+      mapElement.x + mapElement.width > bullet.x &&
+      mapElement.y < bullet.y + bullet.height &&
+      mapElement.y + mapElement.height > bullet.y
+    );
+  }
+
+  detectCollisionWithPlayer(mapElement, player) {
+    if (this.detectCollisionFrontOfTank(mapElement, player, player.direction)) {
+      player.blockDirection();
+      player.collisionWithWall = true;
+    }
+  }
+
+  detectCollisionPlayerWithBot(player, enemies) {
+    for (const bot of enemies) {
+      if (this.detectCollisionFrontOfTank(bot, player, player.direction)) {
+        player.blockDirection();
+        player.collisionWithBot = true;
+        return;
+      }
+
+      // unblock direction if no collision, when collision and bot go away
+      if (!this.detectCollisionFrontOfTank(bot, player, player.direction) && player.collisionWithBot) {
+        player.unblockDirection();
+        player.collisionWithBot = false;
       }
     }
   }
