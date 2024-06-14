@@ -17,9 +17,9 @@ export default class Tank {
     this.bulletDamage = 1;
     this.direction = MOVEMENT.forward;
     this.stoppedDirection = false;
-    this.prevCollision = false;
     this.mapController = mapController;
-    this.collision = false;
+    this.collisionWithWall = false;
+    this.collisionWithBot = false;
     this.keyStates = {
       ArrowLeft: false,
       ArrowRight: false,
@@ -59,8 +59,6 @@ export default class Tank {
 
     ctx.rotate(angle);
 
-    // ctx.fillStyle = "#FF0000";
-    // ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
     ctx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height);
 
     ctx.restore();
@@ -86,9 +84,8 @@ export default class Tank {
   move() {
     if (this.stoppedDirection != this.direction) {
       this.unblockDirection();
+      this.collisionWithWall = false;
     }
-
-    this.getPreviousCollision();
 
     const positionTopEdge = this.y <= 0;
     const positionBottomEdge = this.y >= this.mapController.canvasHeight - this.height;
@@ -152,10 +149,6 @@ export default class Tank {
     } else if (this.keyStates.ArrowDown) {
       this.direction = MOVEMENT.reverse;
     }
-  }
-
-  getPreviousCollision() {
-    this.prevCollision = this.collision;
   }
 
   blockDirection() {
