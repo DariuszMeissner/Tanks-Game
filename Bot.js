@@ -56,27 +56,23 @@ export default class Enemy {
       this.changeDirection();
     }
 
-    const positionOutTop = this.y <= 0 - this.height;
-    const positionOutBottom = this.y >= this.mapController.canvasWidth;
-    const positionOutLeft = this.x <= 0 - this.width;
-    const positionOutRight = this.x >= this.mapController.canvasWidth;
-    const moveToBottom = this.mapController.canvasHeight + this.height;
-    const moveToTop = 0 - this.height;
-    const moveToLeft = 0 - this.width;
-    const moveToRight = this.mapController.canvasWidth;
+    const positionTopEdge = this.y <= 0;
+    const positionBottomEdge = this.y >= this.mapController.canvasHeight - this.height;
+    const positionLeftEdge = this.x <= 0;
+    const positionRightEdge = this.x >= this.mapController.canvasWidth - this.width;
 
     switch (this.direction) {
       case MOVEMENT.forward:
-        positionOutTop ? (this.y = moveToBottom) : (this.y -= this.speed);
+        positionTopEdge ? (this.y = 0) : (this.y -= this.speed);
         break;
       case MOVEMENT.reverse:
-        positionOutBottom ? (this.y = moveToTop) : (this.y += this.speed);
+        positionBottomEdge ? (this.y = this.mapController.canvasHeight - this.height) : (this.y += this.speed);
         break;
       case MOVEMENT.left:
-        positionOutLeft ? (this.x = moveToRight) : (this.x -= this.speed);
+        positionLeftEdge ? (this.x = 0) : (this.x -= this.speed);
         break;
       case MOVEMENT.right:
-        positionOutRight ? (this.x = moveToLeft) : (this.x += this.speed);
+        positionRightEdge ? (this.x = this.mapController.canvasWidth - this.width) : (this.x += this.speed);
         break;
     }
   }
