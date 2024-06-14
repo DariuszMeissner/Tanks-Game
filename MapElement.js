@@ -1,18 +1,18 @@
 import { DELAY_START, RESET_SPEED } from "./Constant.js";
 
 export default class MapElement {
-  constructor(x, y, tileSize, color) {
+  constructor(x, y, tileSize, pathToDesign) {
     this.x = x;
     this.y = y;
     this.height = tileSize;
     this.width = tileSize;
-    this.color = color;
     this.compenseSpeed = 2;
+    this.image = new Image();
+    this.image.src = pathToDesign;
   }
 
   draw(ctx) {
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 
   detectCollisionFrontOfTank(object, tank, tankDirection) {
