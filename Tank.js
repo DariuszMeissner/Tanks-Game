@@ -90,23 +90,29 @@ export default class Tank {
 
     this.getPreviousCollision();
 
-    const positionOutTop = this.y <= 0 - this.height;
-    const positionOutBottom = this.y >= this.mapController.canvasWidth;
-    const positionOutLeft = this.x <= 0 - this.width;
-    const positionOutRight = this.x >= this.mapController.canvasWidth;
-    const moveToBottom = this.mapController.canvasHeight + this.height;
-    const moveToTop = 0 - this.height;
-    const moveToLeft = 0 - this.width;
-    const moveToRight = this.mapController.canvasWidth;
+    const positionTopEdge = this.y <= 0;
+    const positionBottomEdge = this.y >= this.mapController.canvasHeight - this.height;
+    const positionLeftEdge = this.x <= 0;
+    const positionRightEdge = this.x >= this.mapController.canvasWidth - this.width;
 
     if (this.keyStates.ArrowUp && this.stoppedDirection != MOVEMENT.forward) {
-      positionOutTop ? (this.y = moveToBottom) : (this.y -= this.speed);
-    } else if (this.keyStates.ArrowDown && this.stoppedDirection != MOVEMENT.reverse) {
-      positionOutBottom ? (this.y = moveToTop) : (this.y += this.speed);
-    } else if (this.keyStates.ArrowLeft && this.stoppedDirection != MOVEMENT.left) {
-      positionOutLeft ? (this.x = moveToRight) : (this.x -= this.speed);
-    } else if (this.keyStates.ArrowRight && this.stoppedDirection != MOVEMENT.right) {
-      positionOutRight ? (this.x = moveToLeft) : (this.x += this.speed);
+      positionTopEdge ? (this.y = 0) : (this.y -= this.speed);
+      return;
+    }
+
+    if (this.keyStates.ArrowDown && this.stoppedDirection != MOVEMENT.reverse) {
+      positionBottomEdge ? (this.y = this.mapController.canvasHeight - this.height) : (this.y += this.speed);
+      return;
+    }
+
+    if (this.keyStates.ArrowLeft && this.stoppedDirection != MOVEMENT.left) {
+      positionLeftEdge ? (this.x = 0) : (this.x -= this.speed);
+      return;
+    }
+
+    if (this.keyStates.ArrowRight && this.stoppedDirection != MOVEMENT.right) {
+      positionRightEdge ? (this.x = this.mapController.canvasWidth - this.width) : (this.x += this.speed);
+      return;
     }
   }
 
