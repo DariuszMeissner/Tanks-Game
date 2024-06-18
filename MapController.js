@@ -82,14 +82,14 @@ export default class MapController {
     }
   }
 
-  #handleWall(ctx, x, y, player, bullet, enemies, row, column, objectDesign, object) {
-    const wall = new MapElement(x, y, object === MAP_OBJECT.mapEdge ? 2 : this.tileSize, objectDesign);
+  #handleWall(ctx, x, y, player, bullet, enemies, row, column, objectDesign, objectType) {
+    const wall = new MapElement(x, y, objectType === MAP_OBJECT.mapEdge ? 2 : this.tileSize, objectDesign);
 
     wall.draw(ctx);
     wall.detectCollisionWithPlayer(wall, player);
     wall.detectCollisionWithBot(wall, enemies);
 
-    this.#handleCollisionWithBullet(wall, bullet, row, column, object);
+    this.#handleCollisionWithBullet(wall, bullet, row, column, objectType);
   }
 
   #handleGrass(ctx, x, y) {
