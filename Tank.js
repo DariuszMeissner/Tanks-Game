@@ -81,8 +81,12 @@ export default class Tank {
     }
   }
 
+  checkStoppedDirectionChanged() {
+    return this.stoppedDirection != this.direction;
+  }
+
   move() {
-    if (this.stoppedDirection != this.direction) {
+    if (this.checkStoppedDirectionChanged()) {
       this.unblockDirection();
       this.collisionWithWall = false;
     }
