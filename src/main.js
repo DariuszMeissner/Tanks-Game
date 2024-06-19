@@ -38,8 +38,6 @@ const enemies = [
   new Bot(130, 180, tileSize, tileSize, mapController),
   new Bot(320, 120, tileSize, tileSize, mapController),
   new Bot(320, 180, tileSize, tileSize, mapController),
-  new Bot(270, 40, tileSize, tileSize, mapController),
-  new Bot(230, 40, tileSize, tileSize, mapController),
 ];
 const botController = new BotController(enemies);
 const bulletController = new BulletController(ctx, mapController, botController);
