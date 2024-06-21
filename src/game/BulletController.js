@@ -1,9 +1,9 @@
-import Bullet from "./Bullet.js";
+import Bullet from './Bullet.js';
+import { CanvasSize } from './config/Constant.js';
 
 export default class BulletController {
   bullets = [];
-  constructor(ctx, mapController, enemyController) {
-    this.ctx = ctx;
+  constructor(mapController, enemyController) {
     this.mapController = mapController;
     this.enemyController = enemyController;
   }
@@ -15,7 +15,7 @@ export default class BulletController {
       }
 
       bullet.draw(ctx);
-      this.detectCollisionBot(player);
+      this.detectCollisionWithTank(player);
       this.detectCollisionWithWall(player);
     });
   }
@@ -35,7 +35,7 @@ export default class BulletController {
     }
   }
 
-  detectCollisionBot(player) {
+  detectCollisionWithTank(player) {
     this.bullets.forEach((bullet) => {
       this.enemyController.enemies.forEach((bot, index) => {
         const isColision =
@@ -56,9 +56,9 @@ export default class BulletController {
   isBulletOutOfScreen(bullet) {
     return (
       bullet.y <= -bullet.height ||
-      bullet.y >= this.mapController.canvasHeight + bullet.height ||
+      bullet.y >= CanvasSize.HEIGHT + bullet.height ||
       bullet.x <= -bullet.width ||
-      bullet.x >= this.mapController.canvasWidth + bullet.width
+      bullet.x >= CanvasSize.WIDTH + bullet.width
     );
   }
 
