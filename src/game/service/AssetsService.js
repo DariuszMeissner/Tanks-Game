@@ -1,6 +1,6 @@
-import { AssetsType, AssetsTypeLookup } from './Constant.js';
+import { AssetsType, AssetsTypeLookup } from '../config/Constant.js';
 
-export default class AssetsLoader {
+export default class AssetsService {
   constructor() {
     this.assets = new Map();
   }
