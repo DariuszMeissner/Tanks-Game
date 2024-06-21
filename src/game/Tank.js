@@ -1,7 +1,7 @@
-import { MOVEMENT } from "./Constant.js";
+import { CanvasSize, Movement } from './config/Constant.js';
 
 export default class Tank {
-  constructor(x, y, width, height, bulletController, mapController) {
+  constructor(x, y, width, height, bulletController) {
     this.x = x;
     this.y = y;
     this.previousX = null;
@@ -15,9 +15,8 @@ export default class Tank {
     this.bulletSpeed = 3.3;
     this.bulletDelay = 10;
     this.bulletDamage = 1;
-    this.direction = MOVEMENT.forward;
+    this.direction = Movement.FORWARD;
     this.stoppedDirection = false;
-    this.mapController = mapController;
     this.collisionWithWall = false;
     this.collisionWithBot = false;
     this.keyStates = {
@@ -27,57 +26,49 @@ export default class Tank {
       ArrowDown: false,
       Space: false,
     };
-    this.image = new Image();
-    this.image.src = "assets/tank_player.png";
 
-    document.addEventListener("keydown", this.keydown.bind(this));
-    document.addEventListener("keyup", this.keyup.bind(this));
+    document.addEventListener('keydown', this.keydown.bind(this));
+    document.addEventListener('keyup', this.keyup.bind(this));
   }
 
-  draw(ctx) {
-    this.move();
+  draw(ctx, image) {
+    if (image instanceof Image) {
+      this.move();
 
-    ctx.save();
-    ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+      ctx.save();
+      ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
 
-    // Rotate the canvas
-    let angle;
-    switch (this.direction) {
-      case MOVEMENT.forward:
-        angle = 0;
-        break;
-      case MOVEMENT.reverse:
-        angle = Math.PI;
-        break;
-      case MOVEMENT.left:
-        angle = -Math.PI / 2;
-        break;
-      case MOVEMENT.right:
-        angle = Math.PI / 2;
-        break;
+      let angle;
+      switch (this.direction) {
+        case Movement.FORWARD:
+          angle = 0;
+          break;
+        case Movement.REVERSE:
+          angle = Math.PI;
+          break;
+        case Movement.LEFT:
+          angle = -Math.PI / 2;
+          break;
+        case Movement.RIGHT:
+          angle = Math.PI / 2;
+          break;
+      }
+
+      ctx.rotate(angle);
+
+      ctx.drawImage(image, -this.width / 2, -this.height / 2, this.width, this.height);
+
+      ctx.restore();
+
+      this.shoot();
     }
-
-    ctx.rotate(angle);
-
-    ctx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height);
-
-    ctx.restore();
-
-    this.shoot();
   }
 
   shoot() {
     if (this.keyStates.Space) {
       const bulletX = this.x + (this.width / 5) * 2;
       const bulletY = this.y + this.height / 2;
-      this.bulletController.shoot(
-        bulletX,
-        bulletY,
-        this.bulletSpeed,
-        this.bulletDamage,
-        this.bulletDelay,
-        this.direction
-      );
+      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction);
     }
   }
 
@@ -92,27 +83,27 @@ export default class Tank {
     }
 
     const positionTopEdge = this.y <= 0;
-    const positionBottomEdge = this.y >= this.mapController.canvasHeight - this.height;
+    const positionBottomEdge = this.y >= CanvasSize.HEIGHT - this.height;
     const positionLeftEdge = this.x <= 0;
-    const positionRightEdge = this.x >= this.mapController.canvasWidth - this.width;
+    const positionRightEdge = this.x >= CanvasSize.WIDTH - this.width;
 
-    if (this.keyStates.ArrowUp && this.stoppedDirection != MOVEMENT.forward) {
+    if (this.keyStates.ArrowUp && this.stoppedDirection != Movement.FORWARD) {
       positionTopEdge ? (this.y = 0) : (this.y -= this.speed);
       return;
     }
 
-    if (this.keyStates.ArrowDown && this.stoppedDirection != MOVEMENT.reverse) {
-      positionBottomEdge ? (this.y = this.mapController.canvasHeight - this.height) : (this.y += this.speed);
+    if (this.keyStates.ArrowDown && this.stoppedDirection != Movement.REVERSE) {
+      positionBottomEdge ? (this.y = CanvasSize.HEIGHT - this.height) : (this.y += this.speed);
       return;
     }
 
-    if (this.keyStates.ArrowLeft && this.stoppedDirection != MOVEMENT.left) {
+    if (this.keyStates.ArrowLeft && this.stoppedDirection != Movement.LEFT) {
       positionLeftEdge ? (this.x = 0) : (this.x -= this.speed);
       return;
     }
 
-    if (this.keyStates.ArrowRight && this.stoppedDirection != MOVEMENT.right) {
-      positionRightEdge ? (this.x = this.mapController.canvasWidth - this.width) : (this.x += this.speed);
+    if (this.keyStates.ArrowRight && this.stoppedDirection != Movement.RIGHT) {
+      positionRightEdge ? (this.x = CanvasSize.WIDTH - this.width) : (this.x += this.speed);
       return;
     }
   }
@@ -121,7 +112,7 @@ export default class Tank {
     const newKeystates = Object.values(this.keyStates).slice(0, 4);
 
     if (newKeystates.some((state) => state)) {
-      e.code === MOVEMENT.space && this.updateKeyState(e.code);
+      e.code === Movement.SPACE && this.updateKeyState(e.code);
       return;
     }
 
@@ -145,13 +136,13 @@ export default class Tank {
 
   updateDirection() {
     if (this.keyStates.ArrowLeft) {
-      this.direction = MOVEMENT.left;
+      this.direction = Movement.LEFT;
     } else if (this.keyStates.ArrowRight) {
-      this.direction = MOVEMENT.right;
+      this.direction = Movement.RIGHT;
     } else if (this.keyStates.ArrowUp) {
-      this.direction = MOVEMENT.forward;
+      this.direction = Movement.FORWARD;
     } else if (this.keyStates.ArrowDown) {
-      this.direction = MOVEMENT.reverse;
+      this.direction = Movement.REVERSE;
     }
   }
 
