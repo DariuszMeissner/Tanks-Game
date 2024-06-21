@@ -7,7 +7,7 @@ export default class BotController {
     return this.enemies;
   }
 
-  draw(ctx) {
-    for (let i = 0; i < this.enemies.length; i++) this.enemies[i].draw(ctx);
+  draw(ctx, image) {
+    for (let i = 0; i < this.enemies.length; i++) this.enemies[i].draw(ctx, image);
   }
 }
