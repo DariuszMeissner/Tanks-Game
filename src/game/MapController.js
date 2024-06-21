@@ -1,26 +1,18 @@
-import { ASSETS, COMPENSE_MAP_EDGE_SIZE, MAP_OBJECT } from "./Constant.js";
-import MapElement from "./MapElement.js";
+import { MapObject, AssetsPathsName } from './config/Constant.js';
+import MapElement from './MapElement.js';
 
 export default class MapController {
   constructor(map, tileSize) {
     this.map = map;
     this.tileSize = tileSize;
-    this.canvasHeight = (map.length - COMPENSE_MAP_EDGE_SIZE) * tileSize;
-    this.canvasWidth = (map[0].length - COMPENSE_MAP_EDGE_SIZE) * tileSize;
     this.collisionWallWithBullet = false;
   }
 
-  draw(canvas, ctx, player, bullet, enemies) {
-    this.#setCanvasSize(canvas);
-    this.#drawMap(ctx, player, bullet, enemies);
+  draw(ctx, player, bullet, enemies, assets) {
+    this.#drawMap(ctx, player, bullet, enemies, assets);
   }
 
-  #setCanvasSize(canvas) {
-    canvas.height = this.canvasHeight;
-    canvas.width = this.canvasWidth;
-  }
-
-  #drawMap(ctx, player, bullet, enemies) {
+  #drawMap(ctx, player, bullet, enemies, assets) {
     for (let row = 0; row < this.map.length; row++) {
       for (let column = 0; column < this.map[row].length; column++) {
         const tile = this.map[row][column];
@@ -28,33 +20,68 @@ export default class MapController {
         const y = row * this.tileSize;
 
         switch (tile) {
-          case MAP_OBJECT.wall:
-            this.#handleWall(ctx, x, y, player, bullet, enemies, row, column, ASSETS.wall, tile);
+          case MapObject.WALL:
+            this.#handleWall(ctx, x, y, player, bullet, enemies, row, column, assets.get(AssetsPathsName.WALL), tile);
             break;
-          case MAP_OBJECT.water:
-            this.#handleWall(ctx, x, y, player, bullet, enemies, row, column, ASSETS.water, tile);
+          case MapObject.WATER:
+            this.#handleWall(ctx, x, y, player, bullet, enemies, row, column, assets.get(AssetsPathsName.WATER), tile);
             break;
-          case MAP_OBJECT.grass:
-            this.#handleGrass(ctx, x, y);
+          case MapObject.GRASS:
+            this.#handleGrass(ctx, x, y, assets.get(AssetsPathsName.GRASS));
             break;
-          case MAP_OBJECT.eagle:
-            this.#handleEagle(ctx, x, y, bullet, row, column, tile);
+          case MapObject.EAGLE:
+            this.#handleEagle(ctx, x, y, bullet, row, column, tile, assets.get(AssetsPathsName.EAGLE));
             break;
-          case MAP_OBJECT.eagleDead:
-            this.#handleEagleDead(ctx, x, y, bullet, row, column);
+          case MapObject.EAGLE_DEAD:
+            this.#handleEagleDead(ctx, x, y, bullet, row, column, assets.get(AssetsPathsName.EAGLE_DEAD));
             break;
-          case MAP_OBJECT.road:
-            this.#handleRoad(ctx, x, y, player, enemies);
+          case MapObject.ROAD:
+            this.#handleRoad(ctx, x, y, player, enemies, assets.get(AssetsPathsName.ROAD));
             break;
-          case MAP_OBJECT.mapEdge:
-            this.#handleWall(ctx, x, y, player, bullet, enemies, row, column, ASSETS.mapEdge, tile);
+          case MapObject.MAP_EDGE:
+            this.#handleWall(ctx, x, y, player, bullet, enemies, row, column, assets.get(AssetsPathsName.MAP_EDGE), tile);
             break;
-          case MAP_OBJECT.rock:
-            this.#handleWall(ctx, x, y, player, bullet, enemies, row, column, ASSETS.rock, tile);
+          case MapObject.ROCK:
+            this.#handleWall(ctx, x, y, player, bullet, enemies, row, column, assets.get(AssetsPathsName.ROCK), tile);
             break;
         }
       }
     }
+  }
+
+  #handleWall(ctx, x, y, player, bullet, enemies, row, column, objectDesign, objectType) {
+    const wall = new MapElement(x, y, this.tileSize);
+
+    wall.draw(ctx, objectDesign);
+    wall.detectCollisionWithPlayer(wall, player);
+    wall.detectCollisionWithBot(wall, enemies);
+
+    this.#handleCollisionWithBullet(wall, bullet, row, column, objectType);
+  }
+
+  #handleGrass(ctx, x, y, objectDesign) {
+    const grass = new MapElement(x, y, this.tileSize);
+    grass.draw(ctx, objectDesign);
+  }
+
+  #handleEagleDead(ctx, x, y, objectDesign) {
+    const eagle = new MapElement(x, y, this.tileSize);
+    eagle.draw(ctx, objectDesign);
+  }
+
+  #handleEagle(ctx, x, y, bullet, row, column, objectType, objectDesign) {
+    const eagle = new MapElement(x, y, this.tileSize);
+    eagle.draw(ctx, objectDesign);
+    this.#handleCollisionWithBullet(eagle, bullet, row, column, objectType);
+  }
+
+  #handleRoad(ctx, x, y, player, enemies, objectDesign) {
+    const road = new MapElement(x, y, this.tileSize);
+    road.draw(ctx, objectDesign);
+
+    road.detectCollisionPlayerWithBot(player, enemies);
+    road.detectCollisionBotWithPlayer(player, enemies);
+    road.detectCollisionsBetweenBots(enemies);
   }
 
   #handleCollisionWithBullet(mapElement, bullet, row, column, objectType) {
@@ -62,57 +89,23 @@ export default class MapController {
 
     if (isCollisionBullet) {
       switch (objectType) {
-        case MAP_OBJECT.wall:
-          this.map[row][column] = MAP_OBJECT.road;
+        case MapObject.WALL:
+          this.map[row][column] = MapObject.ROAD;
           this.collisionWallWithBullet = true;
           break;
-        case MAP_OBJECT.mapEdge:
+        case MapObject.MAP_EDGE:
           this.collisionWallWithBullet = true;
           break;
-        case MAP_OBJECT.rock:
+        case MapObject.ROCK:
           this.collisionWallWithBullet = true;
           break;
-        case MAP_OBJECT.eagle:
-          this.map[row][column] = MAP_OBJECT.eagleDead;
+        case MapObject.EAGLE:
+          this.map[row][column] = MapObject.EAGLE_DEAD;
           this.collisionWallWithBullet = true;
           break;
         default:
           break;
       }
     }
-  }
-
-  #handleWall(ctx, x, y, player, bullet, enemies, row, column, objectDesign, objectType) {
-    const wall = new MapElement(x, y, objectType === MAP_OBJECT.mapEdge ? 2 : this.tileSize, objectDesign);
-
-    wall.draw(ctx);
-    wall.detectCollisionWithPlayer(wall, player);
-    wall.detectCollisionWithBot(wall, enemies);
-
-    this.#handleCollisionWithBullet(wall, bullet, row, column, objectType);
-  }
-
-  #handleGrass(ctx, x, y) {
-    const grass = new MapElement(x, y, this.tileSize, ASSETS.grass);
-    grass.draw(ctx);
-  }
-
-  #handleEagleDead(ctx, x, y) {
-    const eagle = new MapElement(x, y, this.tileSize, ASSETS.eagleDead);
-    eagle.draw(ctx);
-  }
-
-  #handleEagle(ctx, x, y, bullet, row, column, object) {
-    const eagle = new MapElement(x, y, this.tileSize, ASSETS.eagle);
-    eagle.draw(ctx);
-    this.#handleCollisionWithBullet(eagle, bullet, row, column, object);
-  }
-
-  #handleRoad(ctx, x, y, player, enemies) {
-    const road = new MapElement(x, y, this.tileSize, ASSETS.road);
-    road.draw(ctx);
-    road.detectCollisionPlayerWithBot(player, enemies);
-    road.detectCollisionBotWithPlayer(player, enemies);
-    road.detectCollisionsBetweenBots(enemies);
   }
 }
