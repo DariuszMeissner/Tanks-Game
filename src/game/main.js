@@ -1,4 +1,4 @@
-import Tank from './Tank.js';
+import Player from './Player.js';
 import Bot from './Bot.js';
 import BulletController from './BulletController.js';
 import BotController from './BotController.js';
@@ -16,7 +16,7 @@ const enemies = [
 ];
 const botController = new BotController(enemies);
 const playerBulletController = new BulletController(mapController, botController);
-const player = new Tank(160, 120, GameSettings.TILE_SIZE, GameSettings.TILE_SIZE, playerBulletController);
+const player = new Player(160, 120, GameSettings.TILE_SIZE, GameSettings.TILE_SIZE, playerBulletController);
 
 // const bot1BulletController = new BulletController(mapController, [player]);
 // const bot2BulletController = new BulletController(mapController, [player]);

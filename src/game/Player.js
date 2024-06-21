@@ -1,6 +1,6 @@
 import { CanvasSize, Movement } from './config/Constant.js';
 
-export default class Tank {
+export default class Player {
   constructor(x, y, width, height, bulletController) {
     this.x = x;
     this.y = y;
@@ -68,7 +68,14 @@ export default class Tank {
     if (this.keyStates.Space) {
       const bulletX = this.x + (this.width / 5) * 2;
       const bulletY = this.y + this.height / 2;
-      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction);
+      this.bulletController.shoot(
+        bulletX,
+        bulletY,
+        this.bulletSpeed,
+        this.bulletDamage,
+        this.bulletDelay,
+        this.direction
+      );
     }
   }
 
