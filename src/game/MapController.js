@@ -6,6 +6,7 @@ export default class MapController {
     this.map = map;
     this.tileSize = tileSize;
     this.collisionWallWithBullet = false;
+    this.endGame = false;
   }
 
   draw(ctx, player, playerBullets, enemies, assets) {
@@ -108,6 +109,7 @@ export default class MapController {
         case MapObject.EAGLE:
           this.map[row][column] = MapObject.EAGLE_DEAD;
           this.collisionWallWithBullet = true;
+          this.endGame = true;
           break;
         default:
           break;
@@ -133,6 +135,7 @@ export default class MapController {
           case MapObject.EAGLE:
             this.map[row][column] = MapObject.EAGLE_DEAD;
             this.collisionWallWithBullet = true;
+            this.endGame = true;
             break;
           default:
             break;
