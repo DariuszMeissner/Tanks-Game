@@ -3,7 +3,7 @@ import Bot from './Bot.js';
 import BotController from './BotController.js';
 import MapController from './MapController.js';
 import AssetsService from './service/AssetsService.js';
-import { AssetsPaths, AssetsPathsName, GameSettings, Map, CanvasSize } from './config/Constant.js';
+import { AssetsPaths, AssetsPathsName, GameSettings, Map, CanvasSize, MapObject } from './config/Constant.js';
 import PlayersController from './PlayersController.js';
 
 const assetsService = new AssetsService();
@@ -73,4 +73,10 @@ export function main(ctx, time) {
     botController.enemies,
     assetsService.assets
   );
+
+  if (mapController.endGame) {
+    ctx.font = '50px Arial';
+    ctx.fillStyle = 'red';
+    ctx.fillText('The End', CanvasSize.WIDTH / 3, CanvasSize.HEIGHT / 2);
+  }
 }
