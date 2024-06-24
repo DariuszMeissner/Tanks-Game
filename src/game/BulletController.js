@@ -8,15 +8,15 @@ export default class BulletController {
     this.enemyController = enemyController;
   }
 
-  draw(ctx, player) {
+  draw(ctx, tank) {
     this.bullets.forEach((bullet) => {
       if (this.isBulletOutOfScreen(bullet)) {
         this.removeBulletOutOfScreen(bullet);
       }
 
       bullet.draw(ctx);
-      this.detectCollisionWithTank(player);
-      this.detectCollisionWithWall(player);
+      this.detectCollisionWithEnemy(tank);
+      this.detectCollisionWithWall(tank);
     });
   }
 
@@ -26,16 +26,16 @@ export default class BulletController {
     }
   }
 
-  detectCollisionWithWall(player) {
+  detectCollisionWithWall(tank) {
     if (this.mapController.collisionWallWithBullet) {
       this.bullets = [];
       this.mapController.collisionWallWithBullet = false;
 
-      player.unblockDirection();
+      tank.unblockDirection();
     }
   }
 
-  detectCollisionWithTank(player) {
+  detectCollisionWithEnemy(tank) {
     this.bullets.forEach((bullet) => {
       this.enemyController.enemies.forEach((bot, index) => {
         const isColision =
@@ -47,7 +47,7 @@ export default class BulletController {
         if (isColision) {
           this.enemyController.enemies.splice(index, 1);
           this.bullets = [];
-          player.unblockDirection();
+          tank.unblockDirection();
         }
       });
     });

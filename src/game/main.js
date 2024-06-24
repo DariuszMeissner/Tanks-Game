@@ -1,26 +1,25 @@
 import Player from './Player.js';
 import Bot from './Bot.js';
-import BulletController from './BulletController.js';
 import BotController from './BotController.js';
 import MapController from './MapController.js';
 import AssetsService from './service/AssetsService.js';
-import { AssetsPaths, AssetsPathsName, GameSettings, Map } from './config/Constant.js';
+import { AssetsPaths, AssetsPathsName, GameSettings, Map, CanvasSize } from './config/Constant.js';
+import PlayersController from './PlayersController.js';
 
 const assetsService = new AssetsService();
-
 const mapController = new MapController(Map, GameSettings.TILE_SIZE);
-const enemies = [
-  new Bot(1, 160, 180, GameSettings.TILE_SIZE, GameSettings.TILE_SIZE),
-  new Bot(2, 130, 60, GameSettings.TILE_SIZE, GameSettings.TILE_SIZE),
-  new Bot(3, 260, 120, GameSettings.TILE_SIZE, GameSettings.TILE_SIZE),
-];
-const botController = new BotController(enemies);
-const playerBulletController = new BulletController(mapController, botController);
-const player = new Player(160, 120, GameSettings.TILE_SIZE, GameSettings.TILE_SIZE, playerBulletController);
 
-// const bot1BulletController = new BulletController(mapController, [player]);
-// const bot2BulletController = new BulletController(mapController, [player]);
-// const bot3BulletController = new BulletController(mapController, [player]);
+const enemies = [
+  new Bot(1, 160, 180, GameSettings.TILE_SIZE - 4, GameSettings.TILE_SIZE - 4),
+  new Bot(2, 130, 80, GameSettings.TILE_SIZE - 4, GameSettings.TILE_SIZE - 4),
+  new Bot(3, 260, 120, GameSettings.TILE_SIZE - 4, GameSettings.TILE_SIZE - 4),
+];
+const players = [new Player(160, 120, GameSettings.TILE_SIZE - 4, GameSettings.TILE_SIZE - 4, mapController, null)];
+
+const playersController = new PlayersController(players, mapController);
+const botController = new BotController(enemies, mapController, playersController);
+
+players[0].bulletController.enemyController = botController;
 
 export async function init() {
   await assetsService.load([
@@ -37,7 +36,7 @@ export async function init() {
   ]);
 }
 
-export function main(context, time) {
+export function main(ctx, time) {
   const imageRoad = assetsService.assets.get(AssetsPathsName.ROAD);
   const imageWall = assetsService.assets.get(AssetsPathsName.WALL);
   const imageWater = assetsService.assets.get(AssetsPathsName.WATER);
@@ -63,10 +62,15 @@ export function main(context, time) {
   )
     return;
 
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-  player.draw(context, imageTankPlayer);
-  botController.draw(context, imageTankEnemy);
-  mapController.draw(context, player, playerBulletController.bullets[0], botController.enemies, assetsService.assets);
-  playerBulletController.draw(context, player);
+  playersController.draw(ctx, imageTankPlayer);
+  // botController.draw(ctx, imageTankEnemy);
+  mapController.draw(
+    ctx,
+    playersController.enemies[0],
+    playersController.enemies[0]?.bulletController.bullets[0] || null,
+    botController.enemies,
+    assetsService.assets
+  );
 }

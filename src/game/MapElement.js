@@ -68,8 +68,6 @@ export default class MapElement {
 
   handleCollision(objectOfCollision, tank) {
     if (this.detectCollisionFrontOfTank(objectOfCollision, tank, tank.direction)) {
-      console.log('collision:', 'id:' + tank.id, tank.x, tank.y, tank.direction, tank.timeoutId);
-
       tank.speed = 0;
       tank.changeDirection();
 
@@ -92,6 +90,8 @@ export default class MapElement {
   }
 
   detectCollisionWithPlayer(mapElement, player) {
+    if (!player) return;
+
     if (this.detectCollisionFrontOfTank(mapElement, player, player.direction)) {
       player.blockDirection();
       player.collisionWithWall = true;
@@ -99,6 +99,8 @@ export default class MapElement {
   }
 
   detectCollisionPlayerWithBot(player, enemies) {
+    if (!player) return;
+
     for (const bot of enemies) {
       if (this.detectCollisionFrontOfTank(bot, player, player.direction)) {
         player.blockDirection();

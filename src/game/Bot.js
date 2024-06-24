@@ -1,7 +1,7 @@
 import { Movement } from './config/Constant.js';
 
 export default class Bot {
-  constructor(id, x, y, width, height, bulletController) {
+  constructor(id, x, y, width, height) {
     this.id = id;
     this.x = x;
     this.y = y;
@@ -13,11 +13,13 @@ export default class Bot {
     this.direction = null;
     this.directions = [Movement.FORWARD, Movement.REVERSE, Movement.LEFT, Movement.RIGHT];
     this.bullets = [];
-    this.bulletSpeed = 2;
+    this.bulletSpeed = 3;
     this.bulletDamage = 1;
     this.timeoutId = null;
     this.isDelayed = false;
-    this.bulletController = bulletController;
+    this.bulletController = null;
+    this.timeoutId = null;
+    this.bulletTimeoutId = null;
   }
 
   draw(ctx, image) {
@@ -49,15 +51,27 @@ export default class Bot {
 
       ctx.restore();
 
-      // this.shoot();
+      this.shoot();
     }
   }
 
   shoot() {
-    setInterval(() => {
+    if (this.bulletTimeoutId) return;
+
+    this.bulletTimeoutId = setTimeout(() => {
       const bulletX = this.x + (this.width / 5) * 2;
       const bulletY = this.y + this.height / 2;
-      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction);
+      this.bulletController.shoot(
+        bulletX,
+        bulletY,
+        this.bulletSpeed,
+        this.bulletDamage,
+        this.bulletDelay,
+        this.direction
+      );
+
+      clearTimeout(this.bulletTimeoutId);
+      this.bulletTimeoutId = null;
     }, 5000);
   }
 
@@ -85,5 +99,13 @@ export default class Bot {
   changeDirection() {
     const newDirections = this.directions.filter((direction) => direction !== this.direction);
     this.direction = newDirections[Math.floor(Math.random() * newDirections.length)];
+  }
+
+  blockDirection() {
+    this.speed = 0;
+  }
+
+  unblockDirection() {
+    this.speed = 2;
   }
 }

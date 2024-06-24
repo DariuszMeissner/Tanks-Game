@@ -1,7 +1,8 @@
+import BulletController from './BulletController.js';
 import { CanvasSize, Movement } from './config/Constant.js';
 
 export default class Player {
-  constructor(x, y, width, height, bulletController) {
+  constructor(x, y, width, height, mapController) {
     this.x = x;
     this.y = y;
     this.previousX = null;
@@ -11,8 +12,8 @@ export default class Player {
     this.widthOriginal = width;
     this.heightOriginal = height;
     this.speed = 2;
-    this.bulletController = bulletController;
-    this.bulletSpeed = 3.3;
+    this.bulletController = new BulletController(mapController, null);
+    this.bulletSpeed = 3;
     this.bulletDelay = 10;
     this.bulletDamage = 1;
     this.direction = Movement.FORWARD;
@@ -34,6 +35,7 @@ export default class Player {
   draw(ctx, image) {
     if (image instanceof Image) {
       this.move();
+      this.bulletController.draw(ctx, this);
 
       ctx.save();
       ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
