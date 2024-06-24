@@ -65,7 +65,7 @@ export function main(ctx, time) {
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
   playersController.draw(ctx, imageTankPlayer);
-  // botController.draw(ctx, imageTankEnemy);
+  botController.draw(ctx, imageTankEnemy);
   mapController.draw(
     ctx,
     playersController.enemies[0],
