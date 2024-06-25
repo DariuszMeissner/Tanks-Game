@@ -1,4 +1,4 @@
-import { CanvasSize } from './config/Constant.js';
+import { CanvasSize } from './constant/Constant.js';
 import { init, main } from './main.js';
 
 function getContext() {

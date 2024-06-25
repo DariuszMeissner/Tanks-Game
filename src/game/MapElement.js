@@ -1,4 +1,4 @@
-import { GameSettings, Movement } from './config/Constant.js';
+import { GameSettings, Movement } from './constant/Constant.js';
 
 export default class MapElement {
   constructor(x, y, tileSize) {

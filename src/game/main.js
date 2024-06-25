@@ -3,7 +3,7 @@ import Bot from './Bot.js';
 import BotController from './BotController.js';
 import MapController from './MapController.js';
 import AssetsService from './service/AssetsService.js';
-import { AssetsPaths, AssetsPathsName, GameSettings, Map, CanvasSize, MapObject } from './config/Constant.js';
+import { AssetsPaths, AssetsPathsName, GameSettings, Map, CanvasSize, MapObject } from './constant/Constant.js';
 import PlayersController from './PlayersController.js';
 
 const assetsService = new AssetsService();

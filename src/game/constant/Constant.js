@@ -67,16 +67,16 @@ const AssetsPathsName = {
 };
 
 const AssetsPaths = {
-  ROAD: '/../../assets/road_square.png',
-  WALL: './../../assets/brick_square.png',
-  WATER: './../../assets/water_square.png',
-  GRASS: './../../assets/grass_square.png',
-  EAGLE: './../../assets/eagle_live.png',
-  EAGLE_DEAD: './../../assets/eagle_dead.png',
-  MAP_EDGE: '/../../assets/map_edge.png',
-  ROCK: './../../assets/rock_square.png',
-  TANK_PLAYER: './../../assets/tank_player.png',
-  TANK_ENEMY: './../../assets/tank_enemy.png',
+  ROAD: '/../../assets/images/road_square.png',
+  WALL: './../../assets/images/brick_square.png',
+  WATER: './../../assets/images/water_square.png',
+  GRASS: './../../assets/images/grass_square.png',
+  EAGLE: './../../assets/images/eagle_live.png',
+  EAGLE_DEAD: './../../assets/images/eagle_dead.png',
+  MAP_EDGE: '/../../assets/images/map_edge.png',
+  ROCK: './../../assets/images/rock_square.png',
+  TANK_PLAYER: './../../assets/images/tank_player.png',
+  TANK_ENEMY: './../../assets/images/tank_enemy.png',
 };
 
 const GameSettings = {

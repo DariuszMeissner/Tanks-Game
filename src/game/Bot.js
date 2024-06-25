@@ -1,4 +1,4 @@
-import { Movement } from './config/Constant.js';
+import { Movement } from './constant/Constant.js';
 
 export default class Bot {
   constructor(x, y, width, height) {

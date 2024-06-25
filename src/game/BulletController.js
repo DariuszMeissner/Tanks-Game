@@ -1,5 +1,5 @@
 import Bullet from './Bullet.js';
-import { CanvasSize } from './config/Constant.js';
+import { CanvasSize } from './constant/Constant.js';
 
 export default class BulletController {
   bullets = [];

@@ -1,5 +1,5 @@
 import BulletController from './BulletController.js';
-import { CanvasSize, Movement } from './config/Constant.js';
+import { CanvasSize, Movement } from './constant/Constant.js';
 
 export default class Player {
   constructor(x, y, width, height, mapController) {
@@ -70,14 +70,7 @@ export default class Player {
     if (this.keyStates.Space) {
       const bulletX = this.x + (this.width / 5) * 2;
       const bulletY = this.y + this.height / 2;
-      this.bulletController.shoot(
-        bulletX,
-        bulletY,
-        this.bulletSpeed,
-        this.bulletDamage,
-        this.bulletDelay,
-        this.direction
-      );
+      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction);
     }
   }
 

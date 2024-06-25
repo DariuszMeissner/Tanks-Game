@@ -1,4 +1,4 @@
-import { MapObject, AssetsPathsName } from './config/Constant.js';
+import { MapObject, AssetsPathsName } from './constant/Constant.js';
 import MapElement from './MapElement.js';
 
 export default class MapController {
