@@ -10,9 +10,10 @@ const assetsService = new AssetsService();
 const mapController = new MapController(Map, GameSettings.TILE_SIZE);
 
 const enemies = [
-  new Bot(1, 160, 180, GameSettings.TILE_SIZE - 4, GameSettings.TILE_SIZE - 4),
-  new Bot(2, 130, 80, GameSettings.TILE_SIZE - 4, GameSettings.TILE_SIZE - 4),
-  new Bot(3, 260, 120, GameSettings.TILE_SIZE - 4, GameSettings.TILE_SIZE - 4),
+  new Bot(160, 180, GameSettings.TILE_SIZE - 4, GameSettings.TILE_SIZE - 4),
+  new Bot(130, 80, GameSettings.TILE_SIZE - 4, GameSettings.TILE_SIZE - 4),
+  new Bot(260, 120, GameSettings.TILE_SIZE - 4, GameSettings.TILE_SIZE - 4),
+  new Bot(200, 200, GameSettings.TILE_SIZE - 4, GameSettings.TILE_SIZE - 4),
 ];
 const players = [new Player(160, 120, GameSettings.TILE_SIZE - 4, GameSettings.TILE_SIZE - 4, mapController, null)];
 
@@ -70,13 +71,23 @@ export function main(ctx, time) {
     ctx,
     playersController.enemies[0],
     playersController.enemies[0]?.bulletController.bullets[0] || null,
-    botController.enemies,
+    botController.enemies.slice(0, 2),
     assetsService.assets
   );
+
+  ctx.font = '20px Arial';
+  ctx.fillStyle = 'black';
+  ctx.fillText(botController.enemies.length, CanvasSize.WIDTH - 28, CanvasSize.HEIGHT / 2);
 
   if (mapController.endGame) {
     ctx.font = '50px Arial';
     ctx.fillStyle = 'red';
     ctx.fillText('The End', CanvasSize.WIDTH / 3, CanvasSize.HEIGHT / 2);
+  }
+
+  if (mapController.winGame) {
+    ctx.font = '50px Arial';
+    ctx.fillStyle = 'green';
+    ctx.fillText('You win game!', CanvasSize.WIDTH / 3, CanvasSize.HEIGHT / 2);
   }
 }

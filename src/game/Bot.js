@@ -1,8 +1,7 @@
 import { Movement } from './config/Constant.js';
 
 export default class Bot {
-  constructor(id, x, y, width, height) {
-    this.id = id;
+  constructor(x, y, width, height) {
     this.x = x;
     this.y = y;
     this.speed = 2;
@@ -61,14 +60,7 @@ export default class Bot {
     this.bulletTimeoutId = setTimeout(() => {
       const bulletX = this.x + (this.width / 5) * 2;
       const bulletY = this.y + this.height / 2;
-      this.bulletController.shoot(
-        bulletX,
-        bulletY,
-        this.bulletSpeed,
-        this.bulletDamage,
-        this.bulletDelay,
-        this.direction
-      );
+      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction);
 
       clearTimeout(this.bulletTimeoutId);
       this.bulletTimeoutId = null;

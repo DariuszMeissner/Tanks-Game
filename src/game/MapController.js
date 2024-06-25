@@ -7,6 +7,7 @@ export default class MapController {
     this.tileSize = tileSize;
     this.collisionWallWithBullet = false;
     this.endGame = false;
+    this.winGame = false;
   }
 
   draw(ctx, player, playerBullets, enemies, assets) {
