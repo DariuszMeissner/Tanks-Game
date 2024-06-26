@@ -1,22 +1,21 @@
 import BulletController from './BulletController.js';
-import { CanvasSize, Movement } from './constant/Constant.js';
+import { Control } from '../constants/controls.js';
+import { PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/game.js';
 
 export default class Player {
-  constructor(x, y, width, height, mapController) {
+  constructor(x, y, width, height) {
     this.x = x;
     this.y = y;
     this.previousX = null;
     this.previousY = null;
     this.width = width;
     this.height = height;
-    this.widthOriginal = width;
-    this.heightOriginal = height;
-    this.speed = 2;
-    this.bulletController = new BulletController(mapController, null);
+    this.speed = PLAYER_SPEED;
+    this.bulletController = new BulletController(null, null);
     this.bulletSpeed = 3;
     this.bulletDelay = 10;
     this.bulletDamage = 1;
-    this.direction = Movement.FORWARD;
+    this.direction = Control.UP;
     this.stoppedDirection = false;
     this.collisionWithWall = false;
     this.collisionWithBot = false;
@@ -42,16 +41,16 @@ export default class Player {
 
       let angle;
       switch (this.direction) {
-        case Movement.FORWARD:
+        case Control.UP:
           angle = 0;
           break;
-        case Movement.REVERSE:
+        case Control.DOWN:
           angle = Math.PI;
           break;
-        case Movement.LEFT:
+        case Control.LEFT:
           angle = -Math.PI / 2;
           break;
-        case Movement.RIGHT:
+        case Control.RIGHT:
           angle = Math.PI / 2;
           break;
       }
@@ -85,28 +84,18 @@ export default class Player {
     }
 
     const positionTopEdge = this.y <= 0;
-    const positionBottomEdge = this.y >= CanvasSize.HEIGHT - this.height;
+    const positionBottomEdge = this.y >= SCREEN_HEIGHT - this.height;
     const positionLeftEdge = this.x <= 0;
-    const positionRightEdge = this.x >= CanvasSize.WIDTH - this.width;
+    const positionRightEdge = this.x >= SCREEN_WIDTH - this.width;
 
-    if (this.keyStates.ArrowUp && this.stoppedDirection != Movement.FORWARD) {
+    if (this.keyStates.ArrowUp && this.stoppedDirection != Control.UP) {
       positionTopEdge ? (this.y = 0) : (this.y -= this.speed);
-      return;
-    }
-
-    if (this.keyStates.ArrowDown && this.stoppedDirection != Movement.REVERSE) {
-      positionBottomEdge ? (this.y = CanvasSize.HEIGHT - this.height) : (this.y += this.speed);
-      return;
-    }
-
-    if (this.keyStates.ArrowLeft && this.stoppedDirection != Movement.LEFT) {
+    } else if (this.keyStates.ArrowDown && this.stoppedDirection != Control.DOWN) {
+      positionBottomEdge ? (this.y = SCREEN_HEIGHT - this.height) : (this.y += this.speed);
+    } else if (this.keyStates.ArrowLeft && this.stoppedDirection != Control.LEFT) {
       positionLeftEdge ? (this.x = 0) : (this.x -= this.speed);
-      return;
-    }
-
-    if (this.keyStates.ArrowRight && this.stoppedDirection != Movement.RIGHT) {
-      positionRightEdge ? (this.x = CanvasSize.WIDTH - this.width) : (this.x += this.speed);
-      return;
+    } else if (this.keyStates.ArrowRight && this.stoppedDirection != Control.RIGHT) {
+      positionRightEdge ? (this.x = SCREEN_WIDTH - this.width) : (this.x += this.speed);
     }
   }
 
@@ -114,7 +103,7 @@ export default class Player {
     const newKeystates = Object.values(this.keyStates).slice(0, 4);
 
     if (newKeystates.some((state) => state)) {
-      e.code === Movement.SPACE && this.updateKeyState(e.code);
+      e.code === Control.SPACE && this.updateKeyState(e.code);
       return;
     }
 
@@ -138,13 +127,13 @@ export default class Player {
 
   updateDirection() {
     if (this.keyStates.ArrowLeft) {
-      this.direction = Movement.LEFT;
+      this.direction = Control.LEFT;
     } else if (this.keyStates.ArrowRight) {
-      this.direction = Movement.RIGHT;
+      this.direction = Control.RIGHT;
     } else if (this.keyStates.ArrowUp) {
-      this.direction = Movement.FORWARD;
+      this.direction = Control.UP;
     } else if (this.keyStates.ArrowDown) {
-      this.direction = Movement.REVERSE;
+      this.direction = Control.DOWN;
     }
   }
 

@@ -1,16 +1,17 @@
-import { Movement } from './constant/Constant.js';
+import { Control } from '../constants/controls.js';
+import { BOT_SPEED } from '../constants/game.js';
 
 export default class Bot {
   constructor(x, y, width, height) {
     this.x = x;
     this.y = y;
-    this.speed = 2;
+    this.speed = BOT_SPEED;
     this.width = width;
     this.height = height;
     this.previousX = null;
     this.previousY = null;
     this.direction = null;
-    this.directions = [Movement.FORWARD, Movement.REVERSE, Movement.LEFT, Movement.RIGHT];
+    this.directions = [Control.UP, Control.DOWN, Control.LEFT, Control.RIGHT];
     this.bullets = [];
     this.bulletSpeed = 3;
     this.bulletDamage = 1;
@@ -30,16 +31,16 @@ export default class Bot {
 
       let angle;
       switch (this.direction) {
-        case Movement.FORWARD:
+        case Control.UP:
           angle = 0;
           break;
-        case Movement.REVERSE:
+        case Control.DOWN:
           angle = Math.PI;
           break;
-        case Movement.LEFT:
+        case Control.LEFT:
           angle = -Math.PI / 2;
           break;
-        case Movement.RIGHT:
+        case Control.RIGHT:
           angle = Math.PI / 2;
           break;
       }
@@ -73,16 +74,16 @@ export default class Bot {
     }
 
     switch (this.direction) {
-      case Movement.FORWARD:
+      case Control.UP:
         this.y -= this.speed;
         break;
-      case Movement.REVERSE:
+      case Control.DOWN:
         this.y += this.speed;
         break;
-      case Movement.LEFT:
+      case Control.LEFT:
         this.x -= this.speed;
         break;
-      case Movement.RIGHT:
+      case Control.RIGHT:
         this.x += this.speed;
         break;
     }

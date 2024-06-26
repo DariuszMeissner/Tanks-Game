@@ -1,5 +1,5 @@
 import Bullet from './Bullet.js';
-import { CanvasSize } from './constant/Constant.js';
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants/game.js';
 
 export default class BulletController {
   bullets = [];
@@ -56,9 +56,9 @@ export default class BulletController {
   isBulletOutOfScreen(bullet) {
     return (
       bullet.y <= -bullet.height ||
-      bullet.y >= CanvasSize.HEIGHT + bullet.height ||
+      bullet.y >= SCREEN_HEIGHT + bullet.height ||
       bullet.x <= -bullet.width ||
-      bullet.x >= CanvasSize.WIDTH + bullet.width
+      bullet.x >= SCREEN_WIDTH + bullet.width
     );
   }
 

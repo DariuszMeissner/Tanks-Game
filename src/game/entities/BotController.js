@@ -1,4 +1,4 @@
-import BulletController from './BulletController.js';
+import BulletController from '../entities/BulletController.js';
 
 export default class BotController {
   constructor(enemies, mapController, playersController) {

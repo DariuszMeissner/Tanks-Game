@@ -1,4 +1,5 @@
-import { GameSettings, Movement } from './constant/Constant.js';
+import { Control } from '../constants/controls.js';
+import { BOT_SPEED, BOT_DELAY_START } from '../constants/game.js';
 
 export default class MapElement {
   constructor(x, y, tileSize) {
@@ -19,28 +20,28 @@ export default class MapElement {
     if (!object || !tank) return false;
 
     switch (tankDirection) {
-      case Movement.FORWARD:
+      case Control.UP:
         return (
           object.y < tank.y + tank.height &&
           object.y + object.height > tank.y - this.compenseSpeed &&
           object.x < tank.x + tank.width &&
           object.x + object.width > tank.x
         );
-      case Movement.REVERSE:
+      case Control.DOWN:
         return (
           object.y < tank.y + tank.height + this.compenseSpeed &&
           object.y > tank.y &&
           object.x < tank.x + tank.width &&
           object.x + object.width > tank.x
         );
-      case Movement.LEFT:
+      case Control.LEFT:
         return (
           object.x + object.width > tank.x - this.compenseSpeed &&
           object.x < tank.x + tank.width &&
           object.y < tank.y + tank.height &&
           object.y + object.height > tank.y
         );
-      case Movement.RIGHT:
+      case Control.RIGHT:
         return (
           object.x + object.width > tank.x &&
           object.x < tank.x + tank.width + this.compenseSpeed &&
@@ -60,10 +61,10 @@ export default class MapElement {
     }
 
     enemy.timeoutId = setTimeout(() => {
-      enemy.speed = GameSettings.RESET_SPEED;
+      enemy.speed = BOT_SPEED;
       clearTimeout(enemy.timeoutId);
       enemy.timeoutId = null;
-    }, GameSettings.DELAY_START);
+    }, BOT_DELAY_START);
   }
 
   handleCollision(objectOfCollision, tank) {

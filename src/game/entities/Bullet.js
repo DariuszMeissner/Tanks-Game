@@ -1,3 +1,5 @@
+import { Control } from '../constants/controls.js';
+
 export default class Bullet {
   constructor(x, y, damage, speed, direction) {
     this.x = x;
@@ -13,19 +15,19 @@ export default class Bullet {
 
   draw(ctx) {
     ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height)
+    ctx.fillRect(this.x, this.y, this.width, this.height);
 
     switch (this.direction) {
-      case 'forward':
+      case Control.UP:
         this.y -= this.speed;
         break;
-      case 'reverse':
+      case Control.DOWN:
         this.y += this.speed;
         break;
-      case 'left':
+      case Control.LEFT:
         this.x -= this.speed;
         break;
-      case 'right':
+      case Control.RIGHT:
         this.x += this.speed;
         break;
     }

@@ -1,9 +1,11 @@
-import { MapObject, AssetsPathsName } from './constant/Constant.js';
+import { AssetsPathsName } from '../constants/game.js';
 import MapElement from './MapElement.js';
+import { MapObject } from '../constants/levelsMaps.js';
 
 export default class MapController {
-  constructor(map, tileSize) {
+  constructor(map, tileSize, stage) {
     this.map = map;
+    this.stage = stage;
     this.tileSize = tileSize;
     this.collisionWallWithBullet = false;
     this.endGame = false;
@@ -11,10 +13,10 @@ export default class MapController {
   }
 
   draw(ctx, player, playerBullets, enemies, assets) {
-    this.#drawMap(ctx, player, playerBullets, enemies, assets);
+    this.#update(ctx, player, playerBullets, enemies, assets);
   }
 
-  #drawMap(ctx, player, playerBullets, enemies, assets) {
+  #update(ctx, player, playerBullets, enemies, assets) {
     for (let row = 0; row < this.map.length; row++) {
       for (let column = 0; column < this.map[row].length; column++) {
         const tile = this.map[row][column];

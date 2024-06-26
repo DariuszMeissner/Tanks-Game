@@ -1,4 +1,4 @@
-import { AssetsType, AssetsTypeLookup } from '../constant/Constant.js';
+import { AssetsType, AssetsTypeLookup } from '../constants/game.js';
 
 export default class AssetsService {
   constructor() {
