@@ -1,5 +1,5 @@
 import Bullet from './Bullet.js';
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants/game.js';
+import { isBulletOutOfScreen } from '../../engine/util/collision.js';
 
 export default class BulletController {
   bullets = [];
@@ -10,7 +10,7 @@ export default class BulletController {
 
   draw(ctx, tank) {
     this.bullets.forEach((bullet) => {
-      if (this.isBulletOutOfScreen(bullet)) {
+      if (isBulletOutOfScreen(bullet)) {
         this.removeBulletOutOfScreen(bullet);
       }
 
@@ -51,15 +51,6 @@ export default class BulletController {
         }
       });
     });
-  }
-
-  isBulletOutOfScreen(bullet) {
-    return (
-      bullet.y <= -bullet.height ||
-      bullet.y >= SCREEN_HEIGHT + bullet.height ||
-      bullet.x <= -bullet.width ||
-      bullet.x >= SCREEN_WIDTH + bullet.width
-    );
   }
 
   removeBulletOutOfScreen(bullet) {

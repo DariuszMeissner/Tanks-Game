@@ -18,6 +18,8 @@ export const PLAYER_SPEED = 2;
 export const PLAYER_WIDTH = TILE_SIZE_WIDTH - 4;
 export const PLAYER_HEIGHT = TILE_SIZE_HEIGHT - 4;
 
+export const COMPENSE_SPEED = PLAYER_SPEED;
+
 export const AssetsType = {
   IMAGE: 'image',
   SOUND: 'sound',

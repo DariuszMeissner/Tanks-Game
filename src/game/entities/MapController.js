@@ -1,6 +1,7 @@
 import { AssetsPathsName } from '../constants/game.js';
 import MapElement from './MapElement.js';
 import { MapObject } from '../constants/levelsMaps.js';
+import { detectCollisionWithBullet } from '../../engine/util/collision.js';
 
 export default class MapController {
   constructor(map, tileSize, stage) {
@@ -95,7 +96,7 @@ export default class MapController {
   }
 
   #handleCollisionWithPlayersBullet(mapElement, playerBullets, row, column, objectType) {
-    const isCollisionBullet = mapElement.detectCollisionWithBullet(mapElement, playerBullets);
+    const isCollisionBullet = detectCollisionWithBullet(mapElement, playerBullets);
 
     if (isCollisionBullet) {
       switch (objectType) {
@@ -122,7 +123,7 @@ export default class MapController {
 
   #handleCollisionWithBotsBullet(mapElement, enemies, row, column, objectType) {
     enemies.forEach((enemy) => {
-      const isCollisionBullet = mapElement.detectCollisionWithBullet(mapElement, enemy.bulletController.bullets[0]);
+      const isCollisionBullet = detectCollisionWithBullet(mapElement, enemy.bulletController.bullets[0]);
       if (isCollisionBullet) {
         switch (objectType) {
           case MapObject.WALL:
