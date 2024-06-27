@@ -1,12 +1,28 @@
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../game/constants/game.js';
-import { FONT } from './constant/game.js';
+import { showNotification } from './util/notification.js';
 
 export default class Scene {
   constructor() {}
 
-  drawGameInfo(context, enemiesLength) {
-    context.font = `20px ${FONT}`;
-    context.fillStyle = 'black';
-    context.fillText(enemiesLength, SCREEN_WIDTH - 32, SCREEN_HEIGHT / 2);
+  drawPanel(context, enemiesLength, playerLifes) {}
+
+  maxVisibleEnemies(botController) {
+    return botController.enemies.slice(0, 2);
+  }
+
+  fixPlayersBulletsCircularDependency(player1) {
+    player1.bulletController.enemyController = this.botController;
+    player1.bulletController.mapController = this.stage;
+  }
+
+  showWictoryInfo(context, stage) {
+    if (stage.winGame) {
+      showNotification('Victory!', context, 50, 'green');
+    }
+  }
+
+  showGameOverInfo(context, stage) {
+    if (stage.endGame) {
+      showNotification('Game Over!!', context, 50, 'red');
+    }
   }
 }

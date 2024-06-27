@@ -5,7 +5,6 @@ import PlayersController from '../entities/PlayersController.js';
 import Scene from '../../engine/Scene.js';
 import { MapLevel1 } from '../constants/levelsMaps.js';
 import { TILE_SIZE_WIDTH, BOT_WIDTH, BOT_HEIGHT, AssetsPathsName } from '../constants/game.js';
-import { showNotification } from '../../engine/util/notification.js';
 
 const enemies = [
   new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
@@ -23,7 +22,7 @@ export class Level1Scene extends Scene {
     this.playersController = new PlayersController(players, this.stage);
     this.botController = new BotController(enemies, this.stage, this.playersController);
 
-    this.#fixPlayersBulletsCircularDependency();
+    this.fixPlayersBulletsCircularDependency(this.player1);
   }
 
   draw(context) {
@@ -36,27 +35,14 @@ export class Level1Scene extends Scene {
       context,
       this.playersController.enemies[0],
       this.playersController.enemies[0]?.bulletController.bullets[0] || null,
-      this.#maxVisibleEnemies(),
+      this.maxVisibleEnemies(this.botController),
       this.assets
     );
 
-    if (this.stage.winGame) {
-      showNotification('Victory!', context, 50, 'green');
-    }
+    this.showWictoryInfo(context, this.stage);
 
-    if (this.stage.endGame) {
-      showNotification('The End!', context, 50, 'red');
-    }
+    this.showGameOverInfo(context, this.stage);
 
-    this.drawGameInfo(context, this.botController.enemies.length);
-  }
-
-  #fixPlayersBulletsCircularDependency() {
-    this.player1.bulletController.enemyController = this.botController;
-    this.player1.bulletController.mapController = this.stage;
-  }
-
-  #maxVisibleEnemies() {
-    return this.botController.enemies.slice(0, 2);
+    this.drawPanel(context, this.botController.enemies.length);
   }
 }
