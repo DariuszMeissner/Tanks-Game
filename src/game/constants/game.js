@@ -86,7 +86,7 @@ export const SoundsPaths = {
   FIRING_AT_THE_WALL: '/../../assets/sounds/firing-at-the-wall.ogg',
   FIRING_THE_ENEMY_BIG_TANK: '/../../assets/sounds/firing-the-enemy-big-tank.ogg',
   GAME_OVER: '/../../assets/sounds/game-over.ogg',
-  HIGH_SCORE: '/../../assets/sounds/high-score.ogg',
+  HIGH_SCORE: '/../../assets/sounds/high-score-after-summary-the-level.ogg',
   PAUSE: '/../../assets/sounds/pause.ogg',
   PLAYER_GOT_BONUS_1000_POINTS: '/../../assets/sounds/player-got-bonus-1000-points.ogg',
   PLAYER_TANK_DESTROYED_EAGLE_DESTROYED: '/../../assets/sounds/player-tank-destroyed---eagle-destroyed.ogg',
@@ -95,7 +95,7 @@ export const SoundsPaths = {
   PLAYER_TANK_MOVING: '/../../assets/sounds/player-tank-moving.ogg',
   POWER_UP_APPEARED: '/../../assets/sounds/power-up-appeared.ogg',
   POWER_UP_OBTAINED: '/../../assets/sounds/power-up-obtained.ogg',
-  SCORING_SUMMARY_THE_LEVEL: 'scoring-summary-the-level.ogg',
+  SCORING_SUMMARY_THE_LEVEL: '/../../assets/sounds/scoring-summary-the-level.ogg',
   SLIDING: '/../../assets/sounds/sliding.ogg',
   START_UP: '/../../assets/sounds/start-up.ogg',
 };
