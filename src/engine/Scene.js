@@ -1,4 +1,5 @@
 import { showNotification } from './util/notification.js';
+import { playSound } from './soundHandler.js';
 
 export default class Scene {
   constructor() {}
@@ -24,5 +25,9 @@ export default class Scene {
     if (stage.endGame) {
       showNotification('Game Over!!', context, 50, 'red');
     }
+  }
+
+  playStartUpSound(audio) {
+    playSound(audio);
   }
 }

@@ -4,7 +4,7 @@ import MapController from '../entities/MapController.js';
 import PlayersController from '../entities/PlayersController.js';
 import Scene from '../../engine/Scene.js';
 import { MapLevel1 } from '../constants/levelsMaps.js';
-import { TILE_SIZE_WIDTH, BOT_WIDTH, BOT_HEIGHT, AssetsPathsName } from '../constants/game.js';
+import { TILE_SIZE_WIDTH, BOT_WIDTH, BOT_HEIGHT, AssetsPathsName, SoundsPathsName } from '../constants/game.js';
 
 const enemies = [
   new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
@@ -23,6 +23,8 @@ export class Level1Scene extends Scene {
     this.botController = new BotController(enemies, this.stage, this.playersController);
 
     this.fixPlayersBulletsCircularDependency(this.player1);
+
+    this.playStartUpSound(this.assets.get(SoundsPathsName.START_UP));
   }
 
   draw(context) {
