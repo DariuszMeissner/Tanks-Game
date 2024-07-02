@@ -4,7 +4,7 @@ export const Control = {
   UP: 'up',
   DOWN: 'down',
   ACTION: 'action',
-  START: 'start',
+  ENTER: 'enter',
   ESCAPE: 'escape',
   SPACE: 'Space',
 };
