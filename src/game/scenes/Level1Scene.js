@@ -23,11 +23,11 @@ export class Level1Scene extends Scene {
     this.botController = new BotController(enemies, this.stage, this.playersController);
 
     this.fixPlayersBulletsCircularDependency(this.player1);
-
-    this.playStartUpSound(this.assets.get(SoundsPathsName.START_UP));
   }
 
   draw(context) {
+    this.playStartUpSound(this.assets.get(SoundsPathsName.START_UP));
+
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
     this.playersController.draw(context, this.assets.get(AssetsPathsName.TANK_PLAYER));
