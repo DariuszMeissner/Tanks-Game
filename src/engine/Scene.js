@@ -2,7 +2,15 @@ import { showNotification } from './util/notification.js';
 import { playSound } from './soundHandler.js';
 
 export default class Scene {
-  constructor() {}
+  player1;
+  assets;
+  stage;
+  playersController;
+  botController;
+
+  constructor() {
+    this.startupSoundStarted = false;
+  }
 
   drawPanel(context, enemiesLength, playerLifes) {}
 
@@ -28,6 +36,9 @@ export default class Scene {
   }
 
   playStartUpSound(audio) {
-    playSound(audio);
+    if (!this.startupSoundStarted) {
+      playSound(audio);
+      this.startupSoundStarted = true;
+    }
   }
 }
