@@ -36,9 +36,9 @@ export default class Scene {
   }
 
   playStartUpSound(audio) {
-    if (!this.startupSoundStarted) {
-      playSound(audio);
-      this.startupSoundStarted = true;
-    }
+    if (this.startupSoundStarted) return;
+
+    playSound(audio);
+    this.startupSoundStarted = true;
   }
 }
