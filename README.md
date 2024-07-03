@@ -2,8 +2,7 @@
 
 ### Description
 
-Side project, game "Tanks" based on "The Battle City". Target is to release on Electron framework.
-
+My first games was a retro games and I always wanted to make a game. So continue my programming journey I'm creating game like "Tanks" based on "The Battle City".
 ### Technologies
 
 - JavaScript
