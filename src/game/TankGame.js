@@ -19,7 +19,7 @@ export class TankGame extends Game {
   }
 
   onLoadedComplete = () => {
-    this.startMenu = new StartMenu(this.context);
+    this.startMenu = new StartMenu();
 
     this.scene = new Level1Scene(this.assetsService.assets, players);
   };
