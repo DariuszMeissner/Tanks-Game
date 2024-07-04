@@ -20,6 +20,13 @@ export const PLAYER_HEIGHT = TILE_SIZE_HEIGHT - 4;
 
 export const COMPENSE_SPEED = PLAYER_SPEED;
 
+export const MenuType = {
+  PLAYER_1: '1-player',
+  PLAYERS_2: '2-players',
+};
+
+export const MenuOptions = ['1 Player', '2 Players'];
+
 export const AssetsType = {
   IMAGE: 'image',
   SOUND: 'sound',
