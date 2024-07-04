@@ -16,8 +16,6 @@ export class Menu {
   }
 
   drawMenu(context) {
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-
     this.highlightSelectedOptions(context);
     this.move();
   }
@@ -32,7 +30,7 @@ export class Menu {
         context.fillStyle = 'red';
       }
 
-      context.fillText(option, 50, 50 + index * 50);
+      context.fillText(option, 200, 100 + index * 50);
     });
   }
 
