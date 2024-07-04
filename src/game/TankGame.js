@@ -4,6 +4,7 @@ import Game from '../engine/Game.js';
 import { LoadingScene } from './scenes/LoadingScene.js';
 import { PLAYER_HEIGHT, PLAYER_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants/game.js';
 import Player from './entities/Player.js';
+import { StartMenu } from './entities/StartMenu.js';
 
 const player1 = new Player(160, 120, PLAYER_WIDTH, PLAYER_HEIGHT, null);
 const players = [player1];
@@ -18,6 +19,8 @@ export class TankGame extends Game {
   }
 
   onLoadedComplete = () => {
+    this.startMenu = new StartMenu(this.context);
+
     this.scene = new Level1Scene(this.assetsService.assets, players);
   };
 }
