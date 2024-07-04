@@ -4,7 +4,7 @@ import MapController from '../entities/MapController.js';
 import PlayersController from '../entities/PlayersController.js';
 import Scene from '../../engine/Scene.js';
 import { MapLevel1 } from '../constants/levelsMaps.js';
-import { TILE_SIZE_WIDTH, BOT_WIDTH, BOT_HEIGHT, AssetsPathsName, SoundsPathsName } from '../constants/game.js';
+import { TILE_SIZE_WIDTH, BOT_WIDTH, BOT_HEIGHT, ImagesPathsName, SoundsPathsName } from '../constants/game.js';
 
 const enemies = [
   new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
@@ -30,8 +30,8 @@ export class Level1Scene extends Scene {
 
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
-    this.playersController.draw(context, this.assets.get(AssetsPathsName.TANK_PLAYER));
-    this.botController.draw(context, this.assets.get(AssetsPathsName.TANK_ENEMY));
+    this.playersController.draw(context, this.assets.get(ImagesPathsName.TANK_PLAYER));
+    this.botController.draw(context, this.assets.get(ImagesPathsName.TANK_ENEMY));
 
     this.stage.draw(
       context,

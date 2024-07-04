@@ -1,4 +1,4 @@
-import { AssetsPathsName } from '../constants/game.js';
+import { ImagesPathsName } from '../constants/game.js';
 import MapElement from './MapElement.js';
 import { MapObject } from '../constants/levelsMaps.js';
 import { detectCollisionWithBullet } from '../../engine/util/collision.js';
@@ -26,28 +26,28 @@ export default class MapController {
 
         switch (tile) {
           case MapObject.WALL:
-            this.#handleWall(ctx, x, y, player, playerBullets, enemies, row, column, assets.get(AssetsPathsName.WALL), tile);
+            this.#handleWall(ctx, x, y, player, playerBullets, enemies, row, column, assets.get(ImagesPathsName.WALL), tile);
             break;
           case MapObject.WATER:
-            this.#handleWall(ctx, x, y, player, playerBullets, enemies, row, column, assets.get(AssetsPathsName.WATER), tile);
+            this.#handleWall(ctx, x, y, player, playerBullets, enemies, row, column, assets.get(ImagesPathsName.WATER), tile);
             break;
           case MapObject.GRASS:
-            this.#handleGrass(ctx, x, y, assets.get(AssetsPathsName.GRASS));
+            this.#handleGrass(ctx, x, y, assets.get(ImagesPathsName.GRASS));
             break;
           case MapObject.EAGLE:
-            this.#handleEagle(ctx, x, y, playerBullets, row, column, tile, assets.get(AssetsPathsName.EAGLE), enemies, player);
+            this.#handleEagle(ctx, x, y, playerBullets, row, column, tile, assets.get(ImagesPathsName.EAGLE), enemies, player);
             break;
           case MapObject.EAGLE_DEAD:
-            this.#handleEagleDead(ctx, x, y, assets.get(AssetsPathsName.EAGLE_DEAD));
+            this.#handleEagleDead(ctx, x, y, assets.get(ImagesPathsName.EAGLE_DEAD));
             break;
           case MapObject.ROAD:
-            this.#handleRoad(ctx, x, y, player, enemies, assets.get(AssetsPathsName.ROAD));
+            this.#handleRoad(ctx, x, y, player, enemies, assets.get(ImagesPathsName.ROAD));
             break;
           case MapObject.MAP_EDGE:
-            this.#handleWall(ctx, x, y, player, playerBullets, enemies, row, column, assets.get(AssetsPathsName.MAP_EDGE), tile);
+            this.#handleWall(ctx, x, y, player, playerBullets, enemies, row, column, assets.get(ImagesPathsName.MAP_EDGE), tile);
             break;
           case MapObject.ROCK:
-            this.#handleWall(ctx, x, y, player, playerBullets, enemies, row, column, assets.get(AssetsPathsName.ROCK), tile);
+            this.#handleWall(ctx, x, y, player, playerBullets, enemies, row, column, assets.get(ImagesPathsName.ROCK), tile);
             break;
         }
       }

@@ -1,17 +1,18 @@
 import Scene from '../../engine/Scene.js';
-import { AssetsPathsName, AssetsPaths, SoundsPathsName, SoundsPaths } from '../constants/game.js';
+import { ImagesPathsName, ImagesPaths, SoundsPathsName, SoundsPaths } from '../constants/game.js';
 
 const assetsList = [
-  [AssetsPathsName.ROAD, AssetsPaths.ROAD],
-  [AssetsPathsName.WALL, AssetsPaths.WALL],
-  [AssetsPathsName.WATER, AssetsPaths.WATER],
-  [AssetsPathsName.GRASS, AssetsPaths.GRASS],
-  [AssetsPathsName.EAGLE, AssetsPaths.EAGLE],
-  [AssetsPathsName.EAGLE_DEAD, AssetsPaths.EAGLE_DEAD],
-  [AssetsPathsName.MAP_EDGE, AssetsPaths.MAP_EDGE],
-  [AssetsPathsName.ROCK, AssetsPaths.ROCK],
-  [AssetsPathsName.TANK_PLAYER, AssetsPaths.TANK_PLAYER],
-  [AssetsPathsName.TANK_ENEMY, AssetsPaths.TANK_ENEMY],
+  [ImagesPathsName.ROAD, ImagesPaths.ROAD],
+  [ImagesPathsName.WALL, ImagesPaths.WALL],
+  [ImagesPathsName.WATER, ImagesPaths.WATER],
+  [ImagesPathsName.GRASS, ImagesPaths.GRASS],
+  [ImagesPathsName.EAGLE, ImagesPaths.EAGLE],
+  [ImagesPathsName.EAGLE_DEAD, ImagesPaths.EAGLE_DEAD],
+  [ImagesPathsName.MAP_EDGE, ImagesPaths.MAP_EDGE],
+  [ImagesPathsName.ROCK, ImagesPaths.ROCK],
+  [ImagesPathsName.TANK_PLAYER, ImagesPaths.TANK_PLAYER],
+  [ImagesPathsName.TANK_ENEMY, ImagesPaths.TANK_ENEMY],
+  [ImagesPathsName.MAIN_TEXT, ImagesPaths.MAIN_TEXT],
   [SoundsPathsName.ENEMY_DESTROYED, SoundsPaths.ENEMY_DESTROYED],
   [SoundsPathsName.FIRING_AT_THE_BRICKS, SoundsPaths.FIRING_AT_THE_BRICKS],
   [SoundsPathsName.FIRING_AT_THE_WALL, SoundsPaths.FIRING_AT_THE_WALL],

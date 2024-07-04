@@ -39,7 +39,7 @@ export const AssetsTypeLookup = {
   ogg: AssetsType.SOUND,
 };
 
-export const AssetsPathsName = {
+export const ImagesPathsName = {
   ROAD: 'road',
   WALL: 'wall',
   WATER: 'water',
@@ -50,9 +50,10 @@ export const AssetsPathsName = {
   ROCK: 'rock',
   TANK_PLAYER: 'tank-player',
   TANK_ENEMY: 'tank-enemy',
+  MAIN_TEXT: 'main-text',
 };
 
-export const AssetsPaths = {
+export const ImagesPaths = {
   ROAD: '/../../assets/images/road_square.png',
   WALL: './../../assets/images/brick_square.png',
   WATER: './../../assets/images/water_square.png',
@@ -63,6 +64,7 @@ export const AssetsPaths = {
   ROCK: './../../assets/images/rock_square.png',
   TANK_PLAYER: './../../assets/images/tank_player.png',
   TANK_ENEMY: './../../assets/images/tank_enemy.png',
+  MAIN_TEXT: './../../assets/images/battle-city-main-text.png',
 };
 
 export const SoundsPathsName = {
