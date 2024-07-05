@@ -25,11 +25,12 @@ export const MenuType = {
   PLAYERS_2: '2-players',
 };
 
-export const MenuOptions = ['1 Player', '2 Players'];
+export const MenuOptions = ['1 PLAYER', '2 PLAYERS'];
 
 export const AssetsType = {
   IMAGE: 'image',
   SOUND: 'sound',
+  FONT: 'font',
 };
 
 export const AssetsTypeLookup = {
@@ -37,6 +38,17 @@ export const AssetsTypeLookup = {
   webp: AssetsType.IMAGE,
   mp3: AssetsType.SOUND,
   ogg: AssetsType.SOUND,
+  ttf: AssetsType.FONT,
+};
+
+export const FontsPathsName = {
+  DIGITS_4x7: 'digits-4x7',
+  FONT_7x7: 'font-7x7',
+};
+
+export const FontsPaths = {
+  DIGITS_4x7: './../../assets/fonts/digits-4x7/digits-4x7.ttf',
+  FONT_7x7: './../../assets/fonts/font-7x7/font-7x7.ttf',
 };
 
 export const ImagesPathsName = {
@@ -54,7 +66,7 @@ export const ImagesPathsName = {
 };
 
 export const ImagesPaths = {
-  ROAD: '/../../assets/images/road_square.png',
+  ROAD: './../../assets/images/road_square.png',
   WALL: './../../assets/images/brick_square.png',
   WATER: './../../assets/images/water_square.png',
   GRASS: './../../assets/images/grass_square.png',
