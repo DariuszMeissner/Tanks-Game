@@ -1,5 +1,4 @@
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../game/constants/game.js';
-import { FONT } from '../constant/game.js';
+import { FONT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../game/constants/game.js';
 
 export function showNotification(text, context, size, color) {
   context.font = `${size}px ${FONT}`;
