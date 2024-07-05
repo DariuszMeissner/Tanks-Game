@@ -1,4 +1,4 @@
-import { showNotification } from './util/notification.js';
+import { showNotification } from './util/ui.js';
 import { playSound } from './soundHandler.js';
 
 export default class Scene {
