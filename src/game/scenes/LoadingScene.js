@@ -13,6 +13,7 @@ const assetsList = [
   [ImagesPathsName.TANK_PLAYER, ImagesPaths.TANK_PLAYER],
   [ImagesPathsName.TANK_ENEMY, ImagesPaths.TANK_ENEMY],
   [ImagesPathsName.MAIN_TEXT, ImagesPaths.MAIN_TEXT],
+  [ImagesPathsName.CURSOR, ImagesPaths.CURSOR],
   [SoundsPathsName.ENEMY_DESTROYED, SoundsPaths.ENEMY_DESTROYED],
   [SoundsPathsName.FIRING_AT_THE_BRICKS, SoundsPaths.FIRING_AT_THE_BRICKS],
   [SoundsPathsName.FIRING_AT_THE_WALL, SoundsPaths.FIRING_AT_THE_WALL],

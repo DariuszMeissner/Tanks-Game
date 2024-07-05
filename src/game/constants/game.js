@@ -69,6 +69,7 @@ export const ImagesPathsName = {
   TANK_PLAYER: 'tank-player',
   TANK_ENEMY: 'tank-enemy',
   MAIN_TEXT: 'main-text',
+  CURSOR: 'cursor',
 };
 
 export const ImagesPaths = {
@@ -83,6 +84,7 @@ export const ImagesPaths = {
   TANK_PLAYER: './../../assets/images/tank_player.png',
   TANK_ENEMY: './../../assets/images/tank_enemy.png',
   MAIN_TEXT: './../../assets/images/battle-city-main-text.png',
+  CURSOR: './../../assets/images/tank_player_cursor.png',
 };
 
 export const SoundsPathsName = {

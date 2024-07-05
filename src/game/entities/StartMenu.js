@@ -33,26 +33,27 @@ export class StartMenu extends Menu {
   }
 
   #setStyles(context) {
-    context.font = `24px ${FONT}`;
+    context.font = `20px ${FONT}`;
 
     this.menuOptions.forEach((option, index) => {
       this.#cursorOption(index, context);
 
       context.fillStyle = Colors.WHITE;
-      context.textAlign = 'center';
-      context.fillText(option, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + index * 40);
+      context.textAlign = 'left';
+      context.fillText(option, SCREEN_WIDTH / 2.5, SCREEN_HEIGHT / 2 + index * 40);
     });
   }
 
   #cursorOption(index, context) {
-    const cursor = this.assets.get(ImagesPathsName.TANK_PLAYER);
+    const cursor = this.assets.get(ImagesPathsName.CURSOR);
     const cursorScale = scaleImage(cursor, 0.065);
+    const offset = 120;
 
     if (index === this.selectedOptions) {
       context.drawImage(
         cursor,
-        SCREEN_WIDTH / 2 - 160,
-        SCREEN_HEIGHT / 2 - cursorScale.height + index * 40,
+        SCREEN_WIDTH / 2 - offset,
+        SCREEN_HEIGHT / 2 - cursorScale.height / 1.25 + index * 40,
         cursorScale.width,
         cursorScale.height
       );
