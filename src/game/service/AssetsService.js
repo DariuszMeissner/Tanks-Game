@@ -43,6 +43,23 @@ export default class AssetsService {
     });
   }
 
+  #loadFont(key, fileName, onComplete) {
+    return new Promise((resolve, reject) => {
+      const font = new FontFace(key, `url(${fileName})`);
+
+      font.load().then(
+        () => {
+          resolve({ fileName, font });
+          document.fonts.add(font);
+          this.assets.set(key, font);
+
+          if (typeof onComplete === 'function') onComplete({ fileName, font });
+        },
+        (err) => console.error(err)
+      );
+    });
+  }
+
   async load(assetsArray, onComplete) {
     const promises = assetsArray.map(([key, fileName]) => {
       const extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
@@ -52,6 +69,8 @@ export default class AssetsService {
         return this.#loadImage(key, fileName, onComplete);
       } else if (type === AssetsType.SOUND) {
         return this.#loadSound(key, fileName, onComplete);
+      } else if (type === AssetsType.FONT) {
+        return this.#loadFont(key, fileName, onComplete);
       } else {
         throw new TypeError('Error unknown type');
       }
