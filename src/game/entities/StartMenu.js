@@ -1,12 +1,11 @@
 import { Menu } from '../../engine/Menu.js';
-import { ImagesPaths, MenuOptions, MenuType } from '../constants/game.js';
+import { ImagesPathsName, MenuOptions, MenuType } from '../constants/game.js';
 
 export class StartMenu extends Menu {
-  constructor() {
+  constructor(assets) {
     super();
     this.menuOptions = MenuOptions;
-    this.logoImg = new Image();
-    this.logoImg.src = ImagesPaths.MAIN_TEXT;
+    this.assets = assets;
   }
 
   draw(context, setStage) {
@@ -20,7 +19,7 @@ export class StartMenu extends Menu {
   }
 
   drawLogo(context) {
-    context.drawImage(this.logoImg, 0, 0);
+    context.drawImage(this.assets.get(ImagesPathsName.MAIN_TEXT), 0, 0);
   }
 
   #handlePressEnter(setStage) {
