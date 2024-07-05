@@ -21,7 +21,7 @@ export class Menu {
   }
 
   highlightSelectedOptions(context) {
-    context.font = '40px Arial';
+    context.font = '40px font-7x7';
 
     this.menuOptions.forEach((option, index) => {
       if (index === this.selectedOptions) {
