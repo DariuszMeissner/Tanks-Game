@@ -16,3 +16,7 @@ export function scaleImage(image, scaleValue) {
 
   return { width, height };
 }
+
+export function clearCanvas(context) {
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+}

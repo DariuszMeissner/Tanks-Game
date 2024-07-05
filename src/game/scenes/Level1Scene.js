@@ -5,6 +5,7 @@ import PlayersController from '../entities/PlayersController.js';
 import Scene from '../../engine/Scene.js';
 import { MapLevel1 } from '../constants/levelsMaps.js';
 import { TILE_SIZE_WIDTH, BOT_WIDTH, BOT_HEIGHT, ImagesPathsName, SoundsPathsName } from '../constants/game.js';
+import { clearCanvas } from '../../engine/util/ui.js';
 
 const enemies = [
   new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
@@ -28,7 +29,7 @@ export class Level1Scene extends Scene {
   draw(context) {
     this.playStartUpSound(this.assets.get(SoundsPathsName.START_UP));
 
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    clearCanvas(context);
 
     this.playersController.draw(context, this.assets.get(ImagesPathsName.TANK_PLAYER));
     this.botController.draw(context, this.assets.get(ImagesPathsName.TANK_ENEMY));
