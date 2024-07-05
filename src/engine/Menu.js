@@ -1,3 +1,5 @@
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../game/constants/game.js';
+
 const DEFAULT_MENU_SELECTED = 0;
 
 export class Menu {
@@ -13,25 +15,6 @@ export class Menu {
 
     document.addEventListener('keydown', this.#keydown.bind(this));
     document.addEventListener('keyup', this.#keyup.bind(this));
-  }
-
-  drawMenu(context) {
-    this.highlightSelectedOptions(context);
-    this.move();
-  }
-
-  highlightSelectedOptions(context) {
-    context.font = '40px font-7x7';
-
-    this.menuOptions.forEach((option, index) => {
-      if (index === this.selectedOptions) {
-        context.fillStyle = 'green';
-      } else {
-        context.fillStyle = 'red';
-      }
-
-      context.fillText(option, 200, 100 + index * 50);
-    });
   }
 
   move() {
