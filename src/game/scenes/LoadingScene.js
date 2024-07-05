@@ -1,5 +1,5 @@
 import Scene from '../../engine/Scene.js';
-import { ImagesPathsName, ImagesPaths, SoundsPathsName, SoundsPaths } from '../constants/game.js';
+import { ImagesPathsName, ImagesPaths, SoundsPathsName, SoundsPaths, FontsPathsName, FontsPaths } from '../constants/game.js';
 
 const assetsList = [
   [ImagesPathsName.ROAD, ImagesPaths.ROAD],
@@ -31,6 +31,8 @@ const assetsList = [
   [SoundsPathsName.SLIDING, SoundsPaths.SLIDING],
   [SoundsPathsName.START_UP, SoundsPaths.START_UP],
   [SoundsPathsName.UP, SoundsPaths.UP],
+  [FontsPathsName.DIGITS_4x7, FontsPaths.DIGITS_4x7],
+  [FontsPathsName.FONT_7x7, FontsPaths.FONT_7x7],
 ];
 
 export class LoadingScene extends Scene {
