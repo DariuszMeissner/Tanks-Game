@@ -4,9 +4,8 @@ import { MapObject } from '../constants/levelsMaps.js';
 import { detectCollisionWithBullet } from '../../engine/util/collision.js';
 
 export default class MapController {
-  constructor(map, tileSize, stage) {
+  constructor(map, tileSize) {
     this.map = map;
-    this.stage = stage;
     this.tileSize = tileSize;
     this.collisionWallWithBullet = false;
     this.endGame = false;

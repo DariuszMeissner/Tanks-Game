@@ -12,12 +12,6 @@ export default class Scene {
     this.startupSoundStarted = false;
   }
 
-  drawPanel(context, enemiesLength, playerLifes) {}
-
-  maxVisibleEnemies(botController) {
-    return botController.enemies.slice(0, 2);
-  }
-
   fixPlayersBulletsCircularDependency(player1) {
     player1.bulletController.enemyController = this.botController;
     player1.bulletController.mapController = this.stage;
@@ -40,5 +34,9 @@ export default class Scene {
 
     playSound(audio);
     this.startupSoundStarted = true;
+  }
+
+  maxVisibleEnemies(maxTankOnMap) {
+    return this.botController.enemies.slice(0, maxTankOnMap);
   }
 }

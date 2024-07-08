@@ -1,13 +1,13 @@
 import BulletController from '../entities/BulletController.js';
 
 export default class BotController {
-  constructor(enemies, mapController, playersController) {
+  constructor(enemies, mapController, playersController, maxTankOnMap) {
     this.enemies = enemies.map((enemy) => {
       enemy.bulletController = new BulletController(mapController, playersController);
       return enemy;
     });
     this.mapController = mapController;
-    this.maxTankOnMap = 2;
+    this.maxTankOnMap = maxTankOnMap;
   }
 
   endGame() {
