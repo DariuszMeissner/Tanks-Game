@@ -1,13 +1,13 @@
 import BulletController from '../entities/BulletController.js';
 
 export default class BotController {
-  constructor(enemies, mapController, playersController, maxTankOnMap) {
+  constructor(enemies, mapController, playersController, maxBotOnMap) {
     this.enemies = enemies.map((enemy) => {
       enemy.bulletController = new BulletController(mapController, playersController);
       return enemy;
     });
     this.mapController = mapController;
-    this.maxTankOnMap = maxTankOnMap;
+    this.maxBotOnMap = maxBotOnMap;
   }
 
   endGame() {
@@ -21,11 +21,11 @@ export default class BotController {
       return;
     }
 
-    for (let i = 0; i < this.maxTankOnMap; i++) {
-      if (!this.enemies[i]) return;
-
-      this.enemies[i].draw(context, image);
-      this.enemies[i].bulletController.draw(context, this.enemies[i]);
-    }
+    this.enemies.forEach((bot, index) => {
+      if (index < this.maxBotOnMap) {
+        bot.draw(context, image);
+        bot.bulletController.draw(context, bot);
+      }
+    });
   }
 }

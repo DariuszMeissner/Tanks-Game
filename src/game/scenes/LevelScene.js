@@ -10,12 +10,13 @@ const enemies = [
   new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
   new Bot(230, 80, BOT_WIDTH, BOT_HEIGHT),
   new Bot(280, 130, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(200, 200, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
 ];
 
 export class LevelScene extends Scene {
   constructor(assets, players, stageLevel, maxTankOnMap) {
     super();
+
     this.player1 = players[0];
     this.assets = assets;
     this.stage = new MapController(stageLevel, TILE_SIZE_WIDTH);

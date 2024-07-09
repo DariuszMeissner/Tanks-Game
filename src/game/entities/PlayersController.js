@@ -9,9 +9,9 @@ export default class PlayersController {
   }
 
   draw(ctx, image) {
-    for (let i = 0; i < this.enemies.length; i++) {
-      this.enemies[i].draw(ctx, image);
-      this.enemies[i].bulletController.draw(ctx, this.enemies[i]);
-    }
+    this.enemies.forEach((player) => {
+      player.draw(ctx, image);
+      player.bulletController.draw(ctx, player);
+    });
   }
 }

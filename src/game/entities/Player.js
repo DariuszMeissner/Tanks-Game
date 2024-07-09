@@ -6,8 +6,6 @@ export default class Player {
   constructor(x, y, width, height) {
     this.x = x;
     this.y = y;
-    this.previousX = null;
-    this.previousY = null;
     this.width = width;
     this.height = height;
     this.speed = PLAYER_SPEED;
