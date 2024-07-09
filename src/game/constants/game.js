@@ -1,13 +1,14 @@
-import { MapLevel1 } from './levelsMaps.js';
-
 export const FPS = 60;
 export const FRAME_TIME = 1000 / FPS;
 
 export const SCREEN_WIDTH = 640;
 export const SCREEN_HEIGHT = 640;
 
-export const TILE_SIZE_WIDTH = SCREEN_WIDTH / MapLevel1[0].length;
-export const TILE_SIZE_HEIGHT = SCREEN_WIDTH / MapLevel1.length;
+export const MAP_WIDTH = 12;
+export const MAP_HEIGHT = 12;
+
+export const TILE_SIZE_WIDTH = SCREEN_WIDTH / MAP_WIDTH;
+export const TILE_SIZE_HEIGHT = SCREEN_HEIGHT / MAP_HEIGHT;
 
 export const BOT_SPEED = 2;
 export const BOT_WIDTH = TILE_SIZE_WIDTH - 4;
