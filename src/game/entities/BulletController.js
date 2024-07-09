@@ -37,17 +37,19 @@ export default class BulletController {
 
   detectCollisionWithEnemy(tank) {
     this.bullets.forEach((bullet) => {
-      this.enemyController.enemies.forEach((bot, index) => {
-        const isColision =
-          bullet.x >= bot.x &&
-          bullet.y >= bot.y &&
-          bullet.x + bullet.width <= bot.x + bot.width &&
-          bullet.y + bullet.height <= bot.y + bot.height;
+      this.enemyController.enemies.forEach((enemy, index) => {
+        if (index < this.enemyController?.maxBotOnMap) {
+          const isColision =
+            bullet.x >= enemy.x &&
+            bullet.y >= enemy.y &&
+            bullet.x + bullet.width <= enemy.x + enemy.width &&
+            bullet.y + bullet.height <= enemy.y + enemy.height;
 
-        if (isColision) {
-          this.enemyController.enemies.splice(index, 1);
-          this.bullets = [];
-          tank.unblockDirection();
+          if (isColision) {
+            this.enemyController.enemies.splice(index, 1);
+            this.bullets = [];
+            tank.unblockDirection();
+          }
         }
       });
     });
