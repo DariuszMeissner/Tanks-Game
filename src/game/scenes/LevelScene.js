@@ -16,10 +16,10 @@ const enemies = [
 export class LevelScene extends Scene {
   constructor(assets, players, stageLevel, maxTankOnMap) {
     super();
-
+    this.stageLevel = stageLevel[0].stage;
     this.player1 = players[0];
     this.assets = assets;
-    this.stage = new MapController(stageLevel, TILE_SIZE_WIDTH);
+    this.stage = new MapController(stageLevel.slice(1), TILE_SIZE_WIDTH);
     this.maxTankOnMap = maxTankOnMap;
     this.playersController = new PlayersController(players, this.stage);
     this.botController = new BotController(enemies, this.stage, this.playersController, maxTankOnMap);
