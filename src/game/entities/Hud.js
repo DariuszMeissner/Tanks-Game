@@ -1,10 +1,14 @@
-import { Panel } from '../../engine/Panel';
-import { scaleImage } from '../../engine/util/ui';
-import { Colors, FONT, ImagesPathsName, MAP_WIDTH, TILE_SIZE_WIDTH } from '../constants/game';
+import { Panel } from '../../engine/Panel.js';
+import { scaleImage } from '../../engine/util/ui.js';
+import { Colors, FONT, ImagesPathsName, MAP_WIDTH, TILE_SIZE_WIDTH } from '../constants/game.js';
 
 export class Hud extends Panel {
-  constructor() {
+  constructor(playersController, botController, assets, stageLevel) {
     super();
+    this.playersController = playersController;
+    this.botController = botController;
+    this.assets = assets;
+    this.stageLevel = stageLevel;
   }
 
   draw(context) {
