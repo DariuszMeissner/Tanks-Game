@@ -4,8 +4,8 @@ export const FRAME_TIME = 1000 / FPS;
 export const SCREEN_WIDTH = 640;
 export const SCREEN_HEIGHT = 640;
 
-export const MAP_WIDTH = 12;
-export const MAP_HEIGHT = 12;
+export const MAP_WIDTH = 13;
+export const MAP_HEIGHT = 13;
 
 export const TILE_SIZE_WIDTH = SCREEN_WIDTH / MAP_WIDTH;
 export const TILE_SIZE_HEIGHT = SCREEN_HEIGHT / MAP_HEIGHT;
@@ -30,6 +30,8 @@ export const MenuType = {
 
 export const Colors = {
   WHITE: 'white',
+  BLACK: 'black',
+  GRAY: '#636363',
 };
 
 export const MenuOptions = ['1 PLAYER', '2 PLAYERS'];
@@ -71,6 +73,9 @@ export const ImagesPathsName = {
   TANK_ENEMY: 'tank-enemy',
   MAIN_TEXT: 'main-text',
   CURSOR: 'cursor',
+  STAGE_FLAG: 'stage-flag',
+  PLAYER_LIFE: 'player-life',
+  ENEMY_LIFE: 'enemy-life',
 };
 
 export const ImagesPaths = {
@@ -86,6 +91,9 @@ export const ImagesPaths = {
   TANK_ENEMY: './../../assets/images/tank_enemy.png',
   MAIN_TEXT: './../../assets/images/battle-city-main-text.png',
   CURSOR: './../../assets/images/tank_player_cursor.png',
+  STAGE_FLAG: './../../assets/images/stage_flag.png',
+  PLAYER_LIFE: './../../assets/images/player_life.png',
+  ENEMY_LIFE: './../../assets/images/enemy_life.png',
 };
 
 export const SoundsPathsName = {
