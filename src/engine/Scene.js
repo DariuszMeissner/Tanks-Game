@@ -12,9 +12,11 @@ export default class Scene {
     this.startupSoundStarted = false;
   }
 
-  fixPlayersBulletsCircularDependency(player1) {
-    player1.bulletController.enemyController = this.botController;
-    player1.bulletController.mapController = this.stage;
+  fixPlayersBulletsCircularDependency(players) {
+    players.forEach((player) => {
+      player.bulletController.enemyController = this.botController;
+      player.bulletController.mapController = this.stage;
+    });
   }
 
   showWictoryInfo(context, stage) {
@@ -24,7 +26,7 @@ export default class Scene {
   }
 
   showGameOverInfo(context, stage) {
-    if (stage.endGame) {
+    if (stage.gameOver) {
       showNotification('Game Over!!', context, 50, 'red');
     }
   }
