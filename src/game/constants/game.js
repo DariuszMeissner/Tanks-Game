@@ -20,8 +20,19 @@ export const PLAYER_WIDTH = TILE_SIZE_WIDTH - 4;
 export const PLAYER_HEIGHT = TILE_SIZE_HEIGHT - 4;
 
 export const COMPENSE_SPEED = PLAYER_SPEED;
-
 export const FONT = 'font-7x7';
+
+const startHud = TILE_SIZE_WIDTH * (MAP_WIDTH - 2);
+const endHud = TILE_SIZE_WIDTH * MAP_WIDTH;
+const widthHud = endHud - startHud;
+const middleHud = startHud + widthHud / 2;
+
+export const HudP = {
+  START: startHud,
+  MIDDLE: middleHud,
+  END: endHud,
+  WIDTH: widthHud,
+};
 
 export const MenuType = {
   PLAYER_1: '1-player',
