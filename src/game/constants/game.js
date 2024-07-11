@@ -26,12 +26,24 @@ const startHud = TILE_SIZE_WIDTH * (MAP_WIDTH - 2);
 const endHud = TILE_SIZE_WIDTH * MAP_WIDTH;
 const widthHud = endHud - startHud;
 const middleHud = startHud + widthHud / 2;
+const hudContentWidth = 44;
 
 export const HudP = {
   START: startHud,
   MIDDLE: middleHud,
   END: endHud,
   WIDTH: widthHud,
+  CONTENT: {
+    START: middleHud - hudContentWidth / 2,
+    END: middleHud + hudContentWidth / 2,
+  },
+  POSITION: {
+    BOTS_LIFE: 70,
+    PLAYER_FLAG: 385,
+    PLAYER_LIFES: 390,
+    STAGE_FLAG: 500,
+    STAGE_LEVEL: 560,
+  },
 };
 
 export const MenuType = {
