@@ -15,33 +15,34 @@ import {
 import { clearCanvas } from '../../engine/util/ui.js';
 import Player from '../entities/Player.js';
 import { Hud } from '../entities/Hud.js';
+import { BotRespawn, PlayerRespawn } from '../config/config.js';
 
 const enemies = [
-  new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(230, 80, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(280, 130, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(230, 80, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(280, 130, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(230, 80, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(280, 130, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(230, 80, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(280, 130, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(230, 80, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(280, 130, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(200, 210, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
+  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
 ];
 
-const life1 = new Player(160, 120, PLAYER_WIDTH, PLAYER_HEIGHT, null);
-const life2 = new Player(160, 120, PLAYER_WIDTH, PLAYER_HEIGHT, null);
-const life3 = new Player(160, 120, PLAYER_WIDTH, PLAYER_HEIGHT, null);
+const life1 = new Player(PlayerRespawn.X, PlayerRespawn.Y, PLAYER_WIDTH, PLAYER_HEIGHT, null);
+const life2 = new Player(PlayerRespawn.X, PlayerRespawn.Y, PLAYER_WIDTH, PLAYER_HEIGHT, null);
+const life3 = new Player(PlayerRespawn.X, PlayerRespawn.Y, PLAYER_WIDTH, PLAYER_HEIGHT, null);
 
 const players = [life1, life2, life3];
 
