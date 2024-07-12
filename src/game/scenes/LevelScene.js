@@ -76,8 +76,6 @@ export class LevelScene extends Scene {
       this.assets
     );
 
-    this.showWictoryInfo(context, this.stage);
-
     this.showGameOverInfo(context, this.stage);
 
     this.hud.draw(context);
