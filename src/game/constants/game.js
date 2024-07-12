@@ -48,6 +48,13 @@ export const HudP = {
   },
 };
 
+const widthMap = TILE_SIZE_WIDTH * (MAP_WIDTH - 1);
+const middleMap = widthMap / 2;
+
+export const MapP = {
+  MIDDLE: { X: middleMap, Y: SCREEN_HEIGHT / 2 },
+};
+
 export const MenuType = {
   PLAYER_1: '1-player',
   PLAYERS_2: '2-players',
@@ -57,6 +64,7 @@ export const Colors = {
   WHITE: 'white',
   BLACK: 'black',
   GRAY: '#636363',
+  RED: '#b53121',
 };
 
 export const MenuOptions = ['1 PLAYER', '2 PLAYERS'];
