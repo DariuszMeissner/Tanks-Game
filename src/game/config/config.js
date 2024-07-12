@@ -2,6 +2,9 @@ import { MAP_HEIGHT, MAP_WIDTH, TILE_SIZE_HEIGHT, TILE_SIZE_WIDTH } from '../con
 
 const HUD_EDGE_WIDTH = 3;
 
+export const BOT_ID = 'bot';
+export const PLAYER_ID = 'player';
+
 export const BotRespawn = {
   LEFT: {
     X: 1 * TILE_SIZE_WIDTH,
