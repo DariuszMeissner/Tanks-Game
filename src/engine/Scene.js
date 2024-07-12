@@ -1,4 +1,4 @@
-import { showNotification } from './util/ui.js';
+import { Colors, FONT, MapP } from '../game/constants/game.js';
 import { playSound } from './soundHandler.js';
 
 export default class Scene {
@@ -19,16 +19,17 @@ export default class Scene {
     });
   }
 
-  showWictoryInfo(context, stage) {
-    if (stage.winGame) {
-      showNotification('Victory!', context, 50, 'green');
-    }
-  }
-
   showGameOverInfo(context, stage) {
-    if (stage.gameOver) {
-      showNotification('Game Over!!', context, 50, 'red');
-    }
+    const lineHeight = 24;
+    if (!stage.gameOver) return;
+
+    context.save();
+    context.font = `24px ${FONT}`;
+    context.fillStyle = Colors.RED;
+    context.textAlign = 'center';
+    context.fillText('GAME', MapP.MIDDLE.X, MapP.MIDDLE.Y);
+    context.fillText('OVER', MapP.MIDDLE.X, MapP.MIDDLE.Y + lineHeight);
+    context.restore();
   }
 
   playStartUpSound(audio) {
