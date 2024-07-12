@@ -1,8 +1,10 @@
+import { BOT_ID } from '../config/config.js';
 import { Control } from '../constants/controls.js';
 import { BOT_SPEED } from '../constants/game.js';
 
 export default class Bot {
   constructor(x, y, width, height) {
+    this.id = BOT_ID;
     this.x = x;
     this.y = y;
     this.speed = BOT_SPEED;

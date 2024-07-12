@@ -1,9 +1,11 @@
 import BulletController from './BulletController.js';
 import { Control } from '../constants/controls.js';
 import { PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/game.js';
+import { PLAYER_ID } from '../config/config.js';
 
 export default class Player {
   constructor(x, y, width, height) {
+    this.id = PLAYER_ID;
     this.x = x;
     this.y = y;
     this.width = width;
