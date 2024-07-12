@@ -1,5 +1,8 @@
 import Bullet from './Bullet.js';
 import { isBulletOutOfScreen } from '../../engine/util/collision.js';
+import { playSound } from '../../engine/soundHandler.js';
+import { SoundsPathsName } from '../constants/game.js';
+import { PLAYER_ID } from '../config/config.js';
 
 export default class BulletController {
   bullets = [];
@@ -49,6 +52,13 @@ export default class BulletController {
             this.enemyController.enemies.splice(index, 1);
             this.bullets = [];
             tank.unblockDirection();
+
+            playSound(
+              this.mapController.assets.get(
+                enemy.id === PLAYER_ID ? SoundsPathsName.PLAYER_TANK_DESTROYED_EAGLE_DESTROYED : SoundsPathsName.ENEMY_DESTROYED
+              ),
+              0.2
+            );
           }
         }
       });
