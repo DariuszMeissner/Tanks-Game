@@ -6,6 +6,7 @@ export default class PlayersController {
       player.bulletController = new BulletController(mapController, null);
       return player;
     });
+    this.mapController = mapController;
     this.maxTankOnMap = maxTankOnMap;
   }
 
