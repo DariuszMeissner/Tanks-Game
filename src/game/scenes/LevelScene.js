@@ -51,7 +51,7 @@ export class LevelScene extends Scene {
     super();
     this.stageLevel = stageLevel[0].stage;
     this.assets = assets;
-    this.stage = new MapController(stageLevel.slice(1), TILE_SIZE_WIDTH);
+    this.stage = new MapController(stageLevel.slice(1), TILE_SIZE_WIDTH, assets);
     this.maxTankOnMap = maxTankOnMap;
     this.playersController = new PlayersController(players, this.stage, 1);
     this.botController = new BotController(enemies, this.stage, this.playersController, maxTankOnMap);
