@@ -3,9 +3,10 @@
  * @param {HTMLAudioElement} sound
  * @param {{ volume: number, loop: boolean }} options
  */
-export function playSound(sound, loop = false) {
+export function playSound(sound, volume = 1, loop = false) {
   sound.loop = loop;
   sound.autoplay = true;
+  sound.volume = volume;
 
   if (sound.currentTime > 0) sound.currentTime = 0;
   if (sound.paused) sound.play();
