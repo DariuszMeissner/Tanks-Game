@@ -19,7 +19,7 @@ import {
 import { clearCanvas } from '../../engine/util/ui.js';
 import Player from '../entities/Player.js';
 import { Hud } from '../entities/Hud.js';
-import { BotRespawn, PlayerRespawn } from '../config/config.js';
+import { BotRespawn, PlayerRespawn, STAGE_INFO_DURATION } from '../config/config.js';
 
 const enemies = [
   new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
@@ -118,6 +118,6 @@ export class LevelScene extends Scene {
     this.idTimeoutHideStageInfo = setTimeout(() => {
       clearTimeout(this.idTimeoutHideStageInfo);
       this.endedDisplayLevelInfo = true;
-    }, 2000);
+    }, STAGE_INFO_DURATION);
   }
 }
