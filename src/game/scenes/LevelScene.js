@@ -11,6 +11,10 @@ import {
   SoundsPathsName,
   PLAYER_WIDTH,
   PLAYER_HEIGHT,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  Colors,
+  FONT,
 } from '../constants/game.js';
 import { clearCanvas } from '../../engine/util/ui.js';
 import Player from '../entities/Player.js';
@@ -56,11 +60,24 @@ export class LevelScene extends Scene {
     this.playersController = new PlayersController(players, this.stage, 1);
     this.botController = new BotController(enemies, this.stage, this.playersController, maxTankOnMap);
     this.hud = new Hud(this.playersController, this.botController, assets, this.stageLevel);
+    this.endedDisplayLevelInfo = false;
+    this.idTimeoutHideStageInfo = null;
 
     this.fixPlayersBulletsCircularDependency(players);
   }
 
   draw(context) {
+    if (!this.endedDisplayLevelInfo) {
+      this.#stageInfo(context);
+
+      this.#hideStageInfo();
+      return;
+    }
+
+    this.#game(context);
+  }
+
+  #game(context) {
     this.playStartUpSound(this.assets.get(SoundsPathsName.START_UP));
 
     clearCanvas(context);
@@ -79,5 +96,28 @@ export class LevelScene extends Scene {
     this.showGameOverInfo(context, this.stage);
 
     this.hud.draw(context);
+  }
+
+  #stageInfo(context) {
+    context.save();
+    context.fillStyle = Colors.GRAY;
+    context.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    context.restore();
+
+    context.save();
+    context.font = `20px ${FONT}`;
+    context.fillStyle = Colors.BLACK;
+    context.textAlign = 'center';
+    context.fillText(`STAGE   ${this.stageLevel}`, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    context.restore();
+  }
+
+  #hideStageInfo() {
+    if (this.idTimeoutHideStageInfo) return;
+
+    this.idTimeoutHideStageInfo = setTimeout(() => {
+      clearTimeout(this.idTimeoutHideStageInfo);
+      this.endedDisplayLevelInfo = true;
+    }, 2000);
   }
 }
