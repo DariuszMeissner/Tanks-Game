@@ -69,8 +69,6 @@ export class LevelScene extends Scene {
   draw(context) {
     if (!this.endedDisplayLevelInfo) {
       this.#stageInfo(context);
-
-      this.#hideStageInfo();
       return;
     }
 
@@ -110,6 +108,8 @@ export class LevelScene extends Scene {
     context.textAlign = 'center';
     context.fillText(`STAGE   ${this.stageLevel}`, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
     context.restore();
+
+    this.#hideStageInfo();
   }
 
   #hideStageInfo() {
