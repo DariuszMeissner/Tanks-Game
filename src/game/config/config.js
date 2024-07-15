@@ -24,3 +24,5 @@ export const PlayerRespawn = {
   X: Math.floor((MAP_WIDTH - HUD_EDGE_WIDTH) / 2 - 1) * TILE_SIZE_WIDTH,
   Y: (MAP_HEIGHT - 2) * TILE_SIZE_HEIGHT,
 };
+
+export const STAGE_INFO_DURATION = 2000;
