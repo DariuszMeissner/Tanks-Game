@@ -2,6 +2,8 @@ import { MAP_HEIGHT, MAP_WIDTH, TILE_SIZE_HEIGHT, TILE_SIZE_WIDTH } from '../con
 
 const HUD_EDGE_WIDTH = 3;
 
+export const LEVEL_INIT = 1;
+
 export const BOT_ID = 'bot';
 export const PLAYER_ID = 'player';
 
@@ -26,3 +28,4 @@ export const PlayerRespawn = {
 };
 
 export const STAGE_INFO_DURATION = 2000;
+export const SUMMARY_INFO_DURATION = 4000;

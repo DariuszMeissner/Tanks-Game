@@ -1,5 +1,5 @@
 import { Panel } from '../../engine/Panel.js';
-import { scaleImage } from '../../engine/util/ui.js';
+import { scaleImage } from '../common/common.js';
 import { Colors, FONT, HudP, ImagesPathsName } from '../constants/game.js';
 
 export class Hud extends Panel {

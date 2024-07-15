@@ -26,6 +26,6 @@ export default class BotController {
   }
 
   endGame() {
-    this.mapController.winGame = true;
+    this.mapController.wonGame = true;
   }
 }

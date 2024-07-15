@@ -1,57 +1,23 @@
-import Bot from '../entities/Bot.js';
 import BotController from '../entities/BotController.js';
 import MapController from '../entities/MapController.js';
 import PlayersController from '../entities/PlayersController.js';
 import Scene from '../../engine/Scene.js';
 import {
   TILE_SIZE_WIDTH,
-  BOT_WIDTH,
-  BOT_HEIGHT,
   ImagesPathsName,
   SoundsPathsName,
-  PLAYER_WIDTH,
-  PLAYER_HEIGHT,
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
   Colors,
   FONT,
 } from '../constants/game.js';
-import { clearCanvas } from '../../engine/util/ui.js';
-import Player from '../entities/Player.js';
+import { clearCanvas } from '../common/common.js';
 import { Hud } from '../entities/Hud.js';
-import { BotRespawn, PlayerRespawn, STAGE_INFO_DURATION } from '../config/config.js';
-
-const enemies = [
-  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT),
-  new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT),
-];
-
-const life1 = new Player(PlayerRespawn.X, PlayerRespawn.Y, PLAYER_WIDTH, PLAYER_HEIGHT, null);
-const life2 = new Player(PlayerRespawn.X, PlayerRespawn.Y, PLAYER_WIDTH, PLAYER_HEIGHT, null);
-const life3 = new Player(PlayerRespawn.X, PlayerRespawn.Y, PLAYER_WIDTH, PLAYER_HEIGHT, null);
-
-const players = [life1, life2, life3];
+import { STAGE_INFO_DURATION, SUMMARY_INFO_DURATION } from '../config/config.js';
+import { setAndClearTimeout } from '../common/common.js';
 
 export class LevelScene extends Scene {
-  constructor(assets, stageLevel, maxTankOnMap) {
+  constructor(enemies, players, assets, stageLevel, maxTankOnMap) {
     super();
     this.stageLevel = stageLevel[0].stage;
     this.assets = assets;
@@ -62,6 +28,9 @@ export class LevelScene extends Scene {
     this.hud = new Hud(this.playersController, this.botController, assets, this.stageLevel);
     this.endedDisplayLevelInfo = false;
     this.idTimeoutHideStageInfo = null;
+    this.idTimeoutHideSummaryInfo = null;
+    this.goToNextStage = false;
+    this.repeatStage = false;
 
     this.fixPlayersBulletsCircularDependency(players);
   }
@@ -69,6 +38,11 @@ export class LevelScene extends Scene {
   draw(context) {
     if (!this.endedDisplayLevelInfo) {
       this.#stageInfo(context);
+      return;
+    }
+
+    if (this.stage.wonGame) {
+      this.#summaryLevel(context);
       return;
     }
 
@@ -112,12 +86,39 @@ export class LevelScene extends Scene {
     this.#hideStageInfo();
   }
 
-  #hideStageInfo() {
-    if (this.idTimeoutHideStageInfo) return;
+  #summaryLevel(context) {
+    context.save();
+    context.fillStyle = Colors.BLACK;
+    context.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    context.restore();
 
-    this.idTimeoutHideStageInfo = setTimeout(() => {
-      clearTimeout(this.idTimeoutHideStageInfo);
-      this.endedDisplayLevelInfo = true;
-    }, STAGE_INFO_DURATION);
+    context.save();
+    context.font = `20px ${FONT}`;
+    context.fillStyle = Colors.WHITE;
+    context.textAlign = 'center';
+    context.fillText(`SUMMARY   ${this.stageLevel}`, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    context.restore();
+
+    this.#hideSummaryInfo();
+  }
+
+  #hideStageInfo() {
+    setAndClearTimeout(
+      this.idTimeoutHideStageInfo,
+      () => {
+        this.endedDisplayLevelInfo = true;
+      },
+      STAGE_INFO_DURATION
+    );
+  }
+
+  #hideSummaryInfo() {
+    setAndClearTimeout(
+      this.idTimeoutHideSummaryInfo,
+      () => {
+        this.goToNextStage = true;
+      },
+      SUMMARY_INFO_DURATION
+    );
   }
 }

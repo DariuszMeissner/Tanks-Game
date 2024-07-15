@@ -1,10 +1,9 @@
 import AssetsService from './service/AssetsService.js';
-import { LevelScene } from './scenes/LevelScene.js';
 import Game from '../engine/Game.js';
 import { LoadingScene } from './scenes/LoadingScene.js';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from './constants/game.js';
 import { StartMenu } from './entities/StartMenu.js';
-import { MapLevel1 } from './constants/levelsMaps.js';
+import { LevelSceneController } from './scenes/LevelSceneController.js';
 
 export class TankGame extends Game {
   constructor() {
@@ -17,6 +16,6 @@ export class TankGame extends Game {
   onLoadedComplete = () => {
     this.startMenu = new StartMenu(this.assetsService.assets);
 
-    this.scene = new LevelScene(this.assetsService.assets, MapLevel1, 1);
+    this.scene = new LevelSceneController(this.assetsService.assets);
   };
 }

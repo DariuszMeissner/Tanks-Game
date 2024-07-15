@@ -1,5 +1,5 @@
 import { Menu } from '../../engine/Menu.js';
-import { alignCenterImage, clearCanvas, scaleImage } from '../../engine/util/ui.js';
+import { alignCenterImage, clearCanvas, scaleImage } from '../common/common.js';
 import { Colors, FONT, ImagesPathsName, MapP, MenuOptions, MenuType, SCREEN_HEIGHT } from '../constants/game.js';
 
 export class StartMenu extends Menu {
