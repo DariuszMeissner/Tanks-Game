@@ -1,13 +1,14 @@
 import BulletController from './BulletController.js';
 
 export default class PlayersController {
-  constructor(players, mapController, maxTankOnMap) {
+  constructor(players, mapController, maxTankOnMap, assets) {
     this.enemies = players.map((player) => {
       player.bulletController = new BulletController(mapController, null);
       return player;
     });
     this.mapController = mapController;
     this.maxTankOnMap = maxTankOnMap;
+    this.assets = assets;
   }
 
   draw(ctx, image) {
@@ -19,7 +20,7 @@ export default class PlayersController {
 
     this.enemies.forEach((player, index) => {
       if (index < this.maxTankOnMap) {
-        player.draw(ctx, image);
+        player.draw(ctx, image, this.assets);
         player.bulletController.draw(ctx, player);
       }
     });

@@ -2,6 +2,7 @@ import Bot from '../entities/Bot.js';
 import { BotRespawn, PlayerRespawn } from '../config/config.js';
 import { BOT_HEIGHT, BOT_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH, SCREEN_WIDTH } from '../constants/game.js';
 import Player from '../entities/Player.js';
+import { pauseSound } from '../../engine/soundHandler.js';
 
 export function setAndClearTimeout(id, callback, duration) {
   if (id) return;
@@ -51,4 +52,10 @@ export function generatePlayers(count) {
   }
 
   return array;
+}
+
+export function stopGameSound(assets) {
+  for (let [_, value] of assets) {
+    if (value?.nodeName === 'AUDIO') pauseSound(value);
+  }
 }

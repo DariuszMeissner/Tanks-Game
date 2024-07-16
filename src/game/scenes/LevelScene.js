@@ -11,7 +11,7 @@ import {
   Colors,
   FONT,
 } from '../constants/game.js';
-import { clearCanvas } from '../common/common.js';
+import { clearCanvas, stopGameSound } from '../common/common.js';
 import { Hud } from '../entities/Hud.js';
 import { STAGE_INFO_DURATION, SUMMARY_INFO_DURATION } from '../config/config.js';
 import { setAndClearTimeout } from '../common/common.js';
@@ -23,10 +23,10 @@ export class LevelScene extends Scene {
     this.assets = assets;
     this.stage = new MapController(stageLevel.slice(1), TILE_SIZE_WIDTH, assets);
     this.maxTankOnMap = maxTankOnMap;
-    this.playersController = new PlayersController(players, this.stage, 1);
+    this.playersController = new PlayersController(players, this.stage, 1, assets);
     this.botController = new BotController(enemies, this.stage, this.playersController, maxTankOnMap);
     this.hud = new Hud(this.playersController, this.botController, assets, this.stageLevel);
-    this.endedDisplayLevelInfo = false;
+    this.displayingLevelInfo = true;
     this.idTimeoutHideStageInfo = null;
     this.idTimeoutHideSummaryInfo = null;
     this.goToNextStage = false;
@@ -36,14 +36,19 @@ export class LevelScene extends Scene {
   }
 
   draw(context) {
-    if (!this.endedDisplayLevelInfo) {
+    if (this.displayingLevelInfo) {
       this.#stageInfo(context);
       return;
     }
 
     if (this.stage.wonGame) {
+      stopGameSound(this.assets);
       this.#summaryLevel(context);
       return;
+    }
+
+    if (this.stage.gameOver) {
+      console.log('game over');
     }
 
     this.#game(context);
@@ -106,7 +111,7 @@ export class LevelScene extends Scene {
     setAndClearTimeout(
       this.idTimeoutHideStageInfo,
       () => {
-        this.endedDisplayLevelInfo = true;
+        this.displayingLevelInfo = false;
       },
       STAGE_INFO_DURATION
     );

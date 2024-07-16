@@ -1,7 +1,8 @@
 import BulletController from './BulletController.js';
 import { Control } from '../constants/controls.js';
-import { PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/game.js';
+import { PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH, SoundsPathsName } from '../constants/game.js';
 import { PLAYER_ID } from '../config/config.js';
+import { pauseSound, playSound } from '../../engine/soundHandler.js';
 
 export default class Player {
   constructor(x, y, width, height) {
@@ -26,14 +27,18 @@ export default class Player {
       ArrowDown: false,
       Space: false,
     };
+    this.idle = true;
+    this.playingIdleSound = false;
+    this.playingMoveSound = false;
 
     document.addEventListener('keydown', this.keydown.bind(this));
     document.addEventListener('keyup', this.keyup.bind(this));
+    // document.addEventListener('ended', this.endedIdleSound.bind(this));
   }
 
-  draw(ctx, image) {
+  draw(ctx, image, assets) {
     if (image instanceof Image) {
-      this.move();
+      this.move(assets);
       this.bulletController.draw(ctx, this);
 
       ctx.save();
@@ -77,7 +82,9 @@ export default class Player {
     return this.stoppedDirection != this.direction;
   }
 
-  move() {
+  move(assets) {
+    this.#playSoundMovement(assets);
+
     if (this.checkStoppedDirectionChanged()) {
       this.unblockDirection();
       this.collisionWithWall = false;
@@ -145,5 +152,42 @@ export default class Player {
   unblockDirection() {
     this.stoppedDirection = false;
     this.speed = 2;
+  }
+
+  endedIdleSound() {
+    this.playingIdleSound = false;
+  }
+
+  #playSoundMovement(assets) {
+    this.#updateMovementState();
+    const idleSound = assets.get(SoundsPathsName.PLAYER_TANK_IDLE);
+    const moveSound = assets.get(SoundsPathsName.PLAYER_TANK_MOVING);
+    this.#handleSound(idleSound, moveSound);
+  }
+
+  #handleSound(idleSound, moveSound) {
+    if (this.idle && !this.playingIdleSound) {
+      this.playingMoveSound = false;
+      pauseSound(moveSound);
+
+      playSound(idleSound, 0.5, true);
+      this.playingIdleSound = true;
+      return;
+    }
+
+    if (!this.idle && !this.playingMoveSound) {
+      this.playingIdleSound = false;
+      pauseSound(idleSound);
+
+      playSound(moveSound, 0.5, true);
+      this.playingMoveSound = true;
+      return;
+    }
+  }
+
+  #updateMovementState() {
+    const keyStateValues = Object.values(this.keyStates);
+    const isMoving = keyStateValues.includes(true);
+    this.idle = !isMoving;
   }
 }
