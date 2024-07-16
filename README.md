@@ -8,4 +8,4 @@ I always wanted to make a game from when I saw first game in 9 years old. So con
 
 - JavaScript
 - Canvas Api
-- Eletron
+- Eletron(in future)
