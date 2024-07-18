@@ -1,5 +1,6 @@
 import { MenuType, ScreenType } from '../game/constants/game.js';
 import { LevelSceneController } from '../game/scenes/LevelSceneController.js';
+import AssetsService from '../game/service/AssetsService.js';
 import { getContext } from './context.js';
 
 export default class Game {
@@ -8,15 +9,22 @@ export default class Game {
 
   constructor(width, height) {
     this.context = getContext(width, height);
+    this.assetsService = new AssetsService();
     this.activateScene = false;
     this.activateStartMenu = true;
     this.setStage = this.setStage.bind(this);
     this.setDisplay = this.setDisplay.bind(this);
-    this.createNewLevelSceneController = this.createNewLevelSceneController.bind(this);
   }
 
   frame = (time) => {
     window.requestAnimationFrame(this.frame);
+
+    if (this.scene.stageController?.goToMainMenu) {
+      this.scene.stageController.goToMainMenu = false;
+      this.setDisplay(ScreenType.START_MENU);
+      this.createNewLevelSceneController();
+      return;
+    }
 
     if (this.startMenu && this.activateStartMenu) {
       this.startMenu.draw(this.context, this.setStage);
@@ -30,6 +38,10 @@ export default class Game {
   start() {
     window.requestAnimationFrame(this.frame);
   }
+
+  createNewLevelSceneController = () => {
+    this.scene = new LevelSceneController(this.assetsService.assets, this.setDisplay);
+  };
 
   setStage(stage) {
     switch (stage) {
@@ -54,9 +66,5 @@ export default class Game {
         this.activateScene = true;
         break;
     }
-  }
-
-  createNewLevelSceneController(assets) {
-    this.scene = new LevelSceneController(assets, this.setDisplay);
   }
 }

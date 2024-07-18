@@ -54,18 +54,16 @@ export class LevelScene extends Scene {
       return;
     }
 
-    if (this.stage.gameOver) {
-      if (!this.playedGameOverSound) {
-        stopGameSound(this.assets);
-        this.#playGameOverSound();
-        this.#goToGameOverSummary();
-      }
+    if (this.stage.gameOver && !this.playedGameOverSound) {
+      stopGameSound(this.assets);
+      this.#playGameOverSound();
+      this.#goToGameOverSummary();
+    }
 
-      if (this.goToGameOverSummary) {
-        this.#summaryLevel(context);
-        this.#goToMainMenu();
-        return;
-      }
+    if (this.stage.gameOver && this.goToGameOverSummary) {
+      this.#summaryLevel(context);
+      this.#goToMainMenu();
+      return;
     }
 
     this.#game(context);
