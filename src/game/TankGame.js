@@ -16,6 +16,6 @@ export class TankGame extends Game {
   onLoadedComplete = () => {
     this.startMenu = new StartMenu(this.assetsService.assets);
 
-    this.scene = new LevelSceneController(this.assetsService.assets);
+    this.scene = new LevelSceneController(this.assetsService.assets, this.setDisplay, this.createNewLevelSceneController);
   };
 }

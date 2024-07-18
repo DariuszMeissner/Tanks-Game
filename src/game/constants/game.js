@@ -60,6 +60,11 @@ export const MenuType = {
   PLAYERS_2: '2-players',
 };
 
+export const ScreenType = {
+  START_MENU: 'start-menu',
+  SCENE: 'scene',
+};
+
 export const Colors = {
   WHITE: 'white',
   BLACK: 'black',

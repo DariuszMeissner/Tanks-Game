@@ -114,20 +114,10 @@ export default class MapController {
           this.collisionWallWithBullet = true;
           playSound(this.assets.get(SoundsPathsName.FIRING_AT_THE_WALL), 0.5);
           break;
-        case MapObject.EAGLE: {
+        case MapObject.EAGLE:
           this.map[row][column] = MapObject.EAGLE_DEAD;
           this.collisionWallWithBullet = true;
           this.gameOver = true;
-          playSound(this.assets.get(SoundsPathsName.PLAYER_TANK_DESTROYED_EAGLE_DESTROYED), 0.5);
-
-          const id = setTimeout(() => {
-            playSound(this.assets.get(SoundsPathsName.GAME_OVER), 0.5);
-            clearTimeout(id);
-          }, this.assets.get(SoundsPathsName.PLAYER_TANK_DESTROYED_EAGLE_DESTROYED).duration * 1000);
-
-          break;
-        }
-        default:
           break;
       }
     }
@@ -151,20 +141,10 @@ export default class MapController {
             this.collisionWallWithBullet = true;
             playSound(this.assets.get(SoundsPathsName.FIRING_AT_THE_WALL), 0.5);
             break;
-          case MapObject.EAGLE: {
+          case MapObject.EAGLE:
             this.map[row][column] = MapObject.EAGLE_DEAD;
             this.collisionWallWithBullet = true;
             this.gameOver = true;
-            playSound(this.assets.get(SoundsPathsName.PLAYER_TANK_DESTROYED_EAGLE_DESTROYED), 0.5);
-
-            const id = setTimeout(() => {
-              playSound(this.assets.get(SoundsPathsName.GAME_OVER), 0.5);
-              clearTimeout(id);
-            }, this.assets.get(SoundsPathsName.PLAYER_TANK_DESTROYED_EAGLE_DESTROYED).duration * 1000);
-
-            break;
-          }
-          default:
             break;
         }
       }

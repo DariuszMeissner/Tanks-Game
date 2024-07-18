@@ -1,7 +1,7 @@
 import { clearCanvas, generateBots, generatePlayers } from '../common/common.js';
 import { LEVEL_INIT, PlayerRespawn } from '../config/config.js';
 import { Control } from '../constants/controls.js';
-import { FONT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/game.js';
+import { FONT, SCREEN_HEIGHT, SCREEN_WIDTH, ScreenType } from '../constants/game.js';
 import { MAP_LEVELS } from '../constants/levelsMaps.js';
 import { LevelScene } from './LevelScene.js';
 
@@ -9,12 +9,14 @@ const EnemiesInit = generateBots(2);
 const PlayersInit = generatePlayers(3);
 
 export class LevelSceneController {
-  constructor(assets) {
+  constructor(assets, setDisplayCallback, createNewLevelSceneControllerCallback) {
     this.players = PlayersInit;
     this.assets = assets;
     this.currentLevel = LEVEL_INIT;
-    this.stageController = new LevelScene(EnemiesInit, this.players, assets, MAP_LEVELS.get(this.currentLevel.toString()), 1);
+    this.stageController = new LevelScene(EnemiesInit, PlayersInit, assets, MAP_LEVELS.get(this.currentLevel.toString()), 1);
     this.endGame = false;
+    this.setDisplay = setDisplayCallback;
+    this.createNewLevelSceneController = createNewLevelSceneControllerCallback;
   }
 
   draw(context) {
@@ -26,6 +28,13 @@ export class LevelSceneController {
 
     if (this.stageController.goToNextStage) {
       this.advanceToNextStage();
+      return;
+    }
+
+    if (this.stageController.goToMainMenu) {
+      this.setDisplay(ScreenType.START_MENU);
+      this.createNewLevelSceneController(this.assets);
+      this.#resetPlayerPosition();
       return;
     }
 

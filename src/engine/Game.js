@@ -1,4 +1,5 @@
-import { MenuType } from '../game/constants/game.js';
+import { MenuType, ScreenType } from '../game/constants/game.js';
+import { LevelSceneController } from '../game/scenes/LevelSceneController.js';
 import { getContext } from './context.js';
 
 export default class Game {
@@ -10,6 +11,8 @@ export default class Game {
     this.activateScene = false;
     this.activateStartMenu = true;
     this.setStage = this.setStage.bind(this);
+    this.setDisplay = this.setDisplay.bind(this);
+    this.createNewLevelSceneController = this.createNewLevelSceneController.bind(this);
   }
 
   frame = (time) => {
@@ -38,5 +41,22 @@ export default class Game {
         this.activateScene = true;
         break;
     }
+  }
+
+  setDisplay(screen) {
+    switch (screen) {
+      case ScreenType.START_MENU:
+        this.activateStartMenu = true;
+        this.activateScene = false;
+        break;
+      case ScreenType.SCENE:
+        this.activateStartMenu = false;
+        this.activateScene = true;
+        break;
+    }
+  }
+
+  createNewLevelSceneController(assets) {
+    this.scene = new LevelSceneController(assets, this.setDisplay);
   }
 }
