@@ -17,6 +17,8 @@ export class LevelSceneController {
     this.stageController = new LevelScene(this.enemies, this.players, assets, MAP_LEVELS.get(this.currentLevel.toString()), 1);
     this.endGame = false;
     this.setDisplay = setDisplayCallback;
+
+    this.#resetPlayerPosition();
   }
 
   draw(context) {
