@@ -2,23 +2,19 @@ import { clearCanvas, generateBots, generatePlayers } from '../common/common.js'
 import { LEVEL_INIT, PlayerRespawn } from '../config/config.js';
 import { Control } from '../constants/controls.js';
 import { FONT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/game.js';
-import { MAP_LEVELS } from '../constants/levelsMaps.js';
+import { MAP_LEVELS as ORIGINAL_MAP } from '../constants/levelsMaps.js';
 import { LevelScene } from './LevelScene.js';
-
-const ENEMIES_INIT = generateBots(2);
-const PLAYERS_INIT = generatePlayers(1);
 
 export class LevelSceneController {
   constructor(assets, setDisplayCallback) {
-    this.players = PLAYERS_INIT;
-    this.enemies = ENEMIES_INIT;
+    this.mapInit = new Map(Object.entries(JSON.parse(JSON.stringify(Object.fromEntries(ORIGINAL_MAP)))));
+    this.players = generatePlayers(1);
+    this.enemies = generateBots(1);
     this.assets = assets;
     this.currentLevel = LEVEL_INIT;
-    this.stageController = new LevelScene(this.enemies, this.players, assets, MAP_LEVELS.get(this.currentLevel.toString()), 1);
+    this.stageController = new LevelScene(this.enemies, this.players, assets, this.mapInit.get(this.currentLevel.toString()), 1);
     this.endGame = false;
     this.setDisplay = setDisplayCallback;
-
-    this.#resetPlayerPosition();
   }
 
   draw(context) {
@@ -38,7 +34,7 @@ export class LevelSceneController {
 
   advanceToNextStage() {
     this.currentLevel += LEVEL_INIT;
-    const currentLevelData = MAP_LEVELS.get(this.currentLevel.toString());
+    const currentLevelData = this.mapInit.get(this.currentLevel.toString());
 
     if (!currentLevelData) {
       this.endGame = true;

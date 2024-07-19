@@ -1,5 +1,3 @@
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../game/constants/game.js';
-
 const DEFAULT_MENU_SELECTED = 0;
 
 export class Menu {
