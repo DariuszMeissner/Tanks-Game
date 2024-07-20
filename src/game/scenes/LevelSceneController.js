@@ -1,4 +1,4 @@
-import { clearCanvas, generateBots, generatePlayers } from '../common/common.js';
+import { clearCanvas, createDeepCloneMap, generateBots, generatePlayers } from '../common/common.js';
 import { LEVEL_INIT, PlayerRespawn } from '../config/config.js';
 import { Control } from '../constants/controls.js';
 import { FONT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/game.js';
@@ -7,7 +7,7 @@ import { LevelScene } from './LevelScene.js';
 
 export class LevelSceneController {
   constructor(assets, setDisplayCallback) {
-    this.mapInit = new Map(Object.entries(JSON.parse(JSON.stringify(Object.fromEntries(ORIGINAL_MAP)))));
+    this.mapInit = createDeepCloneMap(ORIGINAL_MAP);
     this.players = generatePlayers(1);
     this.enemies = generateBots(1);
     this.assets = assets;

@@ -59,3 +59,7 @@ export function stopGameSound(assets) {
     if (value?.nodeName === 'AUDIO') pauseSound(value);
   }
 }
+
+export function createDeepCloneMap(mapObject) {
+  return new Map(Object.entries(JSON.parse(JSON.stringify(Object.fromEntries(mapObject)))));
+}
