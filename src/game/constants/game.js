@@ -3,14 +3,17 @@ import { LEVEL_TEMPLATE } from './levels.js';
 export const FPS = 60;
 export const FRAME_TIME = 1000 / FPS;
 
-export const SCREEN_WIDTH = 640;
-export const SCREEN_HEIGHT = 640;
+export const HELPER_SCREEN_WIDTH = 640;
+export const HELPER_SCREEN_HEIGHT = 640;
 
-export const MAP_WIDTH = LEVEL_TEMPLATE[1].length;
-export const MAP_HEIGHT = LEVEL_TEMPLATE.length - 1;
+export const MAP_WIDTH = Math.floor(LEVEL_TEMPLATE[1].length);
+export const MAP_HEIGHT = Math.floor(LEVEL_TEMPLATE.length - 1);
 
-export const TILE_SIZE_WIDTH = SCREEN_WIDTH / MAP_WIDTH;
-export const TILE_SIZE_HEIGHT = SCREEN_HEIGHT / MAP_HEIGHT;
+export const TILE_SIZE_WIDTH = Math.floor(HELPER_SCREEN_WIDTH / MAP_WIDTH);
+export const TILE_SIZE_HEIGHT = Math.floor(HELPER_SCREEN_HEIGHT / MAP_HEIGHT);
+
+export const SCREEN_WIDTH = Math.floor(MAP_WIDTH * TILE_SIZE_WIDTH);
+export const SCREEN_HEIGHT = Math.floor(MAP_HEIGHT * TILE_SIZE_HEIGHT);
 
 export const BOT_SPEED = 2;
 export const BOT_WIDTH = TILE_SIZE_WIDTH - 4;
@@ -21,7 +24,6 @@ export const PLAYER_SPEED = 2;
 export const PLAYER_WIDTH = TILE_SIZE_WIDTH - 4;
 export const PLAYER_HEIGHT = TILE_SIZE_HEIGHT - 4;
 
-export const COMPENSE_SPEED = PLAYER_SPEED;
 export const FONT = 'font-7x7';
 
 const startHud = TILE_SIZE_WIDTH * (MAP_WIDTH - 2);
