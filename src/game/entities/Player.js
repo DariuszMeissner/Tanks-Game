@@ -30,6 +30,8 @@ export default class Player {
     this.idle = true;
     this.playingIdleSound = false;
     this.playingMoveSound = false;
+    this.angle = 0;
+    this.previousAngle;
 
     document.addEventListener('keydown', this.keydown.bind(this));
     document.addEventListener('keyup', this.keyup.bind(this));
@@ -44,42 +46,14 @@ export default class Player {
       ctx.save();
       ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
 
-      let angle;
-      switch (this.direction) {
-        case Control.UP:
-          angle = 0;
-          break;
-        case Control.DOWN:
-          angle = Math.PI;
-          break;
-        case Control.LEFT:
-          angle = -Math.PI / 2;
-          break;
-        case Control.RIGHT:
-          angle = Math.PI / 2;
-          break;
-      }
+      this.setTankAngle();
 
-      ctx.rotate(angle);
-
+      ctx.rotate(this.angle);
       ctx.drawImage(image, -this.width / 2, -this.height / 2, this.width, this.height);
-
       ctx.restore();
 
       this.shoot();
     }
-  }
-
-  shoot() {
-    if (this.keyStates.Space) {
-      const bulletX = this.x + (this.width / 5) * 2;
-      const bulletY = this.y + this.height / 2;
-      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction);
-    }
-  }
-
-  checkStoppedDirectionChanged() {
-    return this.stoppedDirection != this.direction;
   }
 
   move(assets) {
@@ -97,12 +71,59 @@ export default class Player {
 
     if (this.keyStates.ArrowUp && this.stoppedDirection != Control.UP) {
       positionTopEdge ? (this.y = 0) : (this.y -= this.speed);
-    } else if (this.keyStates.ArrowDown && this.stoppedDirection != Control.DOWN) {
+      return;
+    }
+
+    if (this.keyStates.ArrowDown && this.stoppedDirection != Control.DOWN) {
       positionBottomEdge ? (this.y = SCREEN_HEIGHT - this.height) : (this.y += this.speed);
-    } else if (this.keyStates.ArrowLeft && this.stoppedDirection != Control.LEFT) {
+      return;
+    }
+
+    if (this.keyStates.ArrowLeft && this.stoppedDirection != Control.LEFT) {
       positionLeftEdge ? (this.x = 0) : (this.x -= this.speed);
-    } else if (this.keyStates.ArrowRight && this.stoppedDirection != Control.RIGHT) {
+      return;
+    }
+
+    if (this.keyStates.ArrowRight && this.stoppedDirection != Control.RIGHT) {
       positionRightEdge ? (this.x = SCREEN_WIDTH - this.width) : (this.x += this.speed);
+      return;
+    }
+  }
+
+  setTankAngle() {
+    const angleLookup = {
+      [Control.UP]: 0,
+      [Control.DOWN]: Math.PI,
+      [Control.LEFT]: -Math.PI / 2,
+      [Control.RIGHT]: Math.PI / 2,
+    };
+
+    this.previousAngle = this.angle;
+    this.angle = angleLookup[this.direction];
+
+    if (this.angle != this.previousAngle) {
+      switch (this.direction) {
+        case Control.UP:
+          this.y += this.speed;
+          break;
+        case Control.DOWN:
+          this.y -= this.speed;
+          break;
+        case Control.LEFT:
+          this.x += this.speed;
+          break;
+        case Control.RIGHT:
+          this.x -= this.speed;
+          break;
+      }
+    }
+  }
+
+  shoot() {
+    if (this.keyStates.Space) {
+      const bulletX = this.x + (this.width / 5) * 2;
+      const bulletY = this.y + this.height / 2;
+      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction);
     }
   }
 
@@ -189,5 +210,9 @@ export default class Player {
     const keyStateValues = Object.values(this.keyStates);
     const isMoving = keyStateValues.includes(true);
     this.idle = !isMoving;
+  }
+
+  checkStoppedDirectionChanged() {
+    return this.stoppedDirection != this.direction;
   }
 }
