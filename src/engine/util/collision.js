@@ -1,5 +1,5 @@
 import { Control } from '../../game/constants/controls.js';
-import { BOT_DELAY_START, BOT_SPEED, COMPENSE_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../game/constants/game.js';
+import { BOT_DELAY_START, BOT_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../game/constants/game.js';
 
 /**
  * Check if there is a collision between an object and the front side of a tank based on the tank's direction.
@@ -9,27 +9,27 @@ import { BOT_DELAY_START, BOT_SPEED, COMPENSE_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH
  * @param {string} tankDirection - The direction the tank is facing (UP, DOWN, LEFT, RIGHT).
  * @returns {boolean} Returns true if there is a collision, otherwise false.
  */
-export function detectCollisionFrontOfTank(object, tank, tankDirection) {
+export function detectCollisionFrontOfTank(object, tank, tankDirection, compensateSpeed) {
   if (!object || !tank) return false;
 
   switch (tankDirection) {
     case Control.UP:
       return (
         object.y < tank.y + tank.height &&
-        object.y + object.height > tank.y - COMPENSE_SPEED &&
+        object.y + object.height > tank.y - compensateSpeed &&
         object.x < tank.x + tank.width &&
         object.x + object.width > tank.x
       );
     case Control.DOWN:
       return (
-        object.y < tank.y + tank.height + COMPENSE_SPEED &&
+        object.y < tank.y + tank.height + compensateSpeed &&
         object.y > tank.y &&
         object.x < tank.x + tank.width &&
         object.x + object.width > tank.x
       );
     case Control.LEFT:
       return (
-        object.x + object.width > tank.x - COMPENSE_SPEED &&
+        object.x + object.width > tank.x - compensateSpeed &&
         object.x < tank.x + tank.width &&
         object.y < tank.y + tank.height &&
         object.y + object.height > tank.y
@@ -37,7 +37,7 @@ export function detectCollisionFrontOfTank(object, tank, tankDirection) {
     case Control.RIGHT:
       return (
         object.x + object.width > tank.x &&
-        object.x < tank.x + tank.width + COMPENSE_SPEED &&
+        object.x < tank.x + tank.width + compensateSpeed &&
         object.y < tank.y + tank.height &&
         object.y + object.height > tank.y
       );
@@ -75,11 +75,11 @@ export function resetSpeedAfterTimeout(enemy) {
  * @param {Object} tank - The tank object.
  */
 export function handleCollision(objectOfCollision, tank) {
-  if (detectCollisionFrontOfTank(objectOfCollision, tank, tank.direction)) {
+  if (detectCollisionFrontOfTank(objectOfCollision, tank, tank.direction, tank.speed)) {
     tank.speed = 0;
     tank.changeDirection();
 
-    if (!detectCollisionFrontOfTank(objectOfCollision, tank, tank.direction)) {
+    if (!detectCollisionFrontOfTank(objectOfCollision, tank, tank.direction, tank.speed)) {
       resetSpeedAfterTimeout(tank);
       return;
     }

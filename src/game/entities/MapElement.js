@@ -6,7 +6,6 @@ export default class MapElement {
     this.y = y;
     this.height = tileSize;
     this.width = tileSize;
-    this.compenseSpeed = 2;
   }
 
   draw(ctx, image) {
@@ -18,7 +17,7 @@ export default class MapElement {
   detectCollisionWithPlayer(mapElement, player) {
     if (!player) return;
 
-    if (detectCollisionFrontOfTank(mapElement, player, player.direction)) {
+    if (detectCollisionFrontOfTank(mapElement, player, player.direction, player.speed)) {
       player.blockDirection();
       player.collisionWithWall = true;
     }
@@ -28,14 +27,14 @@ export default class MapElement {
     if (!player) return;
 
     for (const bot of enemies) {
-      if (detectCollisionFrontOfTank(bot, player, player.direction)) {
+      if (detectCollisionFrontOfTank(bot, player, player.direction, player.speed)) {
         player.blockDirection();
         player.collisionWithBot = true;
         return;
       }
 
       // unblock direction if no collision, when collision and bot go away
-      if (!detectCollisionFrontOfTank(bot, player, player.direction) && player.collisionWithBot) {
+      if (!detectCollisionFrontOfTank(bot, player, player.direction, player.speed) && player.collisionWithBot) {
         player.unblockDirection();
         player.collisionWithBot = false;
       }
@@ -44,7 +43,7 @@ export default class MapElement {
 
   detectCollisionBotWithPlayer(player, enemies) {
     for (const bot of enemies) {
-      if (detectCollisionFrontOfTank(player, bot, bot.direction)) {
+      if (detectCollisionFrontOfTank(player, bot, bot.direction, bot.speed)) {
         handleCollision(player, bot);
       }
     }
