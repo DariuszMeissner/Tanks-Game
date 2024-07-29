@@ -101,6 +101,10 @@ export default class Player {
     this.previousAngle = this.angle;
     this.angle = angleLookup[this.direction];
 
+    this.stopTankWhenTurning();
+  }
+
+  stopTankWhenTurning() {
     if (this.angle != this.previousAngle) {
       switch (this.direction) {
         case Control.UP:
