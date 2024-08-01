@@ -81,7 +81,9 @@ export function handleCollision(objectOfCollision, tank) {
 
     if (!detectCollisionFrontOfTank(objectOfCollision, tank, tank.direction, tank.speed)) {
       resetSpeedAfterTimeout(tank);
-      return;
+    } else {
+      tank.changeDirection();
+      resetSpeedAfterTimeout(tank);
     }
   }
 }
