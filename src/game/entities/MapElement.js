@@ -43,9 +43,7 @@ export default class MapElement {
 
   detectCollisionBotWithPlayer(player, enemies) {
     for (const bot of enemies) {
-      if (detectCollisionFrontOfTank(player, bot, bot.direction, bot.speed)) {
-        handleCollision(player, bot);
-      }
+      handleCollision(player, bot);
     }
   }
 
