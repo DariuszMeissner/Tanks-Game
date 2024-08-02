@@ -2,6 +2,8 @@ import { MAP_HEIGHT, MAP_WIDTH, TILE_SIZE_HEIGHT, TILE_SIZE_WIDTH } from '../con
 
 const HUD_EDGE_WIDTH = 3;
 
+export const BOT_TIME_TO_SHOOT = 5000;
+
 export const LEVEL_INIT = 1;
 
 export const BOT_ID = 'bot';
@@ -13,7 +15,7 @@ export const BotRespawn = {
     Y: 1 * TILE_SIZE_HEIGHT,
   },
   MIDDLE: {
-    X: ((MAP_WIDTH - HUD_EDGE_WIDTH) / 2) * TILE_SIZE_WIDTH,
+    X: Math.floor((MAP_WIDTH - HUD_EDGE_WIDTH) / 2) * TILE_SIZE_WIDTH,
     Y: 1 * TILE_SIZE_HEIGHT,
   },
   RIGHT: {
