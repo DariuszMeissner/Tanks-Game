@@ -1,6 +1,6 @@
 import Bot from '../entities/Bot.js';
 import { BotRespawn, PlayerRespawn } from '../config/config.js';
-import { BOT_HEIGHT, BOT_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH, SCREEN_WIDTH } from '../constants/game.js';
+import { BOT_HEIGHT, BOT_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/game.js';
 import Player from '../entities/Player.js';
 import { pauseSound } from '../../engine/soundHandler.js';
 
@@ -62,4 +62,13 @@ export function stopGameSound(assets) {
 
 export function createDeepCloneMap(mapObject) {
   return new Map(Object.entries(JSON.parse(JSON.stringify(Object.fromEntries(mapObject)))));
+}
+
+export function calculateTankEdgePosition(x, y, height, width) {
+  return {
+    Top: y <= 0,
+    Bottom: y >= SCREEN_HEIGHT - height,
+    Left: x <= 0,
+    Right: x >= SCREEN_WIDTH - width,
+  };
 }
