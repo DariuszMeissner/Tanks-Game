@@ -9,7 +9,6 @@ export default class MapController {
     this.map = map;
     this.assets = assets;
     this.tileSize = tileSize;
-    this.collisionWallWithBullet = false;
     this.gameOver = false;
     this.wonGame = false;
   }
@@ -62,7 +61,7 @@ export default class MapController {
     wall.detectCollisionWithPlayer(wall, player);
     wall.detectCollisionWithBot(wall, enemies);
 
-    this.#handleCollisionWithPlayersBullet(wall, playerBullets, row, column, objectType);
+    this.#handleCollisionWithPlayersBullet(player, wall, playerBullets, row, column, objectType);
     this.#handleCollisionWithBotsBullet(wall, enemies, row, column, objectType);
   }
 
@@ -80,10 +79,10 @@ export default class MapController {
     const eagle = new MapElement(x, y, this.tileSize);
     eagle.draw(ctx, objectDesign);
 
-    eagle.detectCollisionWithPlayer(eagle, player);
+    eagle.detectCollisionWithPlayer(player, eagle, player);
     eagle.detectCollisionWithBot(eagle, enemies);
 
-    this.#handleCollisionWithPlayersBullet(eagle, playerBullets, row, column, objectType);
+    this.#handleCollisionWithPlayersBullet(player, eagle, playerBullets, row, column, objectType);
     this.#handleCollisionWithBotsBullet(eagle, enemies, row, column, objectType);
   }
 
@@ -96,27 +95,27 @@ export default class MapController {
     road.detectCollisionsBetweenBots(enemies);
   }
 
-  #handleCollisionWithPlayersBullet(mapElement, playerBullets, row, column, objectType) {
+  #handleCollisionWithPlayersBullet(player, mapElement, playerBullets, row, column, objectType) {
     const isCollisionBullet = detectCollisionWithBullet(mapElement, playerBullets);
 
     if (isCollisionBullet) {
       switch (objectType) {
         case MapObject.WALL:
           this.map[row][column] = MapObject.ROAD;
-          this.collisionWallWithBullet = true;
+          player.collisionBulletWithObject = true;
           playSound(this.assets.get(SoundsPathsName.FIRING_AT_THE_BRICKS), 0.8);
           break;
         case MapObject.MAP_EDGE:
-          this.collisionWallWithBullet = true;
+          player.collisionBulletWithObject = true;
           playSound(this.assets.get(SoundsPathsName.FIRING_AT_THE_WALL), 0.5);
           break;
         case MapObject.ROCK:
-          this.collisionWallWithBullet = true;
+          player.collisionBulletWithObject = true;
           playSound(this.assets.get(SoundsPathsName.FIRING_AT_THE_WALL), 0.5);
           break;
         case MapObject.EAGLE:
           this.map[row][column] = MapObject.EAGLE_DEAD;
-          this.collisionWallWithBullet = true;
+          player.collisionBulletWithObject = true;
           this.gameOver = true;
           break;
       }
@@ -130,20 +129,20 @@ export default class MapController {
         switch (objectType) {
           case MapObject.WALL:
             this.map[row][column] = MapObject.ROAD;
-            this.collisionWallWithBullet = true;
+            enemy.collisionBulletWithObject = true;
             playSound(this.assets.get(SoundsPathsName.FIRING_AT_THE_BRICKS), 0.5);
             break;
           case MapObject.MAP_EDGE:
-            this.collisionWallWithBullet = true;
+            enemy.collisionBulletWithObject = true;
             playSound(this.assets.get(SoundsPathsName.FIRING_AT_THE_WALL), 0.5);
             break;
           case MapObject.ROCK:
-            this.collisionWallWithBullet = true;
+            enemy.collisionBulletWithObject = true;
             playSound(this.assets.get(SoundsPathsName.FIRING_AT_THE_WALL), 0.5);
             break;
           case MapObject.EAGLE:
             this.map[row][column] = MapObject.EAGLE_DEAD;
-            this.collisionWallWithBullet = true;
+            enemy.collisionBulletWithObject = true;
             this.gameOver = true;
             break;
         }
