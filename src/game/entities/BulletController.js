@@ -30,9 +30,9 @@ export default class BulletController {
   }
 
   detectCollisionWithWall(tank) {
-    if (this.mapController.collisionWallWithBullet) {
+    if (tank.collisionBulletWithObject) {
       this.bullets = [];
-      this.mapController.collisionWallWithBullet = false;
+      tank.collisionBulletWithObject = false;
 
       tank.unblockDirection();
     }
@@ -51,6 +51,7 @@ export default class BulletController {
           if (isColision) {
             this.enemyController.enemies.splice(index, 1);
             this.bullets = [];
+
             tank.unblockDirection();
 
             playSound(

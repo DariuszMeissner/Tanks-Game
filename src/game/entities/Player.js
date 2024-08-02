@@ -32,10 +32,10 @@ export default class Player {
     this.playingMoveSound = false;
     this.angle = 0;
     this.previousAngle;
+    this.collisionBulletWithObject = false;
 
     document.addEventListener('keydown', this.keydown.bind(this));
     document.addEventListener('keyup', this.keyup.bind(this));
-    // document.addEventListener('ended', this.endedIdleSound.bind(this));
   }
 
   draw(ctx, image, assets) {
@@ -105,19 +105,21 @@ export default class Player {
   }
 
   stopTankWhenTurning() {
+    const adjustmentValue = this.speed;
+
     if (this.angle != this.previousAngle) {
       switch (this.direction) {
         case Control.UP:
-          this.y += this.speed;
+          this.y += adjustmentValue;
           break;
         case Control.DOWN:
-          this.y -= this.speed;
+          this.y -= adjustmentValue;
           break;
         case Control.LEFT:
-          this.x += this.speed;
+          this.x += adjustmentValue;
           break;
         case Control.RIGHT:
-          this.x -= this.speed;
+          this.x -= adjustmentValue;
           break;
       }
     }
