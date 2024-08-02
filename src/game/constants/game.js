@@ -18,7 +18,7 @@ export const SCREEN_HEIGHT = Math.floor(MAP_HEIGHT * TILE_SIZE_HEIGHT);
 export const BOT_SPEED = 2;
 export const BOT_WIDTH = TILE_SIZE_WIDTH - 4;
 export const BOT_HEIGHT = TILE_SIZE_HEIGHT - 4;
-export const BOT_DELAY_START = 2000;
+export const BOT_DELAY_START = 400;
 
 export const PLAYER_SPEED = 2;
 export const PLAYER_WIDTH = TILE_SIZE_WIDTH - 4;
@@ -31,6 +31,13 @@ const endHud = TILE_SIZE_WIDTH * MAP_WIDTH;
 const widthHud = endHud - startHud;
 const middleHud = startHud + widthHud / 2;
 const hudContentWidth = 44;
+
+export const Angle = {
+  UP: 0,
+  DOWN: Math.PI,
+  LEFT: -Math.PI / 2,
+  RIGHT: Math.PI / 2,
+};
 
 export const HudP = {
   START: startHud,
