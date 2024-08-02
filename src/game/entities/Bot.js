@@ -1,6 +1,7 @@
-import { BOT_ID } from '../config/config.js';
+import { calculateTankEdgePosition } from '../common/common.js';
+import { BOT_ID, BOT_TIME_TO_SHOOT } from '../config/config.js';
 import { Control } from '../constants/controls.js';
-import { BOT_SPEED } from '../constants/game.js';
+import { Angle, BOT_SPEED } from '../constants/game.js';
 
 export default class Bot {
   constructor(x, y, width, height) {
@@ -10,9 +11,7 @@ export default class Bot {
     this.speed = BOT_SPEED;
     this.width = width;
     this.height = height;
-    this.previousX = null;
-    this.previousY = null;
-    this.direction = null;
+    this.direction = Control.DOWN;
     this.directions = [Control.UP, Control.DOWN, Control.LEFT, Control.RIGHT];
     this.bullets = [];
     this.bulletSpeed = 3;
@@ -22,6 +21,9 @@ export default class Bot {
     this.bulletController = null;
     this.timeoutId = null;
     this.bulletTimeoutId = null;
+    this.angle = 0;
+    this.previousAngle = undefined;
+    this.collisionBulletWithObject = false;
   }
 
   draw(ctx, image) {
@@ -31,26 +33,11 @@ export default class Bot {
       ctx.save();
       ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
 
-      let angle;
-      switch (this.direction) {
-        case Control.UP:
-          angle = 0;
-          break;
-        case Control.DOWN:
-          angle = Math.PI;
-          break;
-        case Control.LEFT:
-          angle = -Math.PI / 2;
-          break;
-        case Control.RIGHT:
-          angle = Math.PI / 2;
-          break;
-      }
+      this.setTankAngle();
 
-      ctx.rotate(angle);
+      ctx.rotate(this.angle);
 
       ctx.drawImage(image, -this.width / 2, -this.height / 2, this.width, this.height);
-
       ctx.restore();
 
       this.shoot();
@@ -67,14 +54,10 @@ export default class Bot {
 
       clearTimeout(this.bulletTimeoutId);
       this.bulletTimeoutId = null;
-    }, 5000);
+    }, BOT_TIME_TO_SHOOT);
   }
 
   move() {
-    if (this.direction === null) {
-      this.changeDirection();
-    }
-
     switch (this.direction) {
       case Control.UP:
         this.y -= this.speed;
@@ -91,6 +74,88 @@ export default class Bot {
     }
   }
 
+  setTankAngle() {
+    const angleLookup = {
+      [Control.UP]: Angle.UP,
+      [Control.DOWN]: Angle.DOWN,
+      [Control.LEFT]: Angle.LEFT,
+      [Control.RIGHT]: Angle.RIGHT,
+    };
+
+    this.previousAngle = this.angle;
+    this.angle = angleLookup[this.direction];
+
+    if (this.angle != this.previousAngle) {
+      this.stopTankWhenTurning();
+    }
+  }
+
+  stopTankWhenTurning() {
+    const positionEdge = calculateTankEdgePosition(this.x, this.y, this.height, this.width);
+    const adjustmentValue = 2;
+
+    if (this.previousAngle === Angle.RIGHT) {
+      switch (this.direction) {
+        case Control.DOWN:
+          this.x -= adjustmentValue;
+          positionEdge.Bottom ? (this.y -= adjustmentValue) : (this.y += adjustmentValue);
+          break;
+        case Control.UP:
+          this.x -= adjustmentValue;
+          positionEdge.Top ? (this.y += adjustmentValue) : (this.y -= adjustmentValue);
+          break;
+        case Control.LEFT:
+          this.x -= adjustmentValue;
+          break;
+      }
+    }
+    if (this.previousAngle === Angle.LEFT) {
+      switch (this.direction) {
+        case Control.DOWN:
+          this.x += adjustmentValue;
+          positionEdge.Bottom ? (this.y -= adjustmentValue) : (this.y += adjustmentValue);
+          break;
+        case Control.UP:
+          this.x += adjustmentValue;
+          positionEdge.Top ? (this.y += adjustmentValue) : (this.y -= adjustmentValue);
+          break;
+        case Control.RIGHT:
+          this.x += adjustmentValue;
+          break;
+      }
+    }
+    if (this.previousAngle === Angle.UP) {
+      switch (this.direction) {
+        case Control.DOWN:
+          this.y += adjustmentValue;
+          break;
+        case Control.LEFT:
+          positionEdge.Left ? (this.x += adjustmentValue) : (this.x -= adjustmentValue);
+          this.y += adjustmentValue;
+          break;
+        case Control.RIGHT:
+          positionEdge.Right ? (this.x -= adjustmentValue) : (this.x += adjustmentValue);
+          this.y += adjustmentValue;
+          break;
+      }
+    }
+    if (this.previousAngle === Angle.DOWN) {
+      switch (this.direction) {
+        case Control.UP:
+          this.y -= adjustmentValue;
+          break;
+        case Control.LEFT:
+          positionEdge.Left ? (this.x += adjustmentValue) : (this.x -= adjustmentValue);
+          this.y -= adjustmentValue;
+          break;
+        case Control.RIGHT:
+          positionEdge.Right ? (this.x -= adjustmentValue) : (this.x += adjustmentValue);
+          this.y -= adjustmentValue;
+          break;
+      }
+    }
+  }
+
   changeDirection() {
     const newDirections = this.directions.filter((direction) => direction !== this.direction);
     this.direction = newDirections[Math.floor(Math.random() * newDirections.length)];
@@ -101,6 +166,6 @@ export default class Bot {
   }
 
   unblockDirection() {
-    this.speed = 2;
+    this.speed = BOT_SPEED;
   }
 }
