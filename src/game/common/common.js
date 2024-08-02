@@ -28,16 +28,20 @@ export function clearCanvas(context) {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 }
 
+export function randomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 export function generateBots(count, positionCount = 3) {
   let array = [];
 
   for (let index = 1; index <= count; index++) {
     if (index % positionCount === 2) {
-      array.push(new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT));
+      array.push(new Bot(BotRespawn.LEFT.X, BotRespawn.LEFT.Y, BOT_WIDTH, BOT_HEIGHT, randomNumber(0, 3)));
     } else if (index % positionCount === 1) {
-      array.push(new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT));
+      array.push(new Bot(BotRespawn.MIDDLE.X, BotRespawn.MIDDLE.Y, BOT_WIDTH, BOT_HEIGHT, randomNumber(0, 3)));
     } else if (index % positionCount === 0) {
-      array.push(new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT));
+      array.push(new Bot(BotRespawn.RIGHT.X, BotRespawn.RIGHT.Y, BOT_WIDTH, BOT_HEIGHT, randomNumber(0, 3)));
     }
   }
 
@@ -71,4 +75,28 @@ export function calculateTankEdgePosition(x, y, height, width) {
     Left: x <= 0,
     Right: x >= SCREEN_WIDTH - width,
   };
+}
+
+export function animateObject(ctx, framesNumber, playerImage, objectWidth, objectHeight, frameX, frameY, setFrameX) {
+  const sprteWidth = 64;
+  const spriteHeight = 64;
+
+  if (ctx instanceof CanvasRenderingContext2D) {
+    ctx.drawImage(
+      playerImage,
+      frameX * sprteWidth,
+      frameY * spriteHeight,
+      sprteWidth,
+      spriteHeight,
+      -objectWidth / 2,
+      -objectHeight / 2,
+      objectWidth,
+      objectHeight
+    );
+
+    if (frameX < framesNumber - 1) setFrameX(frameX + 1);
+    else setFrameX(0);
+
+    if (framesNumber > 1) requestAnimationFrame(animateObject);
+  }
 }

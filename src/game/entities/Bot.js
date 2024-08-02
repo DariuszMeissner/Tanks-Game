@@ -1,10 +1,10 @@
-import { calculateTankEdgePosition } from '../common/common.js';
+import { animateObject, calculateTankEdgePosition } from '../common/common.js';
 import { BOT_ID, BOT_TIME_TO_SHOOT } from '../config/config.js';
 import { Control } from '../constants/controls.js';
 import { Angle, BOT_SPEED } from '../constants/game.js';
 
 export default class Bot {
-  constructor(x, y, width, height) {
+  constructor(x, y, width, height, level = 0) {
     this.id = BOT_ID;
     this.x = x;
     this.y = y;
@@ -22,8 +22,11 @@ export default class Bot {
     this.timeoutId = null;
     this.bulletTimeoutId = null;
     this.angle = 0;
+    this.idle = true;
     this.previousAngle = undefined;
     this.collisionBulletWithObject = false;
+    this.level = level;
+    this.frameX = 0;
   }
 
   draw(ctx, image) {
@@ -37,12 +40,16 @@ export default class Bot {
 
       ctx.rotate(this.angle);
 
-      ctx.drawImage(image, -this.width / 2, -this.height / 2, this.width, this.height);
+      animateObject(ctx, this.idle ? 1 : 2, image, this.width, this.height, this.frameX, this.level, this.setFrameX);
       ctx.restore();
 
       this.shoot();
     }
   }
+
+  setFrameX = (frame) => {
+    this.frameX = frame;
+  };
 
   shoot() {
     if (this.bulletTimeoutId) return;
@@ -50,7 +57,14 @@ export default class Bot {
     this.bulletTimeoutId = setTimeout(() => {
       const bulletX = this.x + (this.width / 5) * 2;
       const bulletY = this.y + this.height / 2;
-      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction);
+      this.bulletController.shoot(
+        bulletX,
+        bulletY,
+        this.bulletSpeed,
+        this.bulletDamage,
+        this.bulletDelay,
+        this.direction
+      );
 
       clearTimeout(this.bulletTimeoutId);
       this.bulletTimeoutId = null;
@@ -58,6 +72,7 @@ export default class Bot {
   }
 
   move() {
+    this.#updateMovementState();
     switch (this.direction) {
       case Control.UP:
         this.y -= this.speed;
@@ -167,5 +182,9 @@ export default class Bot {
 
   unblockDirection() {
     this.speed = BOT_SPEED;
+  }
+
+  #updateMovementState() {
+    this.idle = this.speed === 0;
   }
 }

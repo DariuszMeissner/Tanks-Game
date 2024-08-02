@@ -74,8 +74,8 @@ export class LevelScene extends Scene {
 
     clearCanvas(context);
 
-    this.playersController.draw(context, this.assets.get(ImagesPathsName.TANK_PLAYER));
-    this.botController.draw(context, this.assets.get(ImagesPathsName.TANK_ENEMY));
+    this.playersController.draw(context, this.assets.get(ImagesPathsName.PLAYER1_TANK));
+    this.botController.draw(context, this.assets.get(ImagesPathsName.BOT_TANK));
 
     this.stage.draw(
       context,

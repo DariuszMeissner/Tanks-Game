@@ -3,6 +3,7 @@ import { Control } from '../constants/controls.js';
 import { PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH, SoundsPathsName } from '../constants/game.js';
 import { PLAYER_ID } from '../config/config.js';
 import { pauseSound, playSound } from '../../engine/soundHandler.js';
+import { animateObject } from '../common/common.js';
 
 export default class Player {
   constructor(x, y, width, height) {
@@ -33,6 +34,8 @@ export default class Player {
     this.angle = 0;
     this.previousAngle;
     this.collisionBulletWithObject = false;
+    this.level = 3;
+    this.frameX = 0;
 
     document.addEventListener('keydown', this.keydown.bind(this));
     document.addEventListener('keyup', this.keyup.bind(this));
@@ -49,12 +52,17 @@ export default class Player {
       this.setTankAngle();
 
       ctx.rotate(this.angle);
-      ctx.drawImage(image, -this.width / 2, -this.height / 2, this.width, this.height);
+
+      animateObject(ctx, this.idle ? 1 : 2, image, this.width, this.height, this.frameX, this.level, this.setFrameX);
       ctx.restore();
 
       this.shoot();
     }
   }
+
+  setFrameX = (frame) => {
+    this.frameX = frame;
+  };
 
   move(assets) {
     this.#playSoundMovement(assets);
@@ -129,7 +137,14 @@ export default class Player {
     if (this.keyStates.Space) {
       const bulletX = this.x + (this.width / 5) * 2;
       const bulletY = this.y + this.height / 2;
-      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction);
+      this.bulletController.shoot(
+        bulletX,
+        bulletY,
+        this.bulletSpeed,
+        this.bulletDamage,
+        this.bulletDelay,
+        this.direction
+      );
     }
   }
 

@@ -1,5 +1,12 @@
 import Scene from '../../engine/Scene.js';
-import { ImagesPathsName, ImagesPaths, SoundsPathsName, SoundsPaths, FontsPathsName, FontsPaths } from '../constants/game.js';
+import {
+  ImagesPathsName,
+  ImagesPaths,
+  SoundsPathsName,
+  SoundsPaths,
+  FontsPathsName,
+  FontsPaths,
+} from '../constants/game.js';
 
 const assetsList = [
   [ImagesPathsName.ROAD, ImagesPaths.ROAD],
@@ -10,13 +17,13 @@ const assetsList = [
   [ImagesPathsName.EAGLE_DEAD, ImagesPaths.EAGLE_DEAD],
   [ImagesPathsName.MAP_EDGE, ImagesPaths.MAP_EDGE],
   [ImagesPathsName.ROCK, ImagesPaths.ROCK],
-  [ImagesPathsName.TANK_PLAYER, ImagesPaths.TANK_PLAYER],
-  [ImagesPathsName.TANK_ENEMY, ImagesPaths.TANK_ENEMY],
   [ImagesPathsName.MAIN_TEXT, ImagesPaths.MAIN_TEXT],
   [ImagesPathsName.CURSOR, ImagesPaths.CURSOR],
   [ImagesPathsName.STAGE_FLAG, ImagesPaths.STAGE_FLAG],
   [ImagesPathsName.PLAYER_LIFE, ImagesPaths.PLAYER_LIFE],
   [ImagesPathsName.ENEMY_LIFE, ImagesPaths.ENEMY_LIFE],
+  [ImagesPathsName.PLAYER1_TANK, ImagesPaths.PLAYER1_TANK],
+  [ImagesPathsName.BOT_TANK, ImagesPaths.BOT_TANK],
   [SoundsPathsName.ENEMY_DESTROYED, SoundsPaths.ENEMY_DESTROYED],
   [SoundsPathsName.FIRING_AT_THE_BRICKS, SoundsPaths.FIRING_AT_THE_BRICKS],
   [SoundsPathsName.FIRING_AT_THE_WALL, SoundsPaths.FIRING_AT_THE_WALL],

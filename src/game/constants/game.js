@@ -116,13 +116,13 @@ export const ImagesPathsName = {
   EAGLE_DEAD: 'eagle-dead',
   MAP_EDGE: 'map-edge',
   ROCK: 'rock',
-  TANK_PLAYER: 'tank-player',
-  TANK_ENEMY: 'tank-enemy',
   MAIN_TEXT: 'main-text',
   CURSOR: 'cursor',
   STAGE_FLAG: 'stage-flag',
   PLAYER_LIFE: 'player-life',
   ENEMY_LIFE: 'enemy-life',
+  PLAYER1_TANK: 'player1-tank',
+  BOT_TANK: 'bot-tank',
 };
 
 export const ImagesPaths = {
@@ -134,13 +134,13 @@ export const ImagesPaths = {
   EAGLE_DEAD: './../../assets/images/eagle_dead.png',
   MAP_EDGE: '/../../assets/images/map_edge.png',
   ROCK: './../../assets/images/rock_square.png',
-  TANK_PLAYER: './../../assets/images/tank_player.png',
-  TANK_ENEMY: './../../assets/images/tank_enemy.png',
   MAIN_TEXT: './../../assets/images/battle-city-main-text.png',
   CURSOR: './../../assets/images/tank_player_cursor.png',
   STAGE_FLAG: './../../assets/images/stage_flag.png',
   PLAYER_LIFE: './../../assets/images/player_life.png',
   ENEMY_LIFE: './../../assets/images/enemy_life.png',
+  PLAYER1_TANK: './../../assets/images/player1_tank.png',
+  BOT_TANK: './../../assets/images/bot_tank.png',
 };
 
 export const SoundsPathsName = {
