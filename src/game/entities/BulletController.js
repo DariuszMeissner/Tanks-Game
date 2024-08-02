@@ -18,7 +18,7 @@ export default class BulletController {
       }
 
       bullet.draw(ctx);
-      this.detectCollisionWithEnemy(tank);
+      this.detectCollisionWithEnemy();
       this.detectCollisionWithWall(tank);
     });
   }
@@ -38,21 +38,21 @@ export default class BulletController {
     }
   }
 
-  detectCollisionWithEnemy(tank) {
+  detectCollisionWithEnemy() {
     this.bullets.forEach((bullet) => {
       this.enemyController.enemies.forEach((enemy, index) => {
         if (index < this.enemyController.maxTankOnMap) {
-          const isColision =
+          const isColisionWithEnemy =
             bullet.x >= enemy.x &&
             bullet.y >= enemy.y &&
             bullet.x + bullet.width <= enemy.x + enemy.width &&
             bullet.y + bullet.height <= enemy.y + enemy.height;
 
-          if (isColision) {
+          if (isColisionWithEnemy) {
             this.enemyController.enemies.splice(index, 1);
             this.bullets = [];
 
-            tank.unblockDirection();
+            enemy.unblockDirection();
 
             playSound(
               this.mapController.assets.get(
