@@ -1,12 +1,5 @@
 import Scene from '../../engine/Scene.js';
-import {
-  ImagesPathsName,
-  ImagesPaths,
-  SoundsPathsName,
-  SoundsPaths,
-  FontsPathsName,
-  FontsPaths,
-} from '../constants/game.js';
+import { ImagesPathsName, ImagesPaths, SoundsPathsName, SoundsPaths, FontsPathsName, FontsPaths } from '../constants/game.js';
 
 const assetsList = [
   [ImagesPathsName.ROAD, ImagesPaths.ROAD],
@@ -24,6 +17,8 @@ const assetsList = [
   [ImagesPathsName.ENEMY_LIFE, ImagesPaths.ENEMY_LIFE],
   [ImagesPathsName.PLAYER1_TANK, ImagesPaths.PLAYER1_TANK],
   [ImagesPathsName.BOT_TANK, ImagesPaths.BOT_TANK],
+  [ImagesPathsName.RESPAWN_TANK, ImagesPaths.RESPAWN_TANK],
+  //
   [SoundsPathsName.ENEMY_DESTROYED, SoundsPaths.ENEMY_DESTROYED],
   [SoundsPathsName.FIRING_AT_THE_BRICKS, SoundsPaths.FIRING_AT_THE_BRICKS],
   [SoundsPathsName.FIRING_AT_THE_WALL, SoundsPaths.FIRING_AT_THE_WALL],
