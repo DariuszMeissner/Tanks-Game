@@ -18,6 +18,7 @@ const assetsList = [
   [ImagesPathsName.PLAYER1_TANK, ImagesPaths.PLAYER1_TANK],
   [ImagesPathsName.BOT_TANK, ImagesPaths.BOT_TANK],
   [ImagesPathsName.RESPAWN_TANK, ImagesPaths.RESPAWN_TANK],
+  [ImagesPathsName.EXPLOSION, ImagesPaths.EXPLOSION],
   //
   [SoundsPathsName.ENEMY_DESTROYED, SoundsPaths.ENEMY_DESTROYED],
   [SoundsPathsName.FIRING_AT_THE_BRICKS, SoundsPaths.FIRING_AT_THE_BRICKS],

@@ -124,6 +124,7 @@ export const ImagesPathsName = {
   PLAYER1_TANK: 'player1-tank',
   BOT_TANK: 'bot-tank',
   RESPAWN_TANK: 'respawn-tank',
+  EXPLOSION: 'explosion',
 };
 
 export const ImagesPaths = {
@@ -143,6 +144,7 @@ export const ImagesPaths = {
   PLAYER1_TANK: './../../assets/images/player1_tank.png',
   BOT_TANK: './../../assets/images/bot_tank.png',
   RESPAWN_TANK: './../../assets/images/respawn_tank.png',
+  EXPLOSION: './../../assets/images/explosion.png',
 };
 
 export const SoundsPathsName = {
