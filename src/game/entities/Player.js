@@ -39,6 +39,7 @@ export default class Player {
     this.frameXRespawn = 0;
     this.gameFrame = 0;
     this.endedRespawnAnimation = false;
+    this.disabledCollision = true;
 
     document.addEventListener('keydown', this.keydown.bind(this));
     document.addEventListener('keyup', this.keyup.bind(this));
@@ -66,7 +67,10 @@ export default class Player {
       );
       ctx.restore();
 
-      setTimeout(() => (this.endedRespawnAnimation = true), 2000);
+      setTimeout(() => {
+        this.endedRespawnAnimation = true;
+        this.disabledCollision = false;
+      }, 2000);
 
       return;
     }

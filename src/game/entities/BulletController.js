@@ -41,6 +41,8 @@ export default class BulletController {
   detectCollisionWithEnemy() {
     this.bullets.forEach((bullet) => {
       this.enemyController.enemies.forEach((enemy, index) => {
+        if (enemy.disabledCollision) return;
+
         if (index < this.enemyController.maxTankOnMap) {
           const isColisionWithEnemy =
             bullet.x >= enemy.x &&

@@ -30,6 +30,7 @@ export default class Bot {
     this.frameXRespawn = 0;
     this.gameFrame = 0;
     this.endedRespawnAnimation = false;
+    this.disabledCollision = true;
   }
 
   draw(ctx, image, assets) {
@@ -54,7 +55,10 @@ export default class Bot {
       );
       ctx.restore();
 
-      setTimeout(() => (this.endedRespawnAnimation = true), 2000);
+      setTimeout(() => {
+        this.endedRespawnAnimation = true;
+        this.disabledCollision = false;
+      }, 2000);
 
       return;
     }
