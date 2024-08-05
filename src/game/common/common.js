@@ -77,26 +77,34 @@ export function calculateTankEdgePosition(x, y, height, width) {
   };
 }
 
-export function animateObject(ctx, framesNumber, playerImage, objectWidth, objectHeight, frameX, frameY, setFrameX) {
-  const sprteWidth = 64;
-  const spriteHeight = 64;
-
+export function animateObject(
+  ctx,
+  framesNumber,
+  image,
+  dx,
+  dy,
+  dw,
+  dh,
+  frameX,
+  frameY,
+  setFrameX,
+  gameFrame,
+  setGameFrame,
+  speed,
+  spriteWidth = 64,
+  spriteHeight = 64
+) {
   if (ctx instanceof CanvasRenderingContext2D) {
-    ctx.drawImage(
-      playerImage,
-      frameX * sprteWidth,
-      frameY * spriteHeight,
-      sprteWidth,
-      spriteHeight,
-      -objectWidth / 2,
-      -objectHeight / 2,
-      objectWidth,
-      objectHeight
-    );
+    ctx.drawImage(image, frameX * spriteWidth, frameY * spriteHeight, spriteWidth, spriteHeight, dx, dy, dw, dh);
 
-    if (frameX < framesNumber - 1) setFrameX(frameX + 1);
-    else setFrameX(0);
+    if (gameFrame % speed == 0) {
+      if (frameX < framesNumber - 1) setFrameX(frameX + 1);
+      else setFrameX(0);
+    }
 
-    if (framesNumber > 1) requestAnimationFrame(animateObject);
+    if (framesNumber > 1) {
+      setGameFrame(gameFrame + 1);
+      requestAnimationFrame(animateObject);
+    }
   }
 }

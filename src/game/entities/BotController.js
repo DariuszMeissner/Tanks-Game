@@ -1,13 +1,14 @@
 import BulletController from '../entities/BulletController.js';
 
 export default class BotController {
-  constructor(enemies, mapController, playersController, maxTankOnMap) {
+  constructor(enemies, mapController, playersController, maxTankOnMap, assets) {
     this.enemies = enemies.map((enemy) => {
       enemy.bulletController = new BulletController(mapController, playersController);
       return enemy;
     });
     this.mapController = mapController;
     this.maxTankOnMap = maxTankOnMap;
+    this.assets = assets;
   }
 
   draw(context, image) {
@@ -19,7 +20,7 @@ export default class BotController {
 
     this.enemies.forEach((bot, index) => {
       if (index < this.maxTankOnMap) {
-        bot.draw(context, image);
+        bot.draw(context, image, this.assets);
         bot.bulletController.draw(context, bot);
       }
     });

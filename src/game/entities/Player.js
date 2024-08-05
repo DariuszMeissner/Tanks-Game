@@ -1,6 +1,6 @@
 import BulletController from './BulletController.js';
 import { Control } from '../constants/controls.js';
-import { PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH, SoundsPathsName } from '../constants/game.js';
+import { ImagesPathsName, PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH, SoundsPathsName } from '../constants/game.js';
 import { PLAYER_ID } from '../config/config.js';
 import { pauseSound, playSound } from '../../engine/soundHandler.js';
 import { animateObject } from '../common/common.js';
@@ -34,14 +34,43 @@ export default class Player {
     this.angle = 0;
     this.previousAngle;
     this.collisionBulletWithObject = false;
-    this.level = 3;
+    this.level = 2;
     this.frameX = 0;
+    this.frameXRespawn = 0;
+    this.gameFrame = 0;
+    this.endedRespawnAnimation = false;
 
     document.addEventListener('keydown', this.keydown.bind(this));
     document.addEventListener('keyup', this.keyup.bind(this));
   }
 
   draw(ctx, image, assets) {
+    if (!this.endedRespawnAnimation) {
+      ctx.save();
+      ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+      animateObject(
+        ctx,
+        4,
+        assets.get(ImagesPathsName.RESPAWN_TANK),
+        -this.width / 2,
+        -this.height / 2,
+        this.width,
+        this.height,
+        this.frameXRespawn,
+        0,
+        this.setFrameXRespawn,
+        this.gameFrame,
+        this.setGameFrame,
+        9,
+        60
+      );
+      ctx.restore();
+
+      setTimeout(() => (this.endedRespawnAnimation = true), 2000);
+
+      return;
+    }
+
     if (image instanceof Image) {
       this.move(assets);
       this.bulletController.draw(ctx, this);
@@ -53,16 +82,32 @@ export default class Player {
 
       ctx.rotate(this.angle);
 
-      animateObject(ctx, this.idle ? 1 : 2, image, this.width, this.height, this.frameX, this.level, this.setFrameX);
+      animateObject(
+        ctx,
+        this.idle ? 1 : 2,
+        image,
+        -this.width / 2,
+        -this.height / 2,
+        this.width,
+        this.height,
+        this.frameX,
+        this.level,
+        this.setFrameX,
+        this.gameFrame,
+        this.setGameFrame,
+        1
+      );
       ctx.restore();
 
       this.shoot();
     }
   }
 
-  setFrameX = (frame) => {
-    this.frameX = frame;
-  };
+  setFrameX = (frame) => (this.frameX = frame);
+
+  setFrameXRespawn = (frame) => (this.frameXRespawn = frame);
+
+  setGameFrame = (frame) => (this.gameFrame = frame);
 
   move(assets) {
     this.#playSoundMovement(assets);
@@ -137,14 +182,7 @@ export default class Player {
     if (this.keyStates.Space) {
       const bulletX = this.x + (this.width / 5) * 2;
       const bulletY = this.y + this.height / 2;
-      this.bulletController.shoot(
-        bulletX,
-        bulletY,
-        this.bulletSpeed,
-        this.bulletDamage,
-        this.bulletDelay,
-        this.direction
-      );
+      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction);
     }
   }
 
@@ -228,7 +266,7 @@ export default class Player {
   }
 
   #updateMovementState() {
-    const keyStateValues = Object.values(this.keyStates);
+    const keyStateValues = Object.values(this.keyStates).slice(0, 4);
     const isMoving = keyStateValues.includes(true);
     this.idle = !isMoving;
   }

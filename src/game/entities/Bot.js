@@ -1,7 +1,7 @@
 import { animateObject, calculateTankEdgePosition } from '../common/common.js';
 import { BOT_ID, BOT_TIME_TO_SHOOT } from '../config/config.js';
 import { Control } from '../constants/controls.js';
-import { Angle, BOT_SPEED } from '../constants/game.js';
+import { Angle, BOT_SPEED, ImagesPathsName } from '../constants/game.js';
 
 export default class Bot {
   constructor(x, y, width, height, level = 0) {
@@ -27,9 +27,38 @@ export default class Bot {
     this.collisionBulletWithObject = false;
     this.level = level;
     this.frameX = 0;
+    this.frameXRespawn = 0;
+    this.gameFrame = 0;
+    this.endedRespawnAnimation = false;
   }
 
-  draw(ctx, image) {
+  draw(ctx, image, assets) {
+    if (!this.endedRespawnAnimation) {
+      ctx.save();
+      ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+      animateObject(
+        ctx,
+        4,
+        assets.get(ImagesPathsName.RESPAWN_TANK),
+        -this.width / 2,
+        -this.height / 2,
+        this.width,
+        this.height,
+        this.frameXRespawn,
+        0,
+        this.setFrameXRespawn,
+        this.gameFrame,
+        this.setGameFrame,
+        9,
+        60
+      );
+      ctx.restore();
+
+      setTimeout(() => (this.endedRespawnAnimation = true), 2000);
+
+      return;
+    }
+
     if (image instanceof Image) {
       this.move();
 
@@ -40,16 +69,32 @@ export default class Bot {
 
       ctx.rotate(this.angle);
 
-      animateObject(ctx, this.idle ? 1 : 2, image, this.width, this.height, this.frameX, this.level, this.setFrameX);
+      animateObject(
+        ctx,
+        this.idle ? 1 : 2,
+        image,
+        -this.width / 2,
+        -this.height / 2,
+        this.width,
+        this.height,
+        this.frameX,
+        this.level,
+        this.setFrameX,
+        this.gameFrame,
+        this.setGameFrame,
+        1
+      );
       ctx.restore();
 
       this.shoot();
     }
   }
 
-  setFrameX = (frame) => {
-    this.frameX = frame;
-  };
+  setFrameX = (frame) => (this.frameX = frame);
+
+  setFrameXRespawn = (frame) => (this.frameXRespawn = frame);
+
+  setGameFrame = (frame) => (this.gameFrame = frame);
 
   shoot() {
     if (this.bulletTimeoutId) return;
@@ -57,14 +102,7 @@ export default class Bot {
     this.bulletTimeoutId = setTimeout(() => {
       const bulletX = this.x + (this.width / 5) * 2;
       const bulletY = this.y + this.height / 2;
-      this.bulletController.shoot(
-        bulletX,
-        bulletY,
-        this.bulletSpeed,
-        this.bulletDamage,
-        this.bulletDelay,
-        this.direction
-      );
+      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction);
 
       clearTimeout(this.bulletTimeoutId);
       this.bulletTimeoutId = null;
@@ -73,6 +111,7 @@ export default class Bot {
 
   move() {
     this.#updateMovementState();
+
     switch (this.direction) {
       case Control.UP:
         this.y -= this.speed;
