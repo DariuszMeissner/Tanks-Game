@@ -3,7 +3,7 @@ import BulletController from './BulletController.js';
 export default class PlayersController {
   constructor(players, mapController, maxTankOnMap, assets) {
     this.enemies = players.map((player) => {
-      player.bulletController = new BulletController(mapController, null);
+      player.bulletController = new BulletController(mapController, null, assets);
       return player;
     });
     this.mapController = mapController;

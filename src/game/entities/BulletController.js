@@ -1,14 +1,16 @@
 import Bullet from './Bullet.js';
 import { isBulletOutOfScreen } from '../../engine/util/collision.js';
 import { playSound } from '../../engine/soundHandler.js';
-import { SoundsPathsName } from '../constants/game.js';
+import { ImagesPathsName, SoundsPathsName } from '../constants/game.js';
 import { PLAYER_ID } from '../config/config.js';
+import { animateObject } from '../common/common.js';
 
 export default class BulletController {
   bullets = [];
-  constructor(mapController, enemyController) {
+  constructor(mapController, enemyController, assets) {
     this.mapController = mapController;
     this.enemyController = enemyController;
+    this.assets = assets;
   }
 
   draw(ctx, tank) {
@@ -19,7 +21,7 @@ export default class BulletController {
 
       bullet.draw(ctx);
       this.detectCollisionWithEnemy();
-      this.detectCollisionWithWall(tank);
+      this.detectCollisionWithWall(ctx, tank);
     });
   }
 
@@ -29,10 +31,40 @@ export default class BulletController {
     }
   }
 
-  detectCollisionWithWall(tank) {
+  detectCollisionWithWall(ctx, tank) {
     if (tank.collisionBulletWithObject) {
-      this.bullets = [];
-      tank.collisionBulletWithObject = false;
+      tank.bulletController.bullets[0].collision = true;
+
+      if (!tank.bulletController.bullets[0].endedAnimationExplosion) {
+        ctx.save();
+        ctx.translate(
+          tank.bulletController.bullets[0].x + tank.bulletController.bullets[0].width / 2,
+          tank.bulletController.bullets[0].y + tank.bulletController.bullets[0].height / 2
+        );
+        animateObject(
+          ctx,
+          3,
+          this.assets.get(ImagesPathsName.EXPLOSION),
+          -100 / 2,
+          -100 / 2,
+          100,
+          100,
+          tank.bulletController.bullets[0].frameX,
+          0,
+          tank.bulletController.bullets[0].setFrameX,
+          tank.bulletController.bullets[0].gameFrame,
+          tank.bulletController.bullets[0].setGameFrame,
+          25,
+          132,
+          139
+        );
+        ctx.restore();
+
+        setTimeout(() => {
+          tank.bulletController.bullets = [];
+          tank.collisionBulletWithObject = false;
+        }, 600);
+      }
 
       tank.unblockDirection();
     }

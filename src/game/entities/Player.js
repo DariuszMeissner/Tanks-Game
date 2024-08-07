@@ -1,4 +1,3 @@
-import BulletController from './BulletController.js';
 import { Control } from '../constants/controls.js';
 import { ImagesPathsName, PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH, SoundsPathsName } from '../constants/game.js';
 import { PLAYER_ID } from '../config/config.js';
@@ -13,7 +12,7 @@ export default class Player {
     this.width = width;
     this.height = height;
     this.speed = PLAYER_SPEED;
-    this.bulletController = new BulletController(null, null);
+    this.bulletController = null;
     this.bulletSpeed = 3;
     this.bulletDelay = 10;
     this.bulletDamage = 1;
