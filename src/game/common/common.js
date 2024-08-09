@@ -97,9 +97,8 @@ export function animateObject(
   if (ctx instanceof CanvasRenderingContext2D) {
     ctx.drawImage(image, frameX * spriteWidth, frameY * spriteHeight, spriteWidth, spriteHeight, dx, dy, dw, dh);
 
-    if (gameFrame % speed == 0) {
-      if (frameX < framesNumber - 1) setFrameX(frameX + 1);
-      else setFrameX(0);
+    if (gameFrame % speed == 0 && framesNumber > 1) {
+      frameX < framesNumber - 1 ? setFrameX(frameX + 1) : setFrameX(0);
     }
 
     if (framesNumber > 1) {
