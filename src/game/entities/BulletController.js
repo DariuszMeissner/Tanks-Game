@@ -19,7 +19,7 @@ export default class BulletController {
         this.removeBulletOutOfScreen(bullet);
       }
 
-      bullet.draw(ctx);
+      bullet.draw(ctx, this.assets.get(ImagesPathsName.BULLET));
       this.detectCollisionWithEnemy();
       this.detectCollisionWithWall(ctx, tank);
     });
@@ -60,10 +60,10 @@ export default class BulletController {
         );
         ctx.restore();
 
-        setTimeout(() => {
-          tank.bulletController.bullets = [];
-          tank.collisionBulletWithObject = false;
-        }, 600);
+        // setTimeout(() => {
+        tank.bulletController.bullets = [];
+        tank.collisionBulletWithObject = false;
+        // }, 600);
       }
 
       tank.unblockDirection();
