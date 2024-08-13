@@ -54,16 +54,16 @@ export default class BulletController {
           tank.bulletController.bullets[0].setFrameX,
           tank.bulletController.bullets[0].gameFrame,
           tank.bulletController.bullets[0].setGameFrame,
-          25,
+          15,
           132,
           139
         );
         ctx.restore();
 
-        // setTimeout(() => {
-        tank.bulletController.bullets = [];
-        tank.collisionBulletWithObject = false;
-        // }, 600);
+        setTimeout(() => {
+          tank.bulletController.bullets = [];
+          tank.collisionBulletWithObject = false;
+        }, 300);
       }
 
       tank.unblockDirection();

@@ -74,6 +74,9 @@ export class LevelScene extends Scene {
 
     clearCanvas(context);
 
+    this.playersController.drawPlayer(context, this.assets.get(ImagesPathsName.PLAYER1_TANK));
+    this.botController.drawBot(context, this.assets.get(ImagesPathsName.BOT_TANK));
+
     this.stage.draw(
       context,
       this.playersController.enemies[0],
@@ -82,8 +85,8 @@ export class LevelScene extends Scene {
       this.assets
     );
 
-    this.playersController.draw(context, this.assets.get(ImagesPathsName.PLAYER1_TANK));
-    this.botController.draw(context, this.assets.get(ImagesPathsName.BOT_TANK));
+    this.playersController.drawBullet(context);
+    this.botController.drawBullet(context);
 
     this.showGameOverInfo(context, this.stage);
 

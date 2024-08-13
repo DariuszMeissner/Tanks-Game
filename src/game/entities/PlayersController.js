@@ -11,19 +11,36 @@ export default class PlayersController {
     this.assets = assets;
   }
 
-  draw(ctx, image) {
-    const noLifes = this.enemies.length === 0;
-    if (noLifes) {
-      this.endGame();
-      return;
-    }
+  drawPlayer(ctx, image) {
+    this.checkEnemiesAndEndGame();
 
     this.enemies.forEach((player, index) => {
-      if (index < this.maxTankOnMap) {
+      if (this.shouldDraw(index)) {
         player.draw(ctx, image, this.assets);
+      }
+    });
+  }
+
+  drawBullet(ctx) {
+    this.checkEnemiesAndEndGame();
+
+    this.enemies.forEach((player, index) => {
+      if (this.shouldDraw(index)) {
         player.bulletController.draw(ctx, player);
       }
     });
+  }
+
+  checkEnemiesAndEndGame() {
+    const noEnemy = this.enemies.length === 0;
+    if (noEnemy) {
+      this.endGame();
+      return;
+    }
+  }
+
+  shouldDraw(index) {
+    return index < this.maxTankOnMap;
   }
 
   endGame() {

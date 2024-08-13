@@ -16,6 +16,7 @@ export default class Bullet {
     this.endedAnimationExplosion = false;
     this.timeoutIdAnimationExplosion = false;
     this.collision = false;
+    this.collisionDisabled = false;
   }
 
   draw(ctx, imgBullet) {

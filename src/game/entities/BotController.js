@@ -11,19 +11,36 @@ export default class BotController {
     this.assets = assets;
   }
 
-  draw(context, image) {
+  drawBot(ctx, image) {
+    this.checkEnemiesAndEndGame();
+
+    this.enemies.forEach((bot, index) => {
+      if (this.shouldDraw(index)) {
+        bot.draw(ctx, image, this.assets);
+      }
+    });
+  }
+
+  drawBullet(ctx) {
+    this.checkEnemiesAndEndGame();
+
+    this.enemies.forEach((bot, index) => {
+      if (this.shouldDraw(index)) {
+        bot.bulletController.draw(ctx, bot);
+      }
+    });
+  }
+
+  checkEnemiesAndEndGame() {
     const noEnemy = this.enemies.length === 0;
     if (noEnemy) {
       this.endGame();
       return;
     }
+  }
 
-    this.enemies.forEach((bot, index) => {
-      if (index < this.maxTankOnMap) {
-        bot.draw(context, image, this.assets);
-        bot.bulletController.draw(context, bot);
-      }
-    });
+  shouldDraw(index) {
+    return index < this.maxTankOnMap;
   }
 
   endGame() {
