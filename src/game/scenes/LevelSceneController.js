@@ -2,17 +2,17 @@ import { clearCanvas, createDeepCloneMap, generateBots, generatePlayers } from '
 import { LEVEL_INIT, PlayerRespawn } from '../config/config.js';
 import { Control } from '../constants/controls.js';
 import { FONT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/game.js';
-import { MAP_LEVELS as ORIGINAL_MAP } from '../constants/levelsMaps.js';
+import { MAP_LEVELS as ORIGINAL_MAP } from '../constants/levelsController.js';
 import { LevelScene } from './LevelScene.js';
 
 export class LevelSceneController {
   constructor(assets, setDisplayCallback) {
     this.mapInit = createDeepCloneMap(ORIGINAL_MAP);
     this.players = generatePlayers(1);
-    this.enemies = generateBots(1);
+    this.enemies = generateBots(10);
     this.assets = assets;
     this.currentLevel = LEVEL_INIT;
-    this.stageController = new LevelScene(this.enemies, this.players, assets, this.mapInit.get(this.currentLevel.toString()), 1);
+    this.stageController = new LevelScene(this.enemies, this.players, assets, this.mapInit.get(this.currentLevel.toString()), 3);
     this.endGame = false;
     this.setDisplay = setDisplayCallback;
   }
