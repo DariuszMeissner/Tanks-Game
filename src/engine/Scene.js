@@ -12,13 +12,6 @@ export default class Scene {
     this.startupSoundStarted = false;
   }
 
-  fixPlayersBulletsCircularDependency(players) {
-    players.forEach((player) => {
-      player.bulletController.enemyController = this.botController;
-      player.bulletController.mapController = this.stage;
-    });
-  }
-
   showGameOverInfo(context, stage) {
     const lineHeight = 24;
     if (!stage.gameOver) return;

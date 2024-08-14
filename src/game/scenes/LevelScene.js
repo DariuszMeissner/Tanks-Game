@@ -1,6 +1,4 @@
-import BotController from '../entities/BotController.js';
 import MapController from '../entities/MapController.js';
-import PlayersController from '../entities/PlayersController.js';
 import Scene from '../../engine/Scene.js';
 import {
   TILE_SIZE_WIDTH,
@@ -16,6 +14,7 @@ import { Hud } from '../entities/Hud.js';
 import { STAGE_INFO_DURATION, SUMMARY_INFO_DURATION } from '../config/config.js';
 import { setAndClearTimeout } from '../common/common.js';
 import { playSound } from '../../engine/soundHandler.js';
+import TankController from '../entities/TankController.js';
 
 export class LevelScene extends Scene {
   constructor(enemies, players, assets, stageLevel, maxTankOnMap) {
@@ -24,8 +23,8 @@ export class LevelScene extends Scene {
     this.assets = assets;
     this.stage = new MapController(stageLevel.slice(1), TILE_SIZE_WIDTH, assets);
     this.maxTankOnMap = maxTankOnMap;
-    this.playersController = new PlayersController(players, this.stage, 1, assets);
-    this.botController = new BotController(enemies, this.stage, this.playersController, maxTankOnMap, assets);
+    this.playersController = new TankController(players, this.stage, null, 1, assets);
+    this.botController = new TankController(enemies, this.stage, this.playersController, maxTankOnMap, assets);
     this.hud = new Hud(this.playersController, this.botController, assets, this.stageLevel);
     this.displayingLevelInfo = true;
     this.idTimeoutHideStageInfo = null;
@@ -38,7 +37,7 @@ export class LevelScene extends Scene {
     this.repeatStage = false;
     this.playedGameOverSound = false;
 
-    this.fixPlayersBulletsCircularDependency(players);
+    this.#fixPlayersBulletsCircularDependency(players);
   }
 
   draw(context) {
@@ -69,13 +68,20 @@ export class LevelScene extends Scene {
     this.#game(context);
   }
 
+  #fixPlayersBulletsCircularDependency(players) {
+    players.forEach((player) => {
+      player.bulletController.enemyController = this.botController;
+      player.bulletController.mapController = this.stage;
+    });
+  }
+
   #game(context) {
     this.playStartUpSound(this.assets.get(SoundsPathsName.START_UP));
 
     clearCanvas(context);
 
-    this.playersController.drawPlayer(context, this.assets.get(ImagesPathsName.PLAYER1_TANK));
-    this.botController.drawBot(context, this.assets.get(ImagesPathsName.BOT_TANK));
+    this.playersController.drawTank(context, this.assets.get(ImagesPathsName.PLAYER1_TANK));
+    this.botController.drawTank(context, this.assets.get(ImagesPathsName.BOT_TANK));
 
     this.stage.draw(
       context,
