@@ -1,5 +1,5 @@
 import Bullet from './Bullet.js';
-import { isBulletOutOfScreen } from '../../engine/util/collision.js';
+import { detectBulletCollision, isBulletOutOfScreen } from '../../engine/util/collision.js';
 import { playSound } from '../../engine/soundHandler.js';
 import { ImagesPathsName, SoundsPathsName } from '../constants/game.js';
 import { PLAYER_ID } from '../config/config.js';
@@ -20,7 +20,7 @@ export default class BulletController {
       }
 
       bullet.draw(ctx, this.assets.get(ImagesPathsName.BULLET));
-      this.detectCollisionWithEnemy();
+      this.detectCollisionWithEnemy(ctx);
       this.detectCollisionWithWall(ctx, tank);
     });
   }
@@ -33,14 +33,11 @@ export default class BulletController {
 
   detectCollisionWithWall(ctx, tank) {
     if (tank.collisionBulletWithObject) {
-      tank.bulletController.bullets[0].collision = true;
+      this.bullets[0].collision = true;
 
-      if (!tank.bulletController.bullets[0].endedAnimationExplosion) {
+      if (!this.bullets[0].endedAnimationExplosion) {
         ctx.save();
-        ctx.translate(
-          tank.bulletController.bullets[0].x + tank.bulletController.bullets[0].width / 2,
-          tank.bulletController.bullets[0].y + tank.bulletController.bullets[0].height / 2
-        );
+        ctx.translate(this.bullets[0].x + this.bullets[0].width / 2, this.bullets[0].y + this.bullets[0].height / 2);
         animateObject(
           ctx,
           3,
@@ -49,11 +46,11 @@ export default class BulletController {
           -100 / 2,
           100,
           100,
-          tank.bulletController.bullets[0].frameX,
+          this.bullets[0].frameX,
           0,
-          tank.bulletController.bullets[0].setFrameX,
-          tank.bulletController.bullets[0].gameFrame,
-          tank.bulletController.bullets[0].setGameFrame,
+          this.bullets[0].setFrameX,
+          this.bullets[0].gameFrame,
+          this.bullets[0].setGameFrame,
           15,
           132,
           139
@@ -61,7 +58,7 @@ export default class BulletController {
         ctx.restore();
 
         setTimeout(() => {
-          tank.bulletController.bullets = [];
+          this.bullets = [];
           tank.collisionBulletWithObject = false;
         }, 300);
       }
@@ -70,31 +67,23 @@ export default class BulletController {
     }
   }
 
-  detectCollisionWithEnemy() {
+  detectCollisionWithEnemy(ctx) {
     this.bullets.forEach((bullet) => {
-      this.enemyController.enemies.forEach((enemy, index) => {
-        if (enemy.disabledCollision) return;
+      this.enemyController.enemies.forEach((tank, index) => {
+        if (tank.disabledCollision || !this.shouldDraw(index)) return;
 
-        if (index < this.enemyController.maxTankOnMap) {
-          const isColisionWithEnemy =
-            bullet.x >= enemy.x &&
-            bullet.y >= enemy.y &&
-            bullet.x + bullet.width <= enemy.x + enemy.width &&
-            bullet.y + bullet.height <= enemy.y + enemy.height;
+        if (detectBulletCollision(tank, bullet)) {
+          this.bullets = [];
+          this.enemyController.enemies.splice(index, 1);
 
-          if (isColisionWithEnemy) {
-            this.enemyController.enemies.splice(index, 1);
-            this.bullets = [];
+          tank.unblockDirection();
 
-            enemy.unblockDirection();
-
-            playSound(
-              this.mapController.assets.get(
-                enemy.id === PLAYER_ID ? SoundsPathsName.PLAYER_TANK_DESTROYED_EAGLE_DESTROYED : SoundsPathsName.ENEMY_DESTROYED
-              ),
-              0.2
-            );
-          }
+          playSound(
+            this.mapController.assets.get(
+              tank.id === PLAYER_ID ? SoundsPathsName.PLAYER_TANK_DESTROYED_EAGLE_DESTROYED : SoundsPathsName.ENEMY_DESTROYED
+            ),
+            0.2
+          );
         }
       });
     });
@@ -103,5 +92,9 @@ export default class BulletController {
   removeBulletOutOfScreen(bullet) {
     const index = this.bullets.indexOf(bullet);
     this.bullets.splice(index, 1);
+  }
+
+  shouldDraw(index) {
+    return index < this.enemyController.maxTankOnMap;
   }
 }

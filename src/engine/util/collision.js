@@ -120,3 +120,12 @@ export function isBulletOutOfScreen(bullet) {
     bullet.x >= SCREEN_WIDTH + bullet.width
   );
 }
+
+export function detectBulletCollision(tank, bullet) {
+  return (
+    bullet.x >= tank.x &&
+    bullet.y >= tank.y &&
+    bullet.x + bullet.width <= tank.x + tank.width &&
+    bullet.y + bullet.height <= tank.y + tank.height
+  );
+}
