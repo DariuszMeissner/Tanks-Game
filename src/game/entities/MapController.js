@@ -29,7 +29,7 @@ export default class MapController {
             this.#handleWall(ctx, x, y, player, playerBullets, enemies, row, column, assets.get(ImagesPathsName.WALL), tile);
             break;
           case MapObject.WATER:
-            this.#handleWater(ctx, x, y, assets.get(ImagesPathsName.WATER));
+            this.#handleWater(ctx, x, y, assets.get(ImagesPathsName.WATER), player, enemies);
             break;
           case MapObject.GRASS:
             this.#handleGrass(ctx, x, y, assets.get(ImagesPathsName.GRASS));
@@ -65,9 +65,11 @@ export default class MapController {
     this.#handleCollisionWithBotsBullet(wall, enemies, row, column, objectType);
   }
 
-  #handleWater(ctx, x, y, objectDesign) {
+  #handleWater(ctx, x, y, objectDesign, player, enemies) {
     const water = new MapElement(x, y, this.tileSize);
     water.draw(ctx, objectDesign);
+    water.detectCollisionWithPlayer(water, player);
+    water.detectCollisionWithBot(water, enemies);
   }
 
   #handleGrass(ctx, x, y, objectDesign) {
