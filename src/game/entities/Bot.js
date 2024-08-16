@@ -31,6 +31,7 @@ export default class Bot {
     this.gameFrame = 0;
     this.endedRespawnAnimation = false;
     this.disabledCollision = true;
+    this.typeObjectCollision = null;
   }
 
   draw(ctx, image, assets) {

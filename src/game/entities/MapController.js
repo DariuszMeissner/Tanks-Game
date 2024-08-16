@@ -108,6 +108,7 @@ export default class MapController {
     if (isCollisionBullet && !playerBullets.collisionDisabled) {
       player.collisionBulletWithObject = true;
       playerBullets.collisionDisabled = true;
+      player.typeObjectCollision = objectType;
 
       switch (objectType) {
         case MapObject.WALL:
@@ -129,11 +130,12 @@ export default class MapController {
   }
 
   #handleCollisionWithBotsBullet(mapElement, enemies, row, column, objectType) {
-    enemies.forEach((enemy) => {
-      const isCollisionBullet = detectCollisionWithBullet(mapElement, enemy.bulletController.bullets[0]);
-      if (isCollisionBullet && !enemy.bulletController.bullets[0].collisionDisabled) {
-        enemy.collisionBulletWithObject = true;
-        enemy.bulletController.bullets[0].collisionDisabled = true;
+    enemies.forEach((bot) => {
+      const isCollisionBullet = detectCollisionWithBullet(mapElement, bot.bulletController.bullets[0]);
+      if (isCollisionBullet && !bot.bulletController.bullets[0].collisionDisabled) {
+        bot.collisionBulletWithObject = true;
+        bot.bulletController.bullets[0].collisionDisabled = true;
+        bot.typeObjectCollision = objectType;
 
         switch (objectType) {
           case MapObject.WALL:

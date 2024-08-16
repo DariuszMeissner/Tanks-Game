@@ -4,6 +4,7 @@ import { playSound } from '../../engine/soundHandler.js';
 import { ImagesPathsName, SoundsPathsName } from '../constants/game.js';
 import { PLAYER_ID } from '../config/config.js';
 import { animateObject } from '../common/common.js';
+import { MapObject } from '../constants/levelsController.js';
 
 export default class BulletController {
   bullets = [];
@@ -34,7 +35,6 @@ export default class BulletController {
   detectCollisionWithWall(ctx, tank) {
     if (tank.collisionBulletWithObject) {
       this.bullets[0].collision = true;
-
       if (!this.bullets[0].endedAnimationExplosion) {
         ctx.save();
         ctx.translate(this.bullets[0].x + this.bullets[0].width / 2, this.bullets[0].y + this.bullets[0].height / 2);
@@ -63,7 +63,16 @@ export default class BulletController {
         }, 300);
       }
 
-      tank.unblockDirection();
+      if (
+        tank.collisionWithWall &&
+        (tank.typeObjectCollision == MapObject.WALL ||
+          tank.typeObjectCollision == MapObject.EAGLE ||
+          tank.typeObjectCollision == MapObject.GRASS ||
+          tank.typeObjectCollision == MapObject.ROAD)
+      ) {
+        tank.unblockDirection();
+        tank.collisionWithWall = false;
+      }
     }
   }
 

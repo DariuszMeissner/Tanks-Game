@@ -39,6 +39,7 @@ export default class Player {
     this.gameFrame = 0;
     this.endedRespawnAnimation = false;
     this.disabledCollision = true;
+    this.typeObjectCollision = null;
 
     document.addEventListener('keydown', this.keydown.bind(this));
     document.addEventListener('keyup', this.keyup.bind(this));
