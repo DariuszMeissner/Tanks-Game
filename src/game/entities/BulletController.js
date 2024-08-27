@@ -63,16 +63,7 @@ export default class BulletController {
         }, 300);
       }
 
-      if (
-        tank.collisionWithWall &&
-        (tank.typeObjectCollision == MapObject.WALL ||
-          tank.typeObjectCollision == MapObject.EAGLE ||
-          tank.typeObjectCollision == MapObject.GRASS ||
-          tank.typeObjectCollision == MapObject.ROAD)
-      ) {
-        tank.unblockDirection();
-        tank.collisionWithWall = false;
-      }
+      this.shouldDrive(tank);
     }
   }
 
@@ -105,5 +96,18 @@ export default class BulletController {
 
   shouldDraw(index) {
     return index < this.enemyController.maxTankOnMap;
+  }
+
+  shouldDrive(tank) {
+    if (
+      tank.collisionWithWall &&
+      (tank.typeObjectCollision == MapObject.WALL ||
+        tank.typeObjectCollision == MapObject.EAGLE ||
+        tank.typeObjectCollision == MapObject.GRASS ||
+        tank.typeObjectCollision == MapObject.ROAD)
+    ) {
+      tank.unblockDirection();
+      tank.collisionWithWall = false;
+    }
   }
 }
