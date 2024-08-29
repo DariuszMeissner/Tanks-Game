@@ -27,14 +27,14 @@ export default class MapElement {
     if (!player) return;
 
     for (const bot of enemies) {
-      if (detectCollisionFrontOfTank(bot, player, player.direction, player.speed)) {
+      if (detectCollisionFrontOfTank(bot, player)) {
         player.blockDirection();
         player.collisionWithBot = true;
         return;
       }
 
       // unblock direction if no collision, when collision and bot go away
-      if (!detectCollisionFrontOfTank(bot, player, player.direction, player.speed) && player.collisionWithBot) {
+      if (!detectCollisionFrontOfTank(bot, player) && player.collisionWithBot) {
         player.unblockDirection();
         player.collisionWithBot = false;
       }
