@@ -21,7 +21,7 @@ export default class BulletController {
       }
 
       bullet.draw(ctx, this.assets.get(ImagesPathsName.BULLET));
-      this.detectCollisionWithEnemy(ctx);
+      this.detectCollisionWithEnemy();
       this.detectCollisionWithWall(ctx, tank);
     });
   }
@@ -35,48 +35,29 @@ export default class BulletController {
   detectCollisionWithWall(ctx, tank) {
     if (tank.collisionBulletWithObject) {
       this.bullets[0].collision = true;
-      if (!this.bullets[0].endedAnimationExplosion) {
-        ctx.save();
-        ctx.translate(this.bullets[0].x + this.bullets[0].width / 2, this.bullets[0].y + this.bullets[0].height / 2);
-        animateObject(
-          ctx,
-          3,
-          this.assets.get(ImagesPathsName.EXPLOSION),
-          -100 / 2,
-          -100 / 2,
-          100,
-          100,
-          this.bullets[0].frameX,
-          0,
-          this.bullets[0].setFrameX,
-          this.bullets[0].gameFrame,
-          this.bullets[0].setGameFrame,
-          15,
-          132,
-          139
-        );
-        ctx.restore();
 
-        setTimeout(() => {
-          this.bullets = [];
-          tank.collisionBulletWithObject = false;
-        }, 300);
+      if (!this.bullets[0].endedAnimationExplosion) {
+        this.#drawSmallExplosion(ctx, tank);
       }
 
       this.shouldDrive(tank);
     }
   }
 
-  detectCollisionWithEnemy(ctx) {
+  detectCollisionWithEnemy() {
     this.bullets.forEach((bullet) => {
       this.enemyController.enemies.forEach((tank, index) => {
-        if (tank.disabledCollision || !this.shouldDraw(index)) return;
+        if (tank.disabledCollision || !this.shouldDraw(index)) {
+          return;
+        }
 
         if (detectBulletCollision(tank, bullet)) {
+          this.bullets[0].collision = true;
+          this.enemyController.collisionBulletWithEnemy = true;
           this.bullets = [];
           this.enemyController.enemies.splice(index, 1);
 
-          tank.unblockDirection();
+          this.enemyController.tmpBullet = bullet;
 
           playSound(
             this.mapController.assets.get(
@@ -84,9 +65,40 @@ export default class BulletController {
             ),
             0.2
           );
+
+          tank.unblockDirection();
         }
       });
     });
+  }
+
+  #drawSmallExplosion(ctx, tank) {
+    ctx.save();
+    ctx.translate(this.bullets[0].x + this.bullets[0].width / 2, this.bullets[0].y + this.bullets[0].height / 2);
+    animateObject(
+      ctx,
+      3,
+      this.assets.get(ImagesPathsName.EXPLOSION),
+      -100 / 2,
+      -100 / 2,
+      100,
+      100,
+      this.bullets[0].frameX,
+      0,
+      this.bullets[0].setFrameX,
+      this.bullets[0].gameFrame,
+      this.bullets[0].setGameFrame,
+      15,
+      132,
+      139
+    );
+    ctx.restore();
+
+    const idTimeout = setTimeout(() => {
+      this.bullets = [];
+      tank.collisionBulletWithObject = false;
+      clearTimeout(idTimeout);
+    }, 300);
   }
 
   removeBulletOutOfScreen(bullet) {

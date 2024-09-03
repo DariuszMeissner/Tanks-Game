@@ -92,7 +92,9 @@ export class LevelScene extends Scene {
     );
 
     this.playersController.drawBullet(context);
+    this.playersController.drawTankExplosion(context);
     this.botController.drawBullet(context);
+    this.botController.drawTankExplosion(context);
 
     this.showGameOverInfo(context, this.stage);
 
