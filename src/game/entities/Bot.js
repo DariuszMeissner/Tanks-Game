@@ -56,9 +56,10 @@ export default class Bot {
       );
       ctx.restore();
 
-      setTimeout(() => {
+      const idTimeout = setTimeout(() => {
         this.endedRespawnAnimation = true;
         this.disabledCollision = false;
+        clearTimeout(idTimeout);
       }, 2000);
 
       return;
