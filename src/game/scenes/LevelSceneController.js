@@ -1,8 +1,8 @@
 import { clearCanvas, createDeepCloneMap, generateBots, generatePlayers } from '../common/common.js';
 import { LEVEL_INIT, PlayerRespawn } from '../config/config.js';
-import { Control } from '../constants/controls.js';
+import { Control } from '../constants/game.js';
 import { FONT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/game.js';
-import { MAP_LEVELS as ORIGINAL_MAP } from '../constants/levelsController.js';
+import { MAP_LEVELS as ORIGINAL_MAP } from '../constants/levels.js';
 import { LevelScene } from './LevelScene.js';
 
 export class LevelSceneController {

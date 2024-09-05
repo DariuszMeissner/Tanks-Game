@@ -1,6 +1,6 @@
 import { animateObject, calculateTankEdgePosition } from '../common/common.js';
 import { BOT_ID, BOT_TIME_TO_SHOOT } from '../config/config.js';
-import { Control } from '../constants/controls.js';
+import { Control } from '../constants/game.js';
 import { Angle, BOT_SPEED, ImagesPathsName } from '../constants/game.js';
 
 export default class Bot {
@@ -36,64 +36,69 @@ export default class Bot {
 
   draw(ctx, image, assets) {
     if (!this.endedRespawnAnimation) {
-      ctx.save();
-      ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
-      animateObject(
-        ctx,
-        4,
-        assets.get(ImagesPathsName.RESPAWN_TANK),
-        -this.width / 2,
-        -this.height / 2,
-        this.width,
-        this.height,
-        this.frameXRespawn,
-        0,
-        this.setFrameXRespawn,
-        this.gameFrame,
-        this.setGameFrame,
-        9,
-        60
-      );
-      ctx.restore();
-
-      const idTimeout = setTimeout(() => {
-        this.endedRespawnAnimation = true;
-        this.disabledCollision = false;
-        clearTimeout(idTimeout);
-      }, 2000);
-
+      this.#drawRespawnAnimation(ctx, assets);
       return;
     }
 
     if (image instanceof Image) {
       this.move();
-
-      ctx.save();
-      ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
-
-      this.setTankAngle();
-
-      ctx.rotate(this.angle);
-
-      animateObject(
-        ctx,
-        this.idle ? 1 : 2,
-        image,
-        -this.width / 2,
-        -this.height / 2,
-        this.width,
-        this.height,
-        this.frameX,
-        this.level,
-        this.setFrameX,
-        this.gameFrame,
-        this.setGameFrame,
-        1
-      );
-      ctx.restore();
-
+      this.#drawTank(ctx, image);
       this.shoot();
     }
+  }
+
+  #drawTank(ctx, tankImage) {
+    ctx.save();
+    ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+
+    this.setTankAngle();
+
+    ctx.rotate(this.angle);
+
+    animateObject(
+      ctx,
+      this.idle ? 1 : 2,
+      tankImage,
+      -this.width / 2,
+      -this.height / 2,
+      this.width,
+      this.height,
+      this.frameX,
+      this.level,
+      this.setFrameX,
+      this.gameFrame,
+      this.setGameFrame,
+      1
+    );
+    ctx.restore();
+  }
+
+  #drawRespawnAnimation(ctx, assets) {
+    ctx.save();
+    ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+    animateObject(
+      ctx,
+      4,
+      assets.get(ImagesPathsName.RESPAWN_TANK),
+      -this.width / 2,
+      -this.height / 2,
+      this.width,
+      this.height,
+      this.frameXRespawn,
+      0,
+      this.setFrameXRespawn,
+      this.gameFrame,
+      this.setGameFrame,
+      9,
+      60
+    );
+    ctx.restore();
+
+    const idTimeout = setTimeout(() => {
+      this.endedRespawnAnimation = true;
+      this.disabledCollision = false;
+      clearTimeout(idTimeout);
+    }, 2000);
   }
 
   setFrameX = (frame) => (this.frameX = frame);

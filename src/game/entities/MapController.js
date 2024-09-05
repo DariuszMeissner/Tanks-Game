@@ -1,6 +1,6 @@
 import { ImagesPathsName, SoundsPathsName } from '../constants/game.js';
 import MapElement from './MapElement.js';
-import { MapObject } from '../constants/levelsController.js';
+import { MapObject } from '../constants/game.js';
 import { detectCollisionWithBullet } from '../../engine/util/collision.js';
 import { playSound } from '../../engine/soundHandler.js';
 

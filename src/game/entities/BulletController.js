@@ -4,7 +4,7 @@ import { playSound } from '../../engine/soundHandler.js';
 import { ImagesPathsName, SoundsPathsName } from '../constants/game.js';
 import { PLAYER_ID } from '../config/config.js';
 import { animateObject } from '../common/common.js';
-import { MapObject } from '../constants/levelsController.js';
+import { MapObject } from '../constants/game.js';
 
 export default class BulletController {
   bullets = [];

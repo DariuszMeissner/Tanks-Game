@@ -1,5 +1,5 @@
 import { animateObject } from '../common/common.js';
-import { Control } from '../constants/controls.js';
+import { Control } from '../constants/game.js';
 
 export default class Bullet {
   constructor(x, y, damage, speed, direction) {

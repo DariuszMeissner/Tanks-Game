@@ -1,4 +1,4 @@
-import { Control } from '../../game/constants/controls.js';
+import { Control } from '../../game/constants/game.js';
 import { BOT_DELAY_START, BOT_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../game/constants/game.js';
 
 export function detectCollisionFrontOfTank(object, tank) {

@@ -32,6 +32,17 @@ const widthHud = endHud - startHud;
 const middleHud = startHud + widthHud / 2;
 const hudContentWidth = 44;
 
+export const MapObject = {
+  ROAD: 0,
+  WALL: 1,
+  WATER: 2,
+  GRASS: 3,
+  EAGLE: 4,
+  MAP_EDGE: 5,
+  ROCK: 6,
+  EAGLE_DEAD: 7,
+};
+
 export const Angle = {
   UP: 0,
   DOWN: Math.PI,
@@ -55,6 +66,17 @@ export const HudP = {
     STAGE_FLAG: 500,
     STAGE_LEVEL: 560,
   },
+};
+
+export const Control = {
+  LEFT: 'left',
+  RIGHT: 'right',
+  UP: 'up',
+  DOWN: 'down',
+  ACTION: 'action',
+  ENTER: 'enter',
+  ESCAPE: 'escape',
+  SPACE: 'Space',
 };
 
 const widthMap = TILE_SIZE_WIDTH * (MAP_WIDTH - 1);
