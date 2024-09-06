@@ -24,8 +24,13 @@ export const BotRespawn = {
   },
 };
 
-export const PlayerRespawn = {
+export const Player1Respawn = {
   X: Math.floor((MAP_WIDTH - HUD_EDGE_WIDTH) / 2 - 1) * TILE_SIZE_WIDTH,
+  Y: (MAP_HEIGHT - 2) * TILE_SIZE_HEIGHT,
+};
+
+export const Player2Respawn = {
+  X: Math.floor((MAP_WIDTH - HUD_EDGE_WIDTH) / 2 - 1) * TILE_SIZE_WIDTH + 200,
   Y: (MAP_HEIGHT - 2) * TILE_SIZE_HEIGHT,
 };
 

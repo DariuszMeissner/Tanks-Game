@@ -5,7 +5,7 @@ import { Colors, FONT, HudP, ImagesPathsName } from '../constants/game.js';
 export class Hud extends Panel {
   constructor(playersController, botController, assets, stageLevel) {
     super();
-    this.playersController = playersController;
+    this.player1Controller = playersController;
     this.botController = botController;
     this.assets = assets;
     this.stageLevel = stageLevel;
@@ -44,7 +44,7 @@ export class Hud extends Panel {
   #playerLife(context) {
     const txtI = 'I';
     const txtP = 'P';
-    const playerLifes = this.playersController.enemies.length;
+    const playerLifes = this.player1Controller.enemies.length;
     const player = this.assets.get(ImagesPathsName.PLAYER_LIFE);
     const playerScale = scaleImage(player, 0.65);
 

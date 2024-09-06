@@ -68,7 +68,7 @@ export const HudP = {
   },
 };
 
-export const Control = {
+export const Control1 = {
   LEFT: 'left',
   RIGHT: 'right',
   UP: 'up',

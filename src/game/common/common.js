@@ -1,5 +1,5 @@
 import Bot from '../entities/Bot.js';
-import { BotRespawn, PlayerRespawn } from '../config/config.js';
+import { BotRespawn } from '../config/config.js';
 import { BOT_HEIGHT, BOT_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/game.js';
 import Player from '../entities/Player.js';
 import { pauseSound } from '../../engine/soundHandler.js';
@@ -48,11 +48,11 @@ export function generateBots(count, positionCount = 3) {
   return array;
 }
 
-export function generatePlayers(count) {
+export function generatePlayers(count, respawn) {
   let array = [];
 
   for (let index = 1; index <= count; index++) {
-    array.push(new Player(PlayerRespawn.X, PlayerRespawn.Y, PLAYER_WIDTH, PLAYER_HEIGHT, null));
+    array.push(new Player(respawn.X, respawn.Y, PLAYER_WIDTH, PLAYER_HEIGHT, null));
   }
 
   return array;

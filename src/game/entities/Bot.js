@@ -1,6 +1,6 @@
 import { animateObject, calculateTankEdgePosition } from '../common/common.js';
 import { BOT_ID, BOT_TIME_TO_SHOOT } from '../config/config.js';
-import { Control } from '../constants/game.js';
+import { Control1 } from '../constants/game.js';
 import { Angle, BOT_SPEED, ImagesPathsName } from '../constants/game.js';
 
 export default class Bot {
@@ -11,8 +11,8 @@ export default class Bot {
     this.speed = BOT_SPEED;
     this.width = width;
     this.height = height;
-    this.direction = Control.DOWN;
-    this.directions = [Control.UP, Control.DOWN, Control.LEFT, Control.RIGHT];
+    this.direction = Control1.DOWN;
+    this.directions = [Control1.UP, Control1.DOWN, Control1.LEFT, Control1.RIGHT];
     this.bullets = [];
     this.bulletSpeed = 3;
     this.bulletDamage = 1;
@@ -124,16 +124,16 @@ export default class Bot {
     this.#updateMovementState();
 
     switch (this.direction) {
-      case Control.UP:
+      case Control1.UP:
         this.y -= this.speed;
         break;
-      case Control.DOWN:
+      case Control1.DOWN:
         this.y += this.speed;
         break;
-      case Control.LEFT:
+      case Control1.LEFT:
         this.x -= this.speed;
         break;
-      case Control.RIGHT:
+      case Control1.RIGHT:
         this.x += this.speed;
         break;
     }
@@ -141,10 +141,10 @@ export default class Bot {
 
   setTankAngle() {
     const angleLookup = {
-      [Control.UP]: Angle.UP,
-      [Control.DOWN]: Angle.DOWN,
-      [Control.LEFT]: Angle.LEFT,
-      [Control.RIGHT]: Angle.RIGHT,
+      [Control1.UP]: Angle.UP,
+      [Control1.DOWN]: Angle.DOWN,
+      [Control1.LEFT]: Angle.LEFT,
+      [Control1.RIGHT]: Angle.RIGHT,
     };
 
     this.previousAngle = this.angle;
@@ -161,44 +161,44 @@ export default class Bot {
 
     if (this.previousAngle === Angle.RIGHT) {
       switch (this.direction) {
-        case Control.DOWN:
+        case Control1.DOWN:
           this.x -= adjustmentValue;
           positionEdge.Bottom ? (this.y -= adjustmentValue) : (this.y += adjustmentValue);
           break;
-        case Control.UP:
+        case Control1.UP:
           this.x -= adjustmentValue;
           positionEdge.Top ? (this.y += adjustmentValue) : (this.y -= adjustmentValue);
           break;
-        case Control.LEFT:
+        case Control1.LEFT:
           this.x -= adjustmentValue;
           break;
       }
     }
     if (this.previousAngle === Angle.LEFT) {
       switch (this.direction) {
-        case Control.DOWN:
+        case Control1.DOWN:
           this.x += adjustmentValue;
           positionEdge.Bottom ? (this.y -= adjustmentValue) : (this.y += adjustmentValue);
           break;
-        case Control.UP:
+        case Control1.UP:
           this.x += adjustmentValue;
           positionEdge.Top ? (this.y += adjustmentValue) : (this.y -= adjustmentValue);
           break;
-        case Control.RIGHT:
+        case Control1.RIGHT:
           this.x += adjustmentValue;
           break;
       }
     }
     if (this.previousAngle === Angle.UP) {
       switch (this.direction) {
-        case Control.DOWN:
+        case Control1.DOWN:
           this.y += adjustmentValue;
           break;
-        case Control.LEFT:
+        case Control1.LEFT:
           positionEdge.Left ? (this.x += adjustmentValue) : (this.x -= adjustmentValue);
           this.y += adjustmentValue;
           break;
-        case Control.RIGHT:
+        case Control1.RIGHT:
           positionEdge.Right ? (this.x -= adjustmentValue) : (this.x += adjustmentValue);
           this.y += adjustmentValue;
           break;
@@ -206,14 +206,14 @@ export default class Bot {
     }
     if (this.previousAngle === Angle.DOWN) {
       switch (this.direction) {
-        case Control.UP:
+        case Control1.UP:
           this.y -= adjustmentValue;
           break;
-        case Control.LEFT:
+        case Control1.LEFT:
           positionEdge.Left ? (this.x += adjustmentValue) : (this.x -= adjustmentValue);
           this.y -= adjustmentValue;
           break;
-        case Control.RIGHT:
+        case Control1.RIGHT:
           positionEdge.Right ? (this.x -= adjustmentValue) : (this.x += adjustmentValue);
           this.y -= adjustmentValue;
           break;

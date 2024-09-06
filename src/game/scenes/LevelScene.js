@@ -17,15 +17,16 @@ import { playSound } from '../../engine/soundHandler.js';
 import TankController from '../entities/TankController.js';
 
 export class LevelScene extends Scene {
-  constructor(enemies, players, assets, stageLevel, maxTankOnMap) {
+  constructor(enemies, player1, player2, assets, stageLevel, maxTankOnMap) {
     super();
     this.stageLevel = stageLevel[0].stage;
     this.assets = assets;
     this.stage = new MapController(stageLevel.slice(1), TILE_SIZE_WIDTH, assets);
     this.maxTankOnMap = maxTankOnMap;
-    this.playersController = new TankController(players, this.stage, null, 1, assets);
-    this.botController = new TankController(enemies, this.stage, this.playersController, maxTankOnMap, assets);
-    this.hud = new Hud(this.playersController, this.botController, assets, this.stageLevel);
+    this.player1Controller = new TankController(player1, this.stage, null, 1, assets);
+    this.player2Controller = new TankController(player2, this.stage, null, 1, assets);
+    this.botController = new TankController(enemies, this.stage, this.player1Controller, maxTankOnMap, assets);
+    this.hud = new Hud(this.player1Controller, this.botController, assets, this.stageLevel);
     this.displayingLevelInfo = true;
     this.idTimeoutHideStageInfo = null;
     this.idTimeoutNextLevelInfo = null;
@@ -36,11 +37,14 @@ export class LevelScene extends Scene {
     this.goToGameOverSummary = false;
     this.repeatStage = false;
     this.playedGameOverSound = false;
+    this.currentMenuOption = null;
 
-    this.#fixPlayersBulletsCircularDependency(players);
+    this.#fixPlayersBulletsCircularDependency(player1);
   }
 
   draw(context) {
+    console.log(this.currentMenuOption);
+
     if (this.displayingLevelInfo) {
       this.#stageInfo(context);
       return;
@@ -68,8 +72,8 @@ export class LevelScene extends Scene {
     this.#game(context);
   }
 
-  #fixPlayersBulletsCircularDependency(players) {
-    players.forEach((player) => {
+  #fixPlayersBulletsCircularDependency(player1) {
+    player1.forEach((player) => {
       player.bulletController.enemyController = this.botController;
       player.bulletController.mapController = this.stage;
     });
@@ -80,21 +84,30 @@ export class LevelScene extends Scene {
 
     clearCanvas(context);
 
-    this.playersController.drawTank(context, this.assets.get(ImagesPathsName.PLAYER1_TANK));
+    this.player1Controller.drawTank(context, this.assets.get(ImagesPathsName.PLAYER1_TANK));
     this.botController.drawTank(context, this.assets.get(ImagesPathsName.BOT_TANK));
+
+    if (this.currentMenuOption === 1) {
+      this.player2Controller.drawTank(context, this.assets.get(ImagesPathsName.PLAYER1_TANK));
+    }
 
     this.stage.draw(
       context,
-      this.playersController.enemies[0],
-      this.playersController.enemies[0]?.bulletController.bullets[0] || null,
+      this.player1Controller.enemies[0],
+      this.player1Controller.enemies[0]?.bulletController.bullets[0] || null,
       this.maxVisibleEnemies(this.maxTankOnMap),
       this.assets
     );
 
-    this.playersController.drawBullet(context);
-    this.playersController.drawTankExplosion(context);
+    this.player1Controller.drawBullet(context);
+    this.player1Controller.drawTankExplosion(context);
     this.botController.drawBullet(context);
     this.botController.drawTankExplosion(context);
+
+    if (this.currentMenuOption === 1) {
+      this.player2Controller.drawBullet(context);
+      this.player2Controller.drawTankExplosion(context);
+    }
 
     this.showGameOverInfo(context, this.stage);
 

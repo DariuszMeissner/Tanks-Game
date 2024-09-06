@@ -1,11 +1,11 @@
-import { Control } from '../constants/game.js';
+import { Control1 } from '../constants/game.js';
 import { ImagesPathsName, PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH, SoundsPathsName } from '../constants/game.js';
 import { PLAYER_ID } from '../config/config.js';
 import { pauseSound, playSound } from '../../engine/soundHandler.js';
 import { animateObject } from '../common/common.js';
 
 export default class Player {
-  constructor(x, y, width, height) {
+  constructor(x, y, width, height, keyUp, keyBottom, keyLeft, keyRight) {
     this.id = PLAYER_ID;
     this.x = x;
     this.y = y;
@@ -16,7 +16,7 @@ export default class Player {
     this.bulletSpeed = 3;
     this.bulletDelay = 10;
     this.bulletDamage = 1;
-    this.direction = Control.UP;
+    this.direction = Control1.UP;
     this.stoppedDirection = false;
     this.collisionWithWall = false;
     this.collisionWithBot = false;
@@ -132,22 +132,22 @@ export default class Player {
     const positionLeftEdge = this.x <= 0;
     const positionRightEdge = this.x >= SCREEN_WIDTH - this.width;
 
-    if (this.keyStates.ArrowUp && this.stoppedDirection != Control.UP) {
+    if (this.keyStates.ArrowUp && this.stoppedDirection != Control1.UP) {
       positionTopEdge ? (this.y = 0) : (this.y -= this.speed);
       return;
     }
 
-    if (this.keyStates.ArrowDown && this.stoppedDirection != Control.DOWN) {
+    if (this.keyStates.ArrowDown && this.stoppedDirection != Control1.DOWN) {
       positionBottomEdge ? (this.y = SCREEN_HEIGHT - this.height) : (this.y += this.speed);
       return;
     }
 
-    if (this.keyStates.ArrowLeft && this.stoppedDirection != Control.LEFT) {
+    if (this.keyStates.ArrowLeft && this.stoppedDirection != Control1.LEFT) {
       positionLeftEdge ? (this.x = 0) : (this.x -= this.speed);
       return;
     }
 
-    if (this.keyStates.ArrowRight && this.stoppedDirection != Control.RIGHT) {
+    if (this.keyStates.ArrowRight && this.stoppedDirection != Control1.RIGHT) {
       positionRightEdge ? (this.x = SCREEN_WIDTH - this.width) : (this.x += this.speed);
       return;
     }
@@ -155,10 +155,10 @@ export default class Player {
 
   setTankAngle() {
     const angleLookup = {
-      [Control.UP]: 0,
-      [Control.DOWN]: Math.PI,
-      [Control.LEFT]: -Math.PI / 2,
-      [Control.RIGHT]: Math.PI / 2,
+      [Control1.UP]: 0,
+      [Control1.DOWN]: Math.PI,
+      [Control1.LEFT]: -Math.PI / 2,
+      [Control1.RIGHT]: Math.PI / 2,
     };
 
     this.previousAngle = this.angle;
@@ -172,16 +172,16 @@ export default class Player {
 
     if (this.angle != this.previousAngle) {
       switch (this.direction) {
-        case Control.UP:
+        case Control1.UP:
           this.y += adjustmentValue;
           break;
-        case Control.DOWN:
+        case Control1.DOWN:
           this.y -= adjustmentValue;
           break;
-        case Control.LEFT:
+        case Control1.LEFT:
           this.x += adjustmentValue;
           break;
-        case Control.RIGHT:
+        case Control1.RIGHT:
           this.x -= adjustmentValue;
           break;
       }
@@ -200,7 +200,7 @@ export default class Player {
     const newKeystates = Object.values(this.keyStates).slice(0, 4);
 
     if (newKeystates.some((state) => state)) {
-      e.code === Control.SPACE && this.updateKeyState(e.code);
+      e.code === Control1.SPACE && this.updateKeyState(e.code);
       return;
     }
 
@@ -224,13 +224,13 @@ export default class Player {
 
   updateDirection() {
     if (this.keyStates.ArrowLeft) {
-      this.direction = Control.LEFT;
+      this.direction = Control1.LEFT;
     } else if (this.keyStates.ArrowRight) {
-      this.direction = Control.RIGHT;
+      this.direction = Control1.RIGHT;
     } else if (this.keyStates.ArrowUp) {
-      this.direction = Control.UP;
+      this.direction = Control1.UP;
     } else if (this.keyStates.ArrowDown) {
-      this.direction = Control.DOWN;
+      this.direction = Control1.DOWN;
     }
   }
 

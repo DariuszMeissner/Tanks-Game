@@ -1,6 +1,6 @@
 import { clearCanvas, createDeepCloneMap, generateBots, generatePlayers } from '../common/common.js';
-import { LEVEL_INIT, PlayerRespawn } from '../config/config.js';
-import { Control } from '../constants/game.js';
+import { LEVEL_INIT, Player1Respawn, Player2Respawn } from '../config/config.js';
+import { Control1 } from '../constants/game.js';
 import { FONT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/game.js';
 import { MAP_LEVELS as ORIGINAL_MAP } from '../constants/levels.js';
 import { LevelScene } from './LevelScene.js';
@@ -8,11 +8,19 @@ import { LevelScene } from './LevelScene.js';
 export class LevelSceneController {
   constructor(assets, setDisplayCallback) {
     this.mapInit = createDeepCloneMap(ORIGINAL_MAP);
-    this.players = generatePlayers(1);
+    this.player1 = generatePlayers(1, Player1Respawn);
+    this.player2 = generatePlayers(1, Player2Respawn);
     this.enemies = generateBots(10);
     this.assets = assets;
     this.currentLevel = LEVEL_INIT;
-    this.stageController = new LevelScene(this.enemies, this.players, assets, this.mapInit.get(this.currentLevel.toString()), 3);
+    this.stageController = new LevelScene(
+      this.enemies,
+      this.player1,
+      this.player2,
+      assets,
+      this.mapInit.get(this.currentLevel.toString()),
+      3
+    );
     this.endGame = false;
     this.setDisplay = setDisplayCallback;
   }
@@ -43,15 +51,15 @@ export class LevelSceneController {
 
     const enemies = generateBots(20);
     this.#resetPlayerPosition();
-    this.stageController = new LevelScene(enemies, this.players, this.assets, currentLevelData, 1);
+    this.stageController = new LevelScene(enemies, this.player1, this.assets, currentLevelData, 1);
   }
 
   #resetPlayerPosition() {
-    this.players = this.#getThePlayersLifeCount();
-    this.players.forEach((player) => {
-      player.x = PlayerRespawn.X;
-      player.y = PlayerRespawn.Y;
-      player.direction = Control.UP;
+    this.player1 = this.#getThePlayersLifeCount();
+    this.player1.forEach((player) => {
+      player.x = Player1Respawn.X;
+      player.y = Player1Respawn.Y;
+      player.direction = Control1.UP;
     });
   }
 
@@ -66,6 +74,6 @@ export class LevelSceneController {
   }
 
   #getThePlayersLifeCount() {
-    return this.stageController.playersController.enemies;
+    return this.stageController.player1Controller.enemies;
   }
 }

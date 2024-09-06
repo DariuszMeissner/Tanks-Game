@@ -1,5 +1,5 @@
 import { animateObject } from '../common/common.js';
-import { Control } from '../constants/game.js';
+import { Control1 } from '../constants/game.js';
 
 export default class Bullet {
   constructor(x, y, damage, speed, direction) {
@@ -23,7 +23,7 @@ export default class Bullet {
     if (this.collision) return;
 
     const bulletFrame =
-      this.direction === Control.UP ? 0 : this.direction === Control.DOWN ? 2 : this.direction === Control.LEFT ? 1 : 3;
+      this.direction === Control1.UP ? 0 : this.direction === Control1.DOWN ? 2 : this.direction === Control1.LEFT ? 1 : 3;
 
     ctx.save();
     ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
@@ -31,16 +31,16 @@ export default class Bullet {
     ctx.restore();
 
     switch (this.direction) {
-      case Control.UP:
+      case Control1.UP:
         this.y -= this.speed;
         break;
-      case Control.DOWN:
+      case Control1.DOWN:
         this.y += this.speed;
         break;
-      case Control.LEFT:
+      case Control1.LEFT:
         this.x -= this.speed;
         break;
-      case Control.RIGHT:
+      case Control1.RIGHT:
         this.x += this.speed;
         break;
     }
