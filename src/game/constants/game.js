@@ -79,6 +79,22 @@ export const Control1 = {
   SPACE: 'Space',
 };
 
+const ControlPLayer1 = {
+  ArrowLeft: 'ArrowLeft',
+  ArrowRight: 'ArrowRight',
+  ArrowUp: 'ArrowUp',
+  ArrowDown: 'ArrowDown',
+  NumpadEnter: 'NumpadEnter',
+};
+
+const ControlPLayer2 = {
+  KeyA: 'KeyA',
+  KeyD: 'KeyD',
+  KeyS: 'KeyS',
+  KeyW: 'KeyW',
+  Space: 'Space',
+};
+
 const widthMap = TILE_SIZE_WIDTH * (MAP_WIDTH - 1);
 const middleMap = widthMap / 2;
 
