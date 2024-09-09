@@ -48,11 +48,11 @@ export function generateBots(count, positionCount = 3) {
   return array;
 }
 
-export function generatePlayers(count, respawn) {
+export function generatePlayers(count, respawn, keyControl) {
   let array = [];
 
   for (let index = 1; index <= count; index++) {
-    array.push(new Player(respawn.X, respawn.Y, PLAYER_WIDTH, PLAYER_HEIGHT, null));
+    array.push(new Player(respawn.X, respawn.Y, PLAYER_WIDTH, PLAYER_HEIGHT, keyControl));
   }
 
   return array;

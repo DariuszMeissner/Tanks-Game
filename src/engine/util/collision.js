@@ -1,32 +1,32 @@
-import { Control1 } from '../../game/constants/game.js';
+import { Control } from '../../game/constants/game.js';
 import { BOT_DELAY_START, BOT_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../game/constants/game.js';
 
 export function detectCollisionFrontOfTank(object, tank) {
   if (!object || !tank) return false;
 
   switch (tank.direction) {
-    case Control1.UP:
+    case Control.UP:
       return (
         object.y < tank.y + tank.height &&
         object.y + object.height > tank.y - tank.speed &&
         object.x < tank.x + tank.width &&
         object.x + object.width > tank.x
       );
-    case Control1.DOWN:
+    case Control.DOWN:
       return (
         object.y < tank.y + tank.height + tank.speed &&
         object.y > tank.y &&
         object.x < tank.x + tank.width &&
         object.x + object.width > tank.x
       );
-    case Control1.LEFT:
+    case Control.LEFT:
       return (
         object.x + object.width > tank.x - tank.speed &&
         object.x < tank.x + tank.width &&
         object.y < tank.y + tank.height &&
         object.y + object.height > tank.y
       );
-    case Control1.RIGHT:
+    case Control.RIGHT:
       return (
         object.x + object.width > tank.x &&
         object.x < tank.x + tank.width + tank.speed &&

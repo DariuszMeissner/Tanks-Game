@@ -8,7 +8,7 @@ import {
   SCREEN_HEIGHT,
   Colors,
   FONT,
-  MenuType,
+  MenuTypeEnum,
 } from '../constants/game.js';
 import { clearCanvas, stopGameSound } from '../common/common.js';
 import { Hud } from '../entities/Hud.js';
@@ -44,8 +44,6 @@ export class LevelScene extends Scene {
   }
 
   draw(context) {
-    console.log(this.currentMenuOption);
-
     if (this.displayingLevelInfo) {
       this.#stageInfo(context);
       return;
@@ -88,7 +86,7 @@ export class LevelScene extends Scene {
     this.player1Controller.drawTank(context, this.assets.get(ImagesPathsName.PLAYER1_TANK));
     this.botController.drawTank(context, this.assets.get(ImagesPathsName.BOT_TANK));
 
-    if (this.currentMenuOption === MenuType.PLAYERS_2) {
+    if (this.currentMenuOption === MenuTypeEnum.PLAYERS_2) {
       this.player2Controller.drawTank(context, this.assets.get(ImagesPathsName.PLAYER1_TANK));
     }
 
@@ -105,7 +103,7 @@ export class LevelScene extends Scene {
     this.botController.drawBullet(context);
     this.botController.drawTankExplosion(context);
 
-    if (this.currentMenuOption === MenuType.PLAYERS_2) {
+    if (this.currentMenuOption === MenuTypeEnum.PLAYERS_2) {
       this.player2Controller.drawBullet(context);
       this.player2Controller.drawTankExplosion(context);
     }

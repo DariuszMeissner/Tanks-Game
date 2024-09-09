@@ -68,7 +68,7 @@ export const HudP = {
   },
 };
 
-export const Control1 = {
+export const Control = {
   LEFT: 'left',
   RIGHT: 'right',
   UP: 'up',
@@ -79,20 +79,20 @@ export const Control1 = {
   SPACE: 'Space',
 };
 
-const ControlPLayer1 = {
-  ArrowLeft: 'ArrowLeft',
-  ArrowRight: 'ArrowRight',
-  ArrowUp: 'ArrowUp',
-  ArrowDown: 'ArrowDown',
-  NumpadEnter: 'NumpadEnter',
+export const KeyPLayer1 = {
+  LEFT: 'ArrowLeft',
+  RIGHT: 'ArrowRight',
+  UP: 'ArrowUp',
+  DOWN: 'ArrowDown',
+  SHOOT: 'NumpadEnter',
 };
 
-const ControlPLayer2 = {
-  KeyA: 'KeyA',
-  KeyD: 'KeyD',
-  KeyS: 'KeyS',
-  KeyW: 'KeyW',
-  Space: 'Space',
+export const KeyPLayer2 = {
+  LEFT: 'KeyA',
+  RIGHT: 'KeyD',
+  UP: 'KeyW',
+  DOWN: 'KeyS',
+  SHOOT: 'Space',
 };
 
 const widthMap = TILE_SIZE_WIDTH * (MAP_WIDTH - 1);
@@ -105,6 +105,11 @@ export const MapP = {
 export const MenuType = {
   PLAYER_1: '1-player',
   PLAYERS_2: '2-players',
+};
+
+export const MenuTypeEnum = {
+  PLAYER_1: 0,
+  PLAYERS_2: 1,
 };
 
 export const ScreenType = {
