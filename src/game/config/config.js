@@ -30,7 +30,7 @@ export const Player1Respawn = {
 };
 
 export const Player2Respawn = {
-  X: Math.floor((MAP_WIDTH - HUD_EDGE_WIDTH) / 2 - 1) * TILE_SIZE_WIDTH + 200,
+  X: Math.floor((MAP_WIDTH - HUD_EDGE_WIDTH) / 2 - 1) * TILE_SIZE_WIDTH + TILE_SIZE_WIDTH * 4,
   Y: (MAP_HEIGHT - 2) * TILE_SIZE_HEIGHT,
 };
 
