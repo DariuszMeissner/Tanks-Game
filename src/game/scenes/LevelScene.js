@@ -40,7 +40,7 @@ export class LevelScene extends Scene {
     this.playedGameOverSound = false;
     this.currentMenuOption = null;
 
-    this.#fixPlayersBulletsCircularDependency(player1);
+    this.#fixPlayersBulletsCircularDependency(player1, player2);
   }
 
   draw(context) {
@@ -71,13 +71,6 @@ export class LevelScene extends Scene {
     this.#game(context);
   }
 
-  #fixPlayersBulletsCircularDependency(player1) {
-    player1.forEach((player) => {
-      player.bulletController.enemyController = this.botController;
-      player.bulletController.mapController = this.stage;
-    });
-  }
-
   #game(context) {
     this.playStartUpSound(this.assets.get(SoundsPathsName.START_UP));
 
@@ -94,6 +87,8 @@ export class LevelScene extends Scene {
       context,
       this.player1Controller.enemies[0],
       this.player1Controller.enemies[0]?.bulletController.bullets[0] || null,
+      this.player2Controller.enemies[0],
+      this.player2Controller.enemies[0]?.bulletController.bullets[0] || null,
       this.maxVisibleEnemies(this.maxTankOnMap),
       this.assets
     );
@@ -192,5 +187,17 @@ export class LevelScene extends Scene {
     }, this.assets.get(SoundsPathsName.PLAYER_TANK_DESTROYED_EAGLE_DESTROYED).duration * 1000);
 
     this.playedGameOverSound = true;
+  }
+
+  #fixPlayersBulletsCircularDependency(player1, player2) {
+    player1.forEach((player) => {
+      player.bulletController.enemyController = this.botController;
+      player.bulletController.mapController = this.stage;
+    });
+
+    player2.forEach((player) => {
+      player.bulletController.enemyController = this.botController;
+      player.bulletController.mapController = this.stage;
+    });
   }
 }
