@@ -80,7 +80,7 @@ export class LevelScene extends Scene {
     this.botController.drawTank(context, this.assets.get(ImagesPathsName.BOT_TANK));
 
     if (this.currentMenuOption === MenuTypeEnum.PLAYERS_2) {
-      this.player2Controller.drawTank(context, this.assets.get(ImagesPathsName.PLAYER1_TANK));
+      this.player2Controller.drawTank(context, this.assets.get(ImagesPathsName.PLAYER2_TANK));
     }
 
     this.stage.draw(

@@ -16,6 +16,7 @@ const assetsList = [
   [ImagesPathsName.PLAYER_LIFE, ImagesPaths.PLAYER_LIFE],
   [ImagesPathsName.ENEMY_LIFE, ImagesPaths.ENEMY_LIFE],
   [ImagesPathsName.PLAYER1_TANK, ImagesPaths.PLAYER1_TANK],
+  [ImagesPathsName.PLAYER2_TANK, ImagesPaths.PLAYER2_TANK],
   [ImagesPathsName.BOT_TANK, ImagesPaths.BOT_TANK],
   [ImagesPathsName.RESPAWN_TANK, ImagesPaths.RESPAWN_TANK],
   [ImagesPathsName.EXPLOSION, ImagesPaths.EXPLOSION],
