@@ -41,9 +41,6 @@ export default class Player {
     this.endedRespawnAnimation = false;
     this.disabledCollision = true;
     this.typeObjectCollision = null;
-
-    document.addEventListener('keydown', this.keydown.bind(this));
-    document.addEventListener('keyup', this.keyup.bind(this));
   }
 
   draw(ctx, image, assets) {
@@ -58,6 +55,11 @@ export default class Player {
       this.#drawTank(ctx, image);
       this.shoot();
     }
+  }
+
+  runKeyListener() {
+    document.addEventListener('keydown', this.keydown.bind(this));
+    document.addEventListener('keyup', this.keyup.bind(this));
   }
 
   #drawTank(ctx, tankImage) {

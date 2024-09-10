@@ -3,8 +3,8 @@ import { ImagesPathsName } from '../constants/game.js';
 import BulletController from '../entities/BulletController.js';
 
 export default class TankController {
-  constructor(enemies, mapController, enemyController, maxTankOnMap, assets) {
-    this.enemies = enemies.map((enemy) => {
+  constructor(lifes, mapController, enemyController, maxTankOnMap, assets) {
+    this.enemies = lifes.map((enemy) => {
       enemy.bulletController = new BulletController(mapController, enemyController, assets);
       return enemy;
     });

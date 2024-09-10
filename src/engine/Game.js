@@ -33,6 +33,10 @@ export default class Game {
     if (this.activateScene) {
       this.activateStartMenu = false;
       this.scene.stageController.currentMenuOption = this.startMenu.selectedOptions;
+
+      this.scene.stageController.player1Controller.enemies[0].runKeyListener();
+      this.scene.stageController.player2Controller.enemies[0].runKeyListener();
+
       this.scene.draw(this.context);
     }
   };
