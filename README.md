@@ -1,5 +1,12 @@
 # Game based on "Batlle City" JavaScript/HTML5
 
+<div style=""display: flex>
+<img src="https://github.com/DariuszMeissner/Tanks-Game/blob/main/assets/in-game/Screenshot%20from%202025-08-18%2015-11-32.png" width="400" >
+<img src="https://github.com/DariuszMeissner/Tanks-Game/blob/main/assets/in-game/Screenshot%20from%202025-08-18%2015-09-10.png" width="400" >
+<img src="https://github.com/DariuszMeissner/Tanks-Game/blob/main/assets/in-game/Screenshot%20from%202025-08-18%2015-09-29.png" width="400" >
+<img src="https://github.com/DariuszMeissner/Tanks-Game/blob/main/assets/in-game/Screenshot%20from%202025-08-18%2015-10-49.png" width="400" >  
+</div>
+
 ### Description
 
 I always wanted to make a game from when I saw first game in 9 years old. So continue my programming journey I'm creating game like "Tanks" based on "The Battle City".
