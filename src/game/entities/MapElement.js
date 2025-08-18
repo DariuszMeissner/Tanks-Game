@@ -64,4 +64,11 @@ export default class MapElement {
       });
     });
   }
+
+  detectCollisionsBetweenPlayers(player1, player2) {
+    // handle collision player1
+    handleCollision(player2, player1);
+    // handle collision player2
+    handleCollision(player1, player2);
+  }
 }

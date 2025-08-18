@@ -158,6 +158,7 @@ export default class MapController {
     road.detectCollisionBotWithPlayer(player1, enemies);
     road.detectCollisionPlayerWithBot(player2, enemies);
     road.detectCollisionBotWithPlayer(player2, enemies);
+    road.detectCollisionsBetweenPlayers(player1, player2);
     road.detectCollisionsBetweenBots(enemies);
   }
 
