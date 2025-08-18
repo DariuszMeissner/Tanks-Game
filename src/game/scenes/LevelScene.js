@@ -18,7 +18,7 @@ import { playSound } from '../../engine/soundHandler.js';
 import TankController from '../entities/TankController.js';
 
 export class LevelScene extends Scene {
-  constructor(enemies, player1, player2, assets, stageLevel, maxTankOnMap) {
+  constructor(enemies, player1, player2 = [], assets, stageLevel, maxTankOnMap) {
     super();
     this.stageLevel = stageLevel[0].stage;
     this.assets = assets;

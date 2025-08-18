@@ -51,7 +51,7 @@ export class LevelSceneController {
 
     const enemies = generateBots(20);
     this.#resetPlayerPosition();
-    this.stageController = new LevelScene(enemies, this.player1, this.assets, currentLevelData, 1);
+    this.stageController = new LevelScene(enemies, this.player1, this.player2, this.assets, currentLevelData, 1);
   }
 
   #resetPlayerPosition() {
