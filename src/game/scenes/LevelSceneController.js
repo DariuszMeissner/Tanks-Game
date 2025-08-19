@@ -8,8 +8,8 @@ import { LevelScene } from './LevelScene.js';
 export class LevelSceneController {
   constructor(assets, setDisplayCallback) {
     this.mapInit = createDeepCloneMap(ORIGINAL_MAP);
-    this.player1 = generatePlayers(1, Player1Respawn, KeyPLayer1);
-    this.player2 = generatePlayers(1, Player2Respawn, KeyPLayer2);
+    this.player1 = generatePlayers(3, Player1Respawn, KeyPLayer1);
+    this.player2 = generatePlayers(3, Player2Respawn, KeyPLayer2);
     this.enemies = generateBots(10);
     this.assets = assets;
     this.currentLevel = LEVEL_INIT;
