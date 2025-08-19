@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/DariuszMeissner/Tanks-Game/issues"
   },
-  "homepage": "https://github.com/DariuszMeissner/Tanks-Game#readme",
+  "homepage": "https://dariuszmeissner.github.io/Tanks-Game/",
   "devDependencies": {
     "@eslint/js": "^9.5.0",
     "eslint": "^9.5.0",
