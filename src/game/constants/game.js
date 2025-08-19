@@ -146,8 +146,8 @@ export const FontsPathsName = {
 };
 
 export const FontsPaths = {
-  DIGITS_4x7: './../../assets/fonts/digits-4x7/digits-4x7.ttf',
-  FONT_7x7: './../../assets/fonts/font-7x7/font-7x7.ttf',
+  DIGITS_4x7: './assets/fonts/digits-4x7/digits-4x7.ttf',
+  FONT_7x7: './assets/fonts/font-7x7/font-7x7.ttf',
 };
 
 export const ImagesPathsName = {
@@ -173,25 +173,25 @@ export const ImagesPathsName = {
 };
 
 export const ImagesPaths = {
-  ROAD: './../../assets/images/road_square.png',
-  WALL: './../../assets/images/brick_square.png',
-  WATER: './../../assets/images/water_square.png',
-  GRASS: './../../assets/images/grass_square.png',
-  EAGLE: './../../assets/images/eagle_live.png',
-  EAGLE_DEAD: './../../assets/images/eagle_dead.png',
-  MAP_EDGE: '/../../assets/images/map_edge.png',
-  ROCK: './../../assets/images/rock_square.png',
-  MAIN_TEXT: './../../assets/images/battle-city-main-text.png',
-  CURSOR: './../../assets/images/tank_player_cursor.png',
-  STAGE_FLAG: './../../assets/images/stage_flag.png',
-  PLAYER_LIFE: './../../assets/images/player_life.png',
-  ENEMY_LIFE: './../../assets/images/enemy_life.png',
-  PLAYER1_TANK: './../../assets/images/player1_tank.png',
-  PLAYER2_TANK: './../../assets/images/player2_tank.png',
-  BOT_TANK: './../../assets/images/bot_tank.png',
-  RESPAWN_TANK: './../../assets/images/respawn_tank.png',
-  EXPLOSION: './../../assets/images/explosion.png',
-  BULLET: './../../assets/images/bullet.png',
+  ROAD: './assets/images/road_square.png',
+  WALL: './assets/images/brick_square.png',
+  WATER: './assets/images/water_square.png',
+  GRASS: './assets/images/grass_square.png',
+  EAGLE: './assets/images/eagle_live.png',
+  EAGLE_DEAD: './assets/images/eagle_dead.png',
+  MAP_EDGE: './assets/images/map_edge.png',
+  ROCK: './assets/images/rock_square.png',
+  MAIN_TEXT: './assets/images/battle-city-main-text.png',
+  CURSOR: './assets/images/tank_player_cursor.png',
+  STAGE_FLAG: './assets/images/stage_flag.png',
+  PLAYER_LIFE: './assets/images/player_life.png',
+  ENEMY_LIFE: './assets/images/enemy_life.png',
+  PLAYER1_TANK: './assets/images/player1_tank.png',
+  PLAYER2_TANK: './assets/images/player2_tank.png',
+  BOT_TANK: './assets/images/bot_tank.png',
+  RESPAWN_TANK: './assets/images/respawn_tank.png',
+  EXPLOSION: './assets/images/explosion.png',
+  BULLET: './assets/images/bullet.png',
 };
 
 export const SoundsPathsName = {
@@ -216,22 +216,22 @@ export const SoundsPathsName = {
 };
 
 export const SoundsPaths = {
-  UP: '/../../assets/sounds/1up.ogg',
-  ENEMY_DESTROYED: '/../../assets/sounds/enemy-destroyed.ogg',
-  FIRING_AT_THE_BRICKS: '/../../assets/sounds/firing-at-the-bricks.ogg',
-  FIRING_AT_THE_WALL: '/../../assets/sounds/firing-at-the-wall.ogg',
-  FIRING_THE_ENEMY_BIG_TANK: '/../../assets/sounds/firing-the-enemy-big-tank.ogg',
-  GAME_OVER: '/../../assets/sounds/game-over.ogg',
-  HIGH_SCORE: '/../../assets/sounds/high-score-after-summary-the-level.ogg',
-  PAUSE: '/../../assets/sounds/pause.ogg',
-  PLAYER_GOT_BONUS_1000_POINTS: '/../../assets/sounds/player-got-bonus-1000-points.ogg',
-  PLAYER_TANK_DESTROYED_EAGLE_DESTROYED: '/../../assets/sounds/player-tank-destroyed---eagle-destroyed.ogg',
-  PLAYER_TANK_FIRING: '/../../assets/sounds/player-tank-firing.ogg',
-  PLAYER_TANK_IDLE: '/../../assets/sounds/player-tank-idle.ogg',
-  PLAYER_TANK_MOVING: '/../../assets/sounds/player-tank-moving.ogg',
-  POWER_UP_APPEARED: '/../../assets/sounds/power-up-appeared.ogg',
-  POWER_UP_OBTAINED: '/../../assets/sounds/power-up-obtained.ogg',
-  SCORING_SUMMARY_THE_LEVEL: '/../../assets/sounds/scoring-summary-the-level.ogg',
-  SLIDING: '/../../assets/sounds/sliding.ogg',
-  START_UP: '/../../assets/sounds/start-up.ogg',
+  UP: './assets/sounds/1up.ogg',
+  ENEMY_DESTROYED: './assets/sounds/enemy-destroyed.ogg',
+  FIRING_AT_THE_BRICKS: './assets/sounds/firing-at-the-bricks.ogg',
+  FIRING_AT_THE_WALL: './assets/sounds/firing-at-the-wall.ogg',
+  FIRING_THE_ENEMY_BIG_TANK: './assets/sounds/firing-the-enemy-big-tank.ogg',
+  GAME_OVER: './assets/sounds/game-over.ogg',
+  HIGH_SCORE: './assets/sounds/high-score-after-summary-the-level.ogg',
+  PAUSE: './assets/sounds/pause.ogg',
+  PLAYER_GOT_BONUS_1000_POINTS: './assets/sounds/player-got-bonus-1000-points.ogg',
+  PLAYER_TANK_DESTROYED_EAGLE_DESTROYED: './assets/sounds/player-tank-destroyed---eagle-destroyed.ogg',
+  PLAYER_TANK_FIRING: './assets/sounds/player-tank-firing.ogg',
+  PLAYER_TANK_IDLE: './assets/sounds/player-tank-idle.ogg',
+  PLAYER_TANK_MOVING: './assets/sounds/player-tank-moving.ogg',
+  POWER_UP_APPEARED: './assets/sounds/power-up-appeared.ogg',
+  POWER_UP_OBTAINED: './assets/sounds/power-up-obtained.ogg',
+  SCORING_SUMMARY_THE_LEVEL: './assets/sounds/scoring-summary-the-level.ogg',
+  SLIDING: './assets/sounds/sliding.ogg',
+  START_UP: './assets/sounds/start-up.ogg',
 };
