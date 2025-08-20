@@ -30,7 +30,8 @@ I always wanted to make a game from when I saw first game in 9 years old. So con
 
 ### How to play
 
-Open `index.html` by "Live server" plugin to avoid cors problems
+Clone repo,\
+Open `index.html` by "Live server" plugin
 
 ### Controls:
 
