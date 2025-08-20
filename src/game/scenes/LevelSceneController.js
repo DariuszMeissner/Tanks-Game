@@ -5,12 +5,16 @@ import { FONT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/game.js';
 import { MAP_LEVELS as ORIGINAL_MAP } from '../constants/levels.js';
 import { LevelScene } from './LevelScene.js';
 
+const PLAYER_1_LIFE = 3;
+const PLAYER_2_LIFE = 3;
+const BOTS_NUMBER = 3;
+
 export class LevelSceneController {
   constructor(assets, setDisplayCallback) {
     this.mapInit = createDeepCloneMap(ORIGINAL_MAP);
-    this.player1 = generatePlayers(3, Player1Respawn, KeyPLayer1);
-    this.player2 = generatePlayers(3, Player2Respawn, KeyPLayer2);
-    this.enemies = generateBots(10);
+    this.player1 = generatePlayers(PLAYER_1_LIFE, Player1Respawn, KeyPLayer1);
+    this.player2 = generatePlayers(PLAYER_2_LIFE, Player2Respawn, KeyPLayer2);
+    this.enemies = generateBots(BOTS_NUMBER);
     this.assets = assets;
     this.currentLevel = LEVEL_INIT;
     this.stageController = new LevelScene(
@@ -49,7 +53,7 @@ export class LevelSceneController {
       return;
     }
 
-    const enemies = generateBots(20);
+    const enemies = generateBots(BOTS_NUMBER);
     this.#resetPlayerPosition();
     this.stageController = new LevelScene(enemies, this.player1, this.player2, this.assets, currentLevelData, 1);
   }
