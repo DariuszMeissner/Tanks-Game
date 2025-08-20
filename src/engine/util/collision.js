@@ -53,7 +53,7 @@ export function resetSpeedAfterTimeout(enemy) {
 }
 
 export function handleCollision(objectOfCollision, tank) {
-  if (!tank || !objectOfCollision) return;
+  if (!tank || !objectOfCollision || !tank.changeDirection) return;
 
   if (detectCollisionFrontOfTank(objectOfCollision, tank, tank.direction, tank.speed)) {
     tank.speed = 0;
