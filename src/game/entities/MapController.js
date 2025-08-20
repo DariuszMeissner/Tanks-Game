@@ -106,7 +106,20 @@ export default class MapController {
     }
   }
 
-  #handleWall(ctx, x, y, player1, player1Bullets, player2, player2Bullets, enemies, row, column, objectDesign, objectType) {
+  #handleWall(
+    ctx,
+    x,
+    y,
+    player1,
+    player1Bullets,
+    player2,
+    player2Bullets,
+    enemies,
+    row,
+    column,
+    objectDesign,
+    objectType
+  ) {
     const wall = new MapElement(x, y, this.tileSize);
 
     wall.draw(ctx, objectDesign);
@@ -137,7 +150,20 @@ export default class MapController {
     eagle.draw(ctx, objectDesign);
   }
 
-  #handleEagle(ctx, x, y, row, column, objectType, objectDesign, enemies, player1, player1Bullets, player2, player2Bullets) {
+  #handleEagle(
+    ctx,
+    x,
+    y,
+    row,
+    column,
+    objectType,
+    objectDesign,
+    enemies,
+    player1,
+    player1Bullets,
+    player2,
+    player2Bullets
+  ) {
     const eagle = new MapElement(x, y, this.tileSize);
     eagle.draw(ctx, objectDesign);
 

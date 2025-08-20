@@ -1,11 +1,10 @@
 import { animateObject, calculateTankEdgePosition } from '../common/common.js';
-import { BOT_ID, BOT_TIME_TO_SHOOT } from '../config/config.js';
+import { BOT_TIME_TO_SHOOT } from '../config/config.js';
 import { Control } from '../constants/game.js';
 import { Angle, BOT_SPEED, ImagesPathsName } from '../constants/game.js';
 
 export default class Bot {
   constructor(x, y, width, height, level = 0) {
-    this.id = BOT_ID;
     this.x = x;
     this.y = y;
     this.speed = BOT_SPEED;
@@ -113,7 +112,14 @@ export default class Bot {
     this.bulletTimeoutId = setTimeout(() => {
       const bulletX = this.x + (this.width / 5) * 2;
       const bulletY = this.y + this.height / 2;
-      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction);
+      this.bulletController.shoot(
+        bulletX,
+        bulletY,
+        this.bulletSpeed,
+        this.bulletDamage,
+        this.bulletDelay,
+        this.direction
+      );
 
       clearTimeout(this.bulletTimeoutId);
       this.bulletTimeoutId = null;

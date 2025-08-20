@@ -12,7 +12,7 @@ import {
 } from '../constants/game.js';
 import { clearCanvas, stopGameSound } from '../common/common.js';
 import { Hud } from '../entities/Hud.js';
-import { STAGE_INFO_DURATION, SUMMARY_INFO_DURATION } from '../config/config.js';
+import { BOT_ID, PLAYER_ID, STAGE_INFO_DURATION, SUMMARY_INFO_DURATION } from '../config/config.js';
 import { setAndClearTimeout } from '../common/common.js';
 import { playSound } from '../../engine/soundHandler.js';
 import TankController from '../entities/TankController.js';
@@ -24,9 +24,9 @@ export class LevelScene extends Scene {
     this.assets = assets;
     this.stage = new MapController(stageLevel.slice(1), TILE_SIZE_WIDTH, assets);
     this.maxTankOnMap = maxTankOnMap;
-    this.player1Controller = new TankController(player1, this.stage, null, 1, assets);
-    this.player2Controller = new TankController(player2, this.stage, null, 1, assets);
-    this.botController = new TankController(enemies, this.stage, this.player1Controller, maxTankOnMap, assets);
+    this.player1Controller = new TankController(player1, this.stage, null, 1, assets, PLAYER_ID);
+    this.player2Controller = new TankController(player2, this.stage, null, 1, assets, PLAYER_ID);
+    this.botController = new TankController(enemies, this.stage, this.player1Controller, maxTankOnMap, assets, BOT_ID);
     this.hud = new Hud(this.player1Controller, this.botController, assets, this.stageLevel);
     this.displayingLevelInfo = true;
     this.idTimeoutHideStageInfo = null;
@@ -51,9 +51,7 @@ export class LevelScene extends Scene {
 
     if (this.stage.wonGame) {
       stopGameSound(this.assets);
-      this.#summaryLevel(context);
       this.#goToNextLevelInfo();
-      return;
     }
 
     if (this.stage.gameOver && !this.playedGameOverSound) {
@@ -63,9 +61,7 @@ export class LevelScene extends Scene {
     }
 
     if (this.stage.gameOver && this.goToGameOverSummary) {
-      this.#summaryLevel(context);
       this.#goToMainMenu();
-      return;
     }
 
     this.#game(context);
@@ -124,18 +120,14 @@ export class LevelScene extends Scene {
     this.#hideLevelInfo();
   }
 
-  #summaryLevel(context) {
-    context.save();
-    context.fillStyle = Colors.BLACK;
-    context.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    context.restore();
-
-    context.save();
-    context.font = `20px ${FONT}`;
-    context.fillStyle = Colors.WHITE;
-    context.textAlign = 'center';
-    context.fillText(`SUMMARY   ${this.stageLevel}`, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-    context.restore();
+  #goToNextLevelInfo() {
+    setAndClearTimeout(
+      this.idTimeoutNextLevelInfo,
+      () => {
+        this.goToNextStage = true;
+      },
+      SUMMARY_INFO_DURATION
+    );
   }
 
   #hideLevelInfo() {
@@ -145,16 +137,6 @@ export class LevelScene extends Scene {
         this.displayingLevelInfo = false;
       },
       STAGE_INFO_DURATION
-    );
-  }
-
-  #goToNextLevelInfo() {
-    setAndClearTimeout(
-      this.idTimeoutNextLevelInfo,
-      () => {
-        this.goToNextStage = true;
-      },
-      SUMMARY_INFO_DURATION
     );
   }
 

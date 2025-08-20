@@ -14,6 +14,7 @@ export default class Scene {
 
   showGameOverInfo(context, stage) {
     const lineHeight = 24;
+
     if (!stage.gameOver) return;
 
     context.save();

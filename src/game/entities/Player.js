@@ -1,12 +1,10 @@
 import { Control, KeyPLayer1, KeyPLayer2 } from '../constants/game.js';
 import { ImagesPathsName, PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH, SoundsPathsName } from '../constants/game.js';
-import { PLAYER_ID } from '../config/config.js';
 import { pauseSound, playSound } from '../../engine/soundHandler.js';
 import { animateObject } from '../common/common.js';
 
 export default class Player {
   constructor(x, y, width, height, keyControl) {
-    this.id = PLAYER_ID;
     this.x = x;
     this.y = y;
     this.width = width;
@@ -195,7 +193,14 @@ export default class Player {
     if (this.keyStates[this.keyControl.SHOOT]) {
       const bulletX = this.x + (this.width / 5) * 2;
       const bulletY = this.y + this.height / 2;
-      this.bulletController.shoot(bulletX, bulletY, this.bulletSpeed, this.bulletDamage, this.bulletDelay, this.direction);
+      this.bulletController.shoot(
+        bulletX,
+        bulletY,
+        this.bulletSpeed,
+        this.bulletDamage,
+        this.bulletDelay,
+        this.direction
+      );
     }
   }
 

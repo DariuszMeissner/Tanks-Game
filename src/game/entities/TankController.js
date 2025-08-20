@@ -1,9 +1,11 @@
 import { animateObject } from '../common/common.js';
+import { BOT_ID, PLAYER_ID } from '../config/config.js';
 import { ImagesPathsName } from '../constants/game.js';
 import BulletController from '../entities/BulletController.js';
 
 export default class TankController {
-  constructor(lifes, mapController, enemyController, maxTankOnMap, assets) {
+  constructor(lifes, mapController, enemyController, maxTankOnMap, assets, id) {
+    this.id = id;
     this.enemies = lifes.map((enemy) => {
       enemy.bulletController = new BulletController(mapController, enemyController, assets);
       return enemy;
@@ -43,8 +45,14 @@ export default class TankController {
 
   checkEnemiesAndEndGame() {
     const noEnemy = this.enemies.length === 0;
-    if (noEnemy) {
-      this.endGame();
+
+    if (noEnemy && this.id === PLAYER_ID) {
+      this.#gameOver();
+      return;
+    }
+
+    if (noEnemy && this.id === BOT_ID) {
+      this.#wonGame();
       return;
     }
   }
@@ -83,7 +91,11 @@ export default class TankController {
     return index < this.maxTankOnMap;
   }
 
-  endGame() {
+  #wonGame() {
     this.mapController.wonGame = true;
+  }
+
+  #gameOver() {
+    this.mapController.gameOver = true;
   }
 }
