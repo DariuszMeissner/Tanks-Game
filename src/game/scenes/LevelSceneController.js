@@ -1,6 +1,6 @@
 import { clearCanvas, createDeepCloneMap, generateBots, generatePlayers } from '../common/common.js';
 import { LEVEL_INIT, Player1Respawn, Player2Respawn } from '../config/config.js';
-import { Control, KeyPLayer1, KeyPLayer2 } from '../constants/game.js';
+import { Colors, Control, KeyPLayer1, KeyPLayer2 } from '../constants/game.js';
 import { FONT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/game.js';
 import { MAP_LEVELS as ORIGINAL_MAP } from '../constants/levels.js';
 import { LevelScene } from './LevelScene.js';
@@ -70,10 +70,16 @@ export class LevelSceneController {
   #endGame(context) {
     const lineHeight = 40;
     context.save();
+    context.fillStyle = Colors.BLACK;
+    context.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    context.restore();
+
+    context.save();
     context.font = `20px ${FONT}`;
     context.textAlign = 'center';
-    context.fillText('THANK YOU FOR THE GAME!', SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-    context.fillText('CREATED BY DARIUSZ MEISSNER.', SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + lineHeight);
+    context.fillStyle = Colors.WHITE;
+    context.fillText('THE END!', SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    context.fillText('CREATED BY DARIUSZ MEISSNER.', SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 3 * lineHeight);
     context.restore();
   }
 
